@@ -8,6 +8,7 @@ import { mediaAnalysisRouter } from "./media-analysis-router";
 import { knowledgeBaseRouter } from "./knowledge-base-router";
 import { diagnosisRouter } from "./routers/diagnosis";
 import { petsRouter } from "./routers/pets";
+import { imageAnalysisRouter } from "./routers/image-analysis";
 import {
   createPet,
   getPetsByUserId,
@@ -52,6 +53,7 @@ export const appRouter = router({
 
   // ============ PET MANAGEMENT ============
   pets: petsRouter,
+  imageAnalysis: imageAnalysisRouter,
 
   // Legacy pets router (deprecated)
   petsLegacy: router({
