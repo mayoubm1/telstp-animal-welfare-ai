@@ -10,6 +10,7 @@ import SymptomChecker from "./pages/SymptomChecker";
 import KnowledgeBase from "./pages/KnowledgeBase";
 import PetRegistration from "./pages/PetRegistration";
 import ImageDiagnosis from "./pages/ImageDiagnosis";
+import VetDashboard from "./pages/VetDashboard";
 
 function Router() {
   // make sure to consider if you need authentication for certain routes
@@ -21,6 +22,7 @@ function Router() {
       <Route path={"/knowledge-base"} component={KnowledgeBase} />
       <Route path={"/register-pet"} component={PetRegistration} />
       <Route path={"/image-diagnosis"} component={ImageDiagnosis} />
+      <Route path={"/vet-dashboard"} component={VetDashboard} />
       <Route path={"/404"} component={NotFound} />
       {/* Final fallback route */}
       <Route component={NotFound} />

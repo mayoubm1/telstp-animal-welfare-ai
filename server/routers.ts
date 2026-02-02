@@ -9,6 +9,7 @@ import { knowledgeBaseRouter } from "./knowledge-base-router";
 import { diagnosisRouter } from "./routers/diagnosis";
 import { petsRouter } from "./routers/pets";
 import { imageAnalysisRouter } from "./routers/image-analysis";
+import { consultationsRouter } from "./routers/consultations";
 import {
   createPet,
   getPetsByUserId,
@@ -54,6 +55,7 @@ export const appRouter = router({
   // ============ PET MANAGEMENT ============
   pets: petsRouter,
   imageAnalysis: imageAnalysisRouter,
+  consultations: consultationsRouter,
 
   // Legacy pets router (deprecated)
   petsLegacy: router({
@@ -351,43 +353,8 @@ export const appRouter = router({
   }),
 
   // ============ VETERINARIAN CONSULTATIONS ============
-  consultations: router({
-    list: protectedProcedure.query(async ({ ctx }) => {
-      const vet = await getVeterinarianByUserId(ctx.user.id);
-      if (!vet) throw new Error("Not a veterinarian");
-      return await getConsultationsByVeterinarian(vet.id);
-    }),
+  // consultations router is imported from ./routers/consultations
 
-    get: protectedProcedure
-      .input(z.object({ consultationId: z.number() }))
-      .query(async ({ input }) => {
-        return await getConsultationById(input.consultationId);
-      }),
-
-    update: protectedProcedure
-      .input(
-        z.object({
-          consultationId: z.number(),
-          updates: z.object({
-            status: z.enum(["pending", "accepted", "in_progress", "completed", "declined"]).optional(),
-            veterinarianNotes: z.string().optional(),
-            recommendation: z.string().optional(),
-            followUpRequired: z.boolean().optional(),
-            followUpDate: z.date().optional(),
-          }),
-        })
-      )
-      .mutation(async ({ input }) => {
-        const updates: any = { ...input.updates };
-        if (input.updates.status === "accepted") {
-          updates.acceptedAt = new Date();
-        }
-        if (input.updates.status === "completed") {
-          updates.completedAt = new Date();
-        }
-        return await updateConsultation(input.consultationId, updates);
-      }),
-  }),
 
   // ============ VET CLINIC FINDER ============
   clinics: router({
