@@ -6,6 +6,7 @@ import { z } from "zod";
 import { vocalizationRouter } from "./vocalization-router";
 import { mediaAnalysisRouter } from "./media-analysis-router";
 import { knowledgeBaseRouter } from "./knowledge-base-router";
+import { diagnosisRouter } from "./routers/diagnosis";
 import {
   createPet,
   getPetsByUserId,
@@ -477,6 +478,7 @@ export const appRouter = router({
   // ============ CRITICAL CASES (ADMIN) ============
   // ============ KNOWLEDGE BASE ============
   knowledgeBase: knowledgeBaseRouter,
+  diagnosis: diagnosisRouter,
 
   admin: router({
     getCriticalCases: protectedProcedure.query(async ({ ctx }) => {
