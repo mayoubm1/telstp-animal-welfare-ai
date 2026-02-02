@@ -4,6 +4,7 @@
   "devCommand": "pnpm dev",
   "installCommand": "pnpm install",
   "framework": "vite",
+  "outputDirectory": "dist/public",
   "rewrites": [
     {
       "source": "/api/trpc/:path*",
@@ -20,5 +21,6 @@
         }
       ]
     }
-  ]
+  ],
+  "regions": ["iad1"]
 }
