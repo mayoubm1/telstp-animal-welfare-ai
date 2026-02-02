@@ -1,0 +1,39 @@
+{
+  "version": 2,
+  "buildCommand": "pnpm build",
+  "devCommand": "pnpm dev",
+  "installCommand": "pnpm install",
+  "framework": "vite",
+  "functions": {
+    "server/_core/index.ts": {
+      "memory": 1024,
+      "maxDuration": 60
+    }
+  },
+  "rewrites": [
+    {
+      "source": "/api/trpc/:path*",
+      "destination": "/api/trpc/:path*"
+    }
+  ],
+  "env": [
+    "DATABASE_URL",
+    "JWT_SECRET",
+    "VITE_APP_ID",
+    "OAUTH_SERVER_URL",
+    "OWNER_OPEN_ID",
+    "OWNER_NAME",
+    "BUILT_IN_FORGE_API_URL",
+    "BUILT_IN_FORGE_API_KEY",
+    "VITE_FRONTEND_FORGE_API_URL",
+    "VITE_FRONTEND_FORGE_API_KEY",
+    "SUPABASE_URL",
+    "SUPABASE_ANON_KEY",
+    "SUPABASE_SERVICE_ROLE_KEY",
+    "VITE_ANALYTICS_ENDPOINT",
+    "VITE_ANALYTICS_WEBSITE_ID",
+    "VITE_APP_TITLE",
+    "VITE_APP_LOGO",
+    "VITE_OAUTH_PORTAL_URL"
+  ]
+}
