@@ -4,16 +4,21 @@
   "devCommand": "pnpm dev",
   "installCommand": "pnpm install",
   "framework": "vite",
-  "functions": {
-    "server/_core/index.ts": {
-      "memory": 1024,
-      "maxDuration": 60
-    }
-  },
   "rewrites": [
     {
       "source": "/api/trpc/:path*",
       "destination": "/api/trpc/:path*"
+    }
+  ],
+  "headers": [
+    {
+      "source": "/api/trpc/:path*",
+      "headers": [
+        {
+          "key": "Cache-Control",
+          "value": "no-cache, no-store, must-revalidate"
+        }
+      ]
     }
   ]
 }
