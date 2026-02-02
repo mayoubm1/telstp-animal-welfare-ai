@@ -7,6 +7,7 @@ import { vocalizationRouter } from "./vocalization-router";
 import { mediaAnalysisRouter } from "./media-analysis-router";
 import { knowledgeBaseRouter } from "./knowledge-base-router";
 import { diagnosisRouter } from "./routers/diagnosis";
+import { petsRouter } from "./routers/pets";
 import {
   createPet,
   getPetsByUserId,
@@ -50,7 +51,10 @@ export const appRouter = router({
   }),
 
   // ============ PET MANAGEMENT ============
-  pets: router({
+  pets: petsRouter,
+
+  // Legacy pets router (deprecated)
+  petsLegacy: router({
     create: protectedProcedure
       .input(
         z.object({

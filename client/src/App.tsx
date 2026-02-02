@@ -8,15 +8,17 @@ import Home from "./pages/Home";
 import Dashboard from "./pages/Dashboard";
 import SymptomChecker from "./pages/SymptomChecker";
 import KnowledgeBase from "./pages/KnowledgeBase";
+import PetRegistration from "./pages/PetRegistration";
 
 function Router() {
   // make sure to consider if you need authentication for certain routes
   return (
     <Switch>
-      <Route path={"\\"} component={Home} />
+      <Route path={"/"} component={Home} />
       <Route path={"/dashboard"} component={Dashboard} />
       <Route path={"/symptom-checker"} component={SymptomChecker} />
       <Route path={"/knowledge-base"} component={KnowledgeBase} />
+      <Route path={"/register-pet"} component={PetRegistration} />
       <Route path={"/404"} component={NotFound} />
       {/* Final fallback route */}
       <Route component={NotFound} />
