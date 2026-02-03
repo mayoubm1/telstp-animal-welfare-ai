@@ -162,3 +162,94 @@
 - [x] Build nearby clinic finder (geolocation-based with navigator.geolocation)
 - [x] Create clinic contact and appointment booking (phone call integration)
 - [x] Add emergency clinic finder for urgent cases (emergency services badge)
+
+
+## Phase 7: Multi-Language Support (i18n) & RTL - ASSIGNED TO: USER (Termux)
+- [ ] Set up i18n infrastructure with next-i18next or i18next
+- [ ] Create translation files for English and Arabic
+- [ ] Build language switcher component in header
+- [ ] Implement RTL CSS for Arabic layout
+- [ ] Translate all UI strings (home, dashboard, forms, etc.)
+- [ ] Test Arabic rendering on all pages
+- [ ] Create translation guide for future content
+
+## Phase 8: Emergency Triage & Critical Cases - ASSIGNED TO: MANUS (Server)
+- [ ] Build emergency triage assessment procedure (backend)
+- [ ] Create critical case alert system
+- [ ] Implement urgent case routing to nearest emergency clinic
+- [ ] Build emergency notification to veterinarians
+- [ ] Create emergency case UI component
+- [ ] Add emergency case history tracking
+- [ ] Implement emergency case prioritization logic
+
+## Phase 9: Eye & Dental Condition Detection - ASSIGNED TO: USER (Termux)
+- [ ] Build eye condition detection from images (conjunctivitis, ulcers, discharge)
+- [ ] Create dental issue detection from images (tartar, gum disease, tooth loss)
+- [ ] Add image quality guidance for eye/dental photos
+- [ ] Implement eye condition results display
+- [ ] Build dental condition results display
+- [ ] Create comparison tracking for chronic eye/dental issues
+- [ ] Write tests for eye/dental detection procedures
+
+## Phase 10: Real-Time Camera Feed & Live Analysis - ASSIGNED TO: MANUS (Server)
+- [ ] Implement live camera feed analysis procedure
+- [ ] Build WebSocket support for real-time streaming
+- [ ] Create live symptom detection logic
+- [ ] Add real-time results display component
+- [ ] Implement camera permission handling
+- [ ] Build fallback for devices without camera access
+- [ ] Test performance with continuous stream
+
+## Phase 11: Video Upload & Consultation Recordings - ASSIGNED TO: USER (Termux)
+- [ ] Build video upload interface with progress tracking
+- [ ] Implement video processing queue
+- [ ] Create video playback component
+- [ ] Add video annotation tools for veterinarians
+- [ ] Build consultation recording storage
+- [ ] Implement video compression for storage efficiency
+- [ ] Create video history and replay UI
+
+## Phase 12: Case History & Visual Comparison Tracking - ASSIGNED TO: MANUS (Server)
+- [ ] Build case history CRUD procedures
+- [ ] Implement visual comparison tracking for chronic conditions
+- [ ] Create timeline view for case progression
+- [ ] Add image comparison overlay tool
+- [ ] Build case notes and history search
+- [ ] Implement case export functionality (PDF)
+- [ ] Create case sharing with veterinarians
+
+## Phase 13: Treatment Protocol & Recommendations - ASSIGNED TO: USER (Termux)
+- [ ] Build treatment protocol recommendation system
+- [ ] Create medication recommendation interface
+- [ ] Implement dosage calculator
+- [ ] Add treatment timeline and follow-up reminders
+- [ ] Build treatment effectiveness tracking
+- [ ] Create treatment history and outcomes database
+- [ ] Implement treatment plan sharing with veterinarians
+
+## Phase 14: Push Notifications & Real-Time Alerts - ASSIGNED TO: MANUS (Server)
+- [ ] Implement push notification system (Firebase/OneSignal)
+- [ ] Create consultation request notifications
+- [ ] Build case update alerts
+- [ ] Add appointment reminders
+- [ ] Implement emergency alert notifications
+- [ ] Create notification preferences UI
+- [ ] Build notification history and management
+
+## Phase 15: Analytics & Monitoring - ASSIGNED TO: USER (Termux)
+- [ ] Set up analytics tracking (Google Analytics/Mixpanel)
+- [ ] Create dashboard analytics page
+- [ ] Implement user behavior tracking
+- [ ] Build diagnostic accuracy metrics
+- [ ] Create veterinarian performance dashboard
+- [ ] Add system health monitoring
+- [ ] Build usage reports and insights
+
+## Phase 16: Final Testing & Deployment - ASSIGNED TO: BOTH (Collaborative)
+- [ ] Run full end-to-end testing
+- [ ] Performance optimization and testing
+- [ ] Security audit and fixes
+- [ ] Database backup and recovery testing
+- [ ] Load testing with concurrent users
+- [ ] Final Vercel deployment
+- [ ] Production monitoring setup
