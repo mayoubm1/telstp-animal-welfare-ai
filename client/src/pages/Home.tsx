@@ -1,8 +1,8 @@
-import { useAuth } from "@/_core/hooks/useAuth";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { getLoginUrl } from "@/const";
 import { Link } from "wouter";
+import { useAuth } from "@/_core/hooks/useAuth";
 import {
   Stethoscope,
   ImageIcon,
