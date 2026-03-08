@@ -1,0 +1,21 @@
+CREATE TABLE `emergencyTriageCases` (
+	`id` int AUTO_INCREMENT NOT NULL,
+	`caseHistoryId` int NOT NULL,
+	`petId` int NOT NULL,
+	`userId` int NOT NULL,
+	`triageLevel` enum('urgent','critical','life_threatening') NOT NULL,
+	`reason` longtext NOT NULL,
+	`symptoms` longtext,
+	`estimatedSeverity` decimal(3,2),
+	`recommendedAction` enum('immediate_vet_visit','emergency_clinic','call_vet_first','monitor_closely') NOT NULL,
+	`nearestClinicId` int,
+	`nearestClinicDistance` decimal(8,2),
+	`alertSentToVets` boolean DEFAULT false,
+	`alertSentAt` timestamp,
+	`assignedVeterinarianId` int,
+	`status` enum('pending','acknowledged','in_progress','resolved','escalated') DEFAULT 'pending',
+	`notes` longtext,
+	`createdAt` timestamp NOT NULL DEFAULT (now()),
+	`updatedAt` timestamp NOT NULL DEFAULT (now()) ON UPDATE CURRENT_TIMESTAMP,
+	CONSTRAINT `emergencyTriageCases_id` PRIMARY KEY(`id`)
+);

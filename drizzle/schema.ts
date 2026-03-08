@@ -216,6 +216,38 @@ export type Consultation = typeof consultations.$inferSelect;
 export type InsertConsultation = typeof consultations.$inferInsert;
 
 /**
+ * Emergency triage cases - tracks critical and urgent cases
+ */
+export const emergencyTriageCases = mysqlTable("emergencyTriageCases", {
+  id: int("id").autoincrement().primaryKey(),
+  caseHistoryId: int("caseHistoryId").notNull(),
+  petId: int("petId").notNull(),
+  userId: int("userId").notNull(),
+  triageLevel: mysqlEnum("triageLevel", ["urgent", "critical", "life_threatening"]).notNull(),
+  reason: longtext("reason").notNull(),
+  symptoms: longtext("symptoms"),
+  estimatedSeverity: decimal("estimatedSeverity", { precision: 3, scale: 2 }),
+  recommendedAction: mysqlEnum("recommendedAction", [
+    "immediate_vet_visit",
+    "emergency_clinic",
+    "call_vet_first",
+    "monitor_closely"
+  ]).notNull(),
+  nearestClinicId: int("nearestClinicId"),
+  nearestClinicDistance: decimal("nearestClinicDistance", { precision: 8, scale: 2 }),
+  alertSentToVets: boolean("alertSentToVets").default(false),
+  alertSentAt: timestamp("alertSentAt"),
+  assignedVeterinarianId: int("assignedVeterinarianId"),
+  status: mysqlEnum("status", ["pending", "acknowledged", "in_progress", "resolved", "escalated"]).default("pending"),
+  notes: longtext("notes"),
+  createdAt: timestamp("createdAt").defaultNow().notNull(),
+  updatedAt: timestamp("updatedAt").defaultNow().onUpdateNow().notNull(),
+});
+
+export type EmergencyTriageCase = typeof emergencyTriageCases.$inferSelect;
+export type InsertEmergencyTriageCase = typeof emergencyTriageCases.$inferInsert;
+
+/**
  * Veterinary clinics and hospitals directory
  */
 export const vetClinics = mysqlTable("vetClinics", {

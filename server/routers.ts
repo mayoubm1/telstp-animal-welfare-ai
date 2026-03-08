@@ -11,6 +11,7 @@ import { petsRouter } from "./routers/pets";
 import { imageAnalysisRouter } from "./routers/image-analysis";
 import { consultationsRouter } from "./routers/consultations";
 import { veterinariansRouter } from "./routers/veterinarians";
+import { emergencyTriageRouter } from "./routers/emergency-triage";
 import {
   createPet,
   getPetsByUserId,
@@ -58,6 +59,7 @@ export const appRouter = router({
   imageAnalysis: imageAnalysisRouter,
   consultations: consultationsRouter,
   veterinarians: veterinariansRouter,
+  emergencyTriage: emergencyTriageRouter,
 
   // Legacy pets router (deprecated)
   petsLegacy: router({

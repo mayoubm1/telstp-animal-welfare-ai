@@ -15,6 +15,13 @@
       "when": 1769822366570,
       "tag": "0001_blue_omega_sentinel",
       "breakpoints": true
+    },
+    {
+      "idx": 2,
+      "version": "5",
+      "when": 1772933464869,
+      "tag": "0002_ordinary_onslaught",
+      "breakpoints": true
     }
   ]
 }
