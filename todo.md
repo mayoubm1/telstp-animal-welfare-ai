@@ -123,6 +123,10 @@
 - [x] Build condition detection results display
 - [x] Add image comparison procedures
 - [ ] Add image history and comparison view (frontend)
+- [ ] FIX: Clinic locator not working - debug Google Maps integration
+- [ ] ADD: Image upload to symptom checker
+- [ ] ADD: Image upload to emergency triage
+- [ ] ADD: Live camera capture for pet analysis
 
 ### Phase 3: Veterinarian Admin Panel ✅ COMPLETE
 - [x] Create vet admin dashboard layout
