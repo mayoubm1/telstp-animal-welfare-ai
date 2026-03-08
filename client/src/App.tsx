@@ -13,6 +13,8 @@ import ImageDiagnosis from "./pages/ImageDiagnosis";
 import VetDashboard from "./pages/VetDashboard";
 import VetRegistration from "./pages/VetRegistration";
 import ClinicLocator from "./pages/ClinicLocator";
+import EmergencyTriage from "./pages/EmergencyTriage";
+import CaseHistory from "./pages/CaseHistory";
 
 function Router() {
   // make sure to consider if you need authentication for certain routes
@@ -27,6 +29,8 @@ function Router() {
       <Route path={"/vet-dashboard"} component={VetDashboard} />
       <Route path={"/vet-registration"} component={VetRegistration} />
       <Route path={"/clinic-locator"} component={ClinicLocator} />
+      <Route path={"/emergency-triage"} component={EmergencyTriage} />
+      <Route path={"/case-history"} component={CaseHistory} />
       <Route path={"/404"} component={NotFound} />
       {/* Final fallback route */}
       <Route component={NotFound} />
