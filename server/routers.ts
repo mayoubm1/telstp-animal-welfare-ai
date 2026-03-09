@@ -12,6 +12,7 @@ import { imageAnalysisRouter } from "./routers/image-analysis";
 import { consultationsRouter } from "./routers/consultations";
 import { veterinariansRouter } from "./routers/veterinarians";
 import { emergencyTriageRouter } from "./routers/emergency-triage";
+import { clinicsRouter } from "./routers/clinics";
 import {
   createPet,
   getPetsByUserId,
@@ -60,6 +61,7 @@ export const appRouter = router({
   consultations: consultationsRouter,
   veterinarians: veterinariansRouter,
   emergencyTriage: emergencyTriageRouter,
+  clinics: clinicsRouter,
 
   // Legacy pets router (deprecated)
   petsLegacy: router({
@@ -361,24 +363,7 @@ export const appRouter = router({
 
 
   // ============ VET CLINIC FINDER ============
-  clinics: router({
-    search: publicProcedure
-      .input(
-        z.object({
-          city: z.string(),
-          clinicType: z.enum(["general", "emergency", "specialty", "hospital"]).optional(),
-        })
-      )
-      .query(async ({ input }) => {
-        return await searchVetClinics(input.city, input.clinicType);
-      }),
-
-    get: publicProcedure
-      .input(z.object({ clinicId: z.number() }))
-      .query(async ({ input }) => {
-        return await getVetClinicById(input.clinicId);
-      }),
-  }),
+  // clinics router is imported from ./routers/clinics
 
   // ============ NOTIFICATIONS ============
   notifications: router({
