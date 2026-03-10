@@ -1,209 +1,53 @@
 import { z } from "zod";
-import { getDb } from "../db";
-import { vetClinics } from "../../drizzle/schema";
-import { like, eq } from "drizzle-orm";
 import { router, publicProcedure } from "../_core/trpc";
+import { supabase, handleSupabaseError } from "../_core/supabase";
 
 export const clinicsRouter = router({
-  /**
-   * Search clinics by city and type
-   */
   search: publicProcedure
     .input(
       z.object({
-        city: z.string().min(1, "City is required"),
+        query: z.string().optional(),
         clinicType: z.enum(["general", "emergency", "specialty", "hospital"]).optional(),
+        limit: z.number().min(1).max(50).default(20),
       })
     )
     .query(async ({ input }) => {
       try {
-        const db = await getDb();
-        if (!db) return [];
-        let conditions: any[] = [like(vetClinics.city, `%${input.city}%`)];
-        if (input.clinicType) {
-          conditions.push(eq(vetClinics.clinicType, input.clinicType));
-        }
-        const clinics = await db.select().from(vetClinics).where(conditions[0]);
+        let q = supabase.from("vet_clinics").select("*");
 
-        // const clinics = await query.limit(50);
-        return clinics.map((clinic) => ({
-          id: clinic.id,
-          name: clinic.name,
-          address: clinic.address,
-          city: clinic.city,
-          phone: clinic.phone,
-          clinicType: clinic.clinicType,
-          emergencyServices: clinic.emergencyServices,
-          rating: clinic.rating ? parseFloat(clinic.rating.toString()) : null,
-          latitude: parseFloat(clinic.latitude.toString()),
-          longitude: parseFloat(clinic.longitude.toString()),
-          website: clinic.website,
-          email: clinic.email,
-          operatingHours: clinic.operatingHours,
-          specialties: clinic.specialties,
-          surgeryCapable: clinic.surgeryCapable,
-          imagingServices: clinic.imagingServices,
-          labServices: clinic.labServices,
-          description: clinic.description,
-        }));
+        if (input.query) {
+          q = q.or(`name.ilike.%${input.query}%,address.ilike.%${input.query}%`);
+        }
+
+        if (input.clinicType) {
+          q = q.eq("clinic_type", input.clinicType);
+        }
+
+        const { data, error } = await q.limit(input.limit);
+
+        if (error) throw error;
+        return data || [];
       } catch (error) {
         console.error("Clinic search error:", error);
-        return [];
+        throw new Error(handleSupabaseError(error));
       }
     }),
 
-  /**
-   * Get nearby clinics based on coordinates
-   */
   getNearby: publicProcedure
     .input(
       z.object({
         latitude: z.number(),
         longitude: z.number(),
         radiusKm: z.number().default(10),
-        clinicType: z.enum(["general", "emergency", "specialty", "hospital"]).optional(),
+        limit: z.number().min(1).max(50).default(10),
       })
     )
     .query(async ({ input }) => {
       try {
-        const db = await getDb();
-        if (!db) return [];
-        const allClinics = await db.select().from(vetClinics).limit(100);
+        const { data, error } = await supabase.from("vet_clinics").select("*");
 
-        // Calculate distance using Haversine formula
-        const calculateDistance = (lat1: number, lon1: number, lat2: number, lon2: number) => {
-          const R = 6371; // Earth's radius in km
-          const dLat = ((lat2 - lat1) * Math.PI) / 180;
-          const dLon = ((lon2 - lon1) * Math.PI) / 180;
-          const a =
-            Math.sin(dLat / 2) * Math.sin(dLat / 2) +
-            Math.cos((lat1 * Math.PI) / 180) *
-              Math.cos((lat2 * Math.PI) / 180) *
-              Math.sin(dLon / 2) *
-              Math.sin(dLon / 2);
-          const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
-          return R * c;
-        };
+        if (error) throw error;
 
-        const nearby = allClinics
-          .map((clinic: any) => ({
-            id: clinic.id,
-            name: clinic.name,
-            address: clinic.address,
-            city: clinic.city,
-            phone: clinic.phone,
-            clinicType: clinic.clinicType,
-            emergencyServices: clinic.emergencyServices,
-            rating: clinic.rating ? parseFloat(clinic.rating.toString()) : null,
-            latitude: parseFloat(clinic.latitude.toString()),
-            longitude: parseFloat(clinic.longitude.toString()),
-            website: clinic.website,
-            email: clinic.email,
-            operatingHours: clinic.operatingHours,
-            specialties: clinic.specialties,
-            surgeryCapable: clinic.surgeryCapable,
-            imagingServices: clinic.imagingServices,
-            labServices: clinic.labServices,
-            description: clinic.description,
-            distance: calculateDistance(
-              input.latitude,
-              input.longitude,
-              parseFloat(clinic.latitude.toString()),
-              parseFloat(clinic.longitude.toString())
-            ),
-          }))
-          .filter((clinic: any) => clinic.distance <= input.radiusKm)
-          .sort((a: any, b: any) => a.distance - b.distance);
-
-        return nearby;
-      } catch (error) {
-        console.error("Nearby clinics error:", error);
-        return [];
-      }
-    }),
-
-  /**
-   * Get clinic details by ID
-   */
-  getById: publicProcedure
-    .input(z.object({ id: z.number() }))
-    .query(async ({ input }) => {
-      try {
-        const db = await getDb();
-        if (!db) return null;
-        const clinic = await db.select().from(vetClinics).where(eq(vetClinics.id, input.id)).limit(1);
-
-        if (!clinic.length) return null;
-
-        const c = clinic[0];
-        return {
-          id: c.id,
-          name: c.name,
-          address: c.address,
-          city: c.city,
-          phone: c.phone,
-          clinicType: c.clinicType,
-          emergencyServices: c.emergencyServices,
-          rating: c.rating ? parseFloat(c.rating.toString()) : null,
-          latitude: parseFloat(c.latitude.toString()),
-          longitude: parseFloat(c.longitude.toString()),
-          website: c.website,
-          email: c.email,
-          operatingHours: c.operatingHours,
-          specialties: c.specialties,
-          surgeryCapable: c.surgeryCapable,
-          imagingServices: c.imagingServices,
-          labServices: c.labServices,
-          description: c.description,
-          totalReviews: c.totalReviews,
-          verified: c.verified,
-        };
-      } catch (error) {
-        console.error("Get clinic error:", error);
-        return null;
-      }
-    }),
-
-  /**
-   * Get emergency clinics
-   */
-  getEmergency: publicProcedure
-    .input(
-      z.object({
-        city: z.string().optional(),
-        latitude: z.number().optional(),
-        longitude: z.number().optional(),
-        radiusKm: z.number().default(15),
-      })
-    )
-    .query(async ({ input }) => {
-      try {
-        const db = await getDb();
-        if (!db) return [];
-        const emergencyClinics = await db
-          .select()
-          .from(vetClinics)
-          .where(eq(vetClinics.emergencyServices, true))
-          .limit(50);
-
-        if (!input.latitude || !input.longitude) {
-          return emergencyClinics.map((clinic: any) => ({
-            id: clinic.id,
-            name: clinic.name,
-            address: clinic.address,
-            city: clinic.city,
-            phone: clinic.phone,
-            clinicType: clinic.clinicType,
-            emergencyServices: clinic.emergencyServices,
-            rating: clinic.rating ? parseFloat(clinic.rating.toString()) : null,
-            latitude: parseFloat(clinic.latitude.toString()),
-            longitude: parseFloat(clinic.longitude.toString()),
-            website: clinic.website,
-            email: clinic.email,
-          }));
-        }
-
-        // Calculate distance if coordinates provided
         const calculateDistance = (lat1: number, lon1: number, lat2: number, lon2: number) => {
           const R = 6371;
           const dLat = ((lat2 - lat1) * Math.PI) / 180;
@@ -218,32 +62,91 @@ export const clinicsRouter = router({
           return R * c;
         };
 
-        return emergencyClinics
+        const nearby = (data || [])
           .map((clinic: any) => ({
-            id: clinic.id,
-            name: clinic.name,
-            address: clinic.address,
-            city: clinic.city,
-            phone: clinic.phone,
-            clinicType: clinic.clinicType,
-            emergencyServices: clinic.emergencyServices,
-            rating: clinic.rating ? parseFloat(clinic.rating.toString()) : null,
-            latitude: parseFloat(clinic.latitude.toString()),
-            longitude: parseFloat(clinic.longitude.toString()),
-            website: clinic.website,
-            email: clinic.email,
+            ...clinic,
             distance: calculateDistance(
-              input.latitude!,
-              input.longitude!,
-              parseFloat(clinic.latitude.toString()),
-              parseFloat(clinic.longitude.toString())
+              input.latitude,
+              input.longitude,
+              clinic.latitude,
+              clinic.longitude
             ),
           }))
           .filter((clinic: any) => clinic.distance <= input.radiusKm)
-          .sort((a: any, b: any) => a.distance - b.distance);
+          .sort((a: any, b: any) => a.distance - b.distance)
+          .slice(0, input.limit);
+
+        return nearby;
+      } catch (error) {
+        console.error("Nearby clinics error:", error);
+        throw new Error(handleSupabaseError(error));
+      }
+    }),
+
+  getById: publicProcedure
+    .input(z.object({ id: z.string() }))
+    .query(async ({ input }) => {
+      try {
+        const { data, error } = await supabase
+          .from("vet_clinics")
+          .select("*")
+          .eq("id", input.id)
+          .single();
+
+        if (error) throw error;
+        return data;
+      } catch (error) {
+        console.error("Get clinic error:", error);
+        throw new Error(handleSupabaseError(error));
+      }
+    }),
+
+  getEmergency: publicProcedure
+    .input(
+      z.object({
+        latitude: z.number(),
+        longitude: z.number(),
+        limit: z.number().default(5),
+      })
+    )
+    .query(async ({ input }) => {
+      try {
+        const { data, error } = await supabase
+          .from("vet_clinics")
+          .select("*")
+          .eq("emergency_services", true);
+
+        if (error) throw error;
+
+        const calculateDistance = (lat1: number, lon1: number, lat2: number, lon2: number) => {
+          const R = 6371;
+          const dLat = ((lat2 - lat1) * Math.PI) / 180;
+          const dLon = ((lon2 - lon1) * Math.PI) / 180;
+          const a =
+            Math.sin(dLat / 2) * Math.sin(dLat / 2) +
+            Math.cos((lat1 * Math.PI) / 180) *
+              Math.cos((lat2 * Math.PI) / 180) *
+              Math.sin(dLon / 2) *
+              Math.sin(dLon / 2);
+          const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
+          return R * c;
+        };
+
+        return (data || [])
+          .map((clinic: any) => ({
+            ...clinic,
+            distance: calculateDistance(
+              input.latitude,
+              input.longitude,
+              clinic.latitude,
+              clinic.longitude
+            ),
+          }))
+          .sort((a: any, b: any) => a.distance - b.distance)
+          .slice(0, input.limit);
       } catch (error) {
         console.error("Emergency clinics error:", error);
-        return [];
+        throw new Error(handleSupabaseError(error));
       }
     }),
 });

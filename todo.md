@@ -266,3 +266,15 @@
 - [ ] Load testing with concurrent users
 - [ ] Final Vercel deployment
 - [ ] Production monitoring setup
+
+
+## Phase 17: Supabase Integration & Real Data Migration - ASSIGNED TO: MANUS (Server) 🚀 IN PROGRESS
+- [ ] Install Supabase client library (@supabase/supabase-js)
+- [ ] Configure Supabase connection with environment variables
+- [ ] Update clinics router to fetch from Supabase vet_clinics table
+- [ ] Update consultations router to use Supabase consultations table
+- [ ] Update emergency triage to use Supabase emergency_triage_cases table
+- [ ] Enable realtime subscriptions for emergency alerts
+- [ ] Migrate mock clinic data to Supabase
+- [ ] Test all procedures with real Supabase data
+- [ ] Push Supabase integration to GitHub

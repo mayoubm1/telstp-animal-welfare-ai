@@ -9,14 +9,13 @@ import { MapPin, Phone, Clock, AlertCircle, Star, Navigation } from "lucide-reac
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 
 interface Clinic {
-  id: number;
+  id: string;
   name: string;
   address: string;
-  city: string;
   phone: string;
-  clinicType: string | null;
-  emergencyServices: boolean | null;
-  rating: string | number | null;
+  clinic_type?: string | null;
+  emergency_services?: boolean | null;
+  rating?: number | null;
   distance?: number;
 }
 
@@ -27,7 +26,7 @@ export default function ClinicLocator() {
   const [selectedClinic, setSelectedClinic] = useState<Clinic | null>(null);
 
   const clinicsQuery = trpc.clinics.search.useQuery(
-    { city: searchCity, clinicType },
+    { query: searchCity, clinicType },
     { enabled: !!searchCity }
   );
 
@@ -174,8 +173,8 @@ export default function ClinicLocator() {
                         <h3 className="text-lg font-semibold">{clinic.name}</h3>
                         <p className="text-sm text-gray-600">{clinic.address}</p>
                       </div>
-                      <Badge className={getClinicTypeColor(clinic.clinicType || "general")}>
-                        {clinic.clinicType || "General"}
+                      <Badge className={getClinicTypeColor(clinic.clinic_type || "general")}>
+                        {clinic.clinic_type || "General"}
                       </Badge>
                     </div>
 
@@ -186,7 +185,7 @@ export default function ClinicLocator() {
                           <span>{(clinic.rating as number).toFixed(1)}</span>
                         </div>
                       )}
-                      {clinic.emergencyServices === true && (
+                      {clinic.emergency_services === true && (
                         <Badge variant="destructive">Emergency Services</Badge>
                       )}
                     </div>
@@ -249,8 +248,8 @@ export default function ClinicLocator() {
 
                   <div>
                     <Label className="text-xs text-gray-500">Type</Label>
-                    <Badge className={getClinicTypeColor(selectedClinic.clinicType || "general")}>
-                      {selectedClinic.clinicType || "General"}
+                    <Badge className={getClinicTypeColor(selectedClinic.clinic_type || "general")}>
+                      {selectedClinic.clinic_type || "General"}
                     </Badge>
                   </div>
 
@@ -264,7 +263,7 @@ export default function ClinicLocator() {
                     </div>
                   )}
 
-                  {selectedClinic.emergencyServices && (
+                  {selectedClinic.emergency_services && (
                     <div className="bg-red-50 border border-red-200 rounded p-3">
                       <p className="text-sm text-red-800 font-semibold">✓ Emergency Services Available</p>
                     </div>
