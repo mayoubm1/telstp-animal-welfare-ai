@@ -5,7 +5,7 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Badge } from "@/components/ui/badge";
 import { trpc } from "@/lib/trpc";
-import { MapPin, Phone, Clock, AlertCircle, Star, Navigation } from "lucide-react";
+import { MapPin, Phone, Clock, AlertCircle, Star, Navigation, Zap } from "lucide-react";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 
 interface Clinic {
@@ -17,6 +17,11 @@ interface Clinic {
   emergency_services?: boolean | null;
   rating?: number | null;
   distance?: number;
+  city?: string;
+  latitude?: number;
+  longitude?: number;
+  distance_km?: number;
+  verified?: boolean;
 }
 
 export default function ClinicLocator() {
@@ -24,14 +29,36 @@ export default function ClinicLocator() {
   const [clinicType, setClinicType] = useState<"general" | "emergency" | "specialty" | "hospital" | undefined>();
   const [userLocation, setUserLocation] = useState<{ lat: number; lng: number } | null>(null);
   const [selectedClinic, setSelectedClinic] = useState<Clinic | null>(null);
+  const [emergencyMode, setEmergencyMode] = useState(false);
+  const [nearestEmergencyClinics, setNearestEmergencyClinics] = useState<Clinic[]>([]);
 
+  // Get all clinics on mount
+  const allClinicsQuery = trpc.clinics.getAll.useQuery();
+  
   const clinicsQuery = trpc.clinics.search.useQuery(
     { query: searchCity, clinicType },
     { enabled: !!searchCity }
   );
 
+  // Find nearest emergency clinics
+  const nearestQuery = trpc.clinics.findNearest.useQuery(
+    {
+      latitude: userLocation?.lat || 0,
+      longitude: userLocation?.lng || 0,
+      maxDistance: 10,
+    },
+    { enabled: !!userLocation && emergencyMode }
+  );
+
+  // Initialize with all clinics
   useEffect(() => {
-    // Try to get user's geolocation
+    if (allClinicsQuery.data && !searchCity && !clinicType) {
+      // Show all clinics initially
+    }
+  }, [allClinicsQuery.data]);
+
+  // Get user's geolocation
+  useEffect(() => {
     if (navigator.geolocation) {
       navigator.geolocation.getCurrentPosition(
         (position) => {
@@ -63,6 +90,38 @@ export default function ClinicLocator() {
     window.location.href = `tel:${phone}`;
   };
 
+  const findNearestEmergency = () => {
+    if (!userLocation) {
+      if (navigator.geolocation) {
+        navigator.geolocation.getCurrentPosition(
+          (position) => {
+            setUserLocation({
+              lat: position.coords.latitude,
+              lng: position.coords.longitude,
+            });
+            setEmergencyMode(true);
+          },
+          (error) => {
+            console.error("Location error:", error);
+          }
+        );
+      }
+      return;
+    }
+
+    setEmergencyMode(true);
+  };
+
+  // Trigger nearest search when emergency mode is enabled and location is available
+  useEffect(() => {
+    if (emergencyMode && userLocation && nearestQuery.data) {
+      setNearestEmergencyClinics(nearestQuery.data);
+      if (nearestQuery.data.length > 0) {
+        setSelectedClinic(nearestQuery.data[0]);
+      }
+    }
+  }, [nearestQuery.data, emergencyMode, userLocation]);
+
   const getClinicTypeColor = (type: string) => {
     switch (type) {
       case "emergency":
@@ -75,6 +134,9 @@ export default function ClinicLocator() {
         return "bg-green-100 text-green-800";
     }
   };
+
+  // Show loading state
+  const isLoading = clinicsQuery.isLoading || allClinicsQuery.isLoading || nearestQuery.isLoading;
 
   return (
     <div className="container py-12">
@@ -133,7 +195,7 @@ export default function ClinicLocator() {
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
           {/* Clinics List */}
           <div className="lg:col-span-2">
-            {clinicsQuery.isLoading && (
+            {isLoading && (
               <Card>
                 <CardContent className="pt-6">
                   <p className="text-center text-gray-500">Searching for clinics...</p>
@@ -141,7 +203,7 @@ export default function ClinicLocator() {
               </Card>
             )}
 
-            {clinicsQuery.isError && (
+            {(clinicsQuery.isError || allClinicsQuery.isError || nearestQuery.isError) && (
               <Card>
                 <CardContent className="pt-6">
                   <div className="flex items-center gap-2 text-red-600">
@@ -152,7 +214,7 @@ export default function ClinicLocator() {
               </Card>
             )}
 
-            {clinicsQuery.data && clinicsQuery.data.length === 0 && (
+            {!isLoading && ((emergencyMode ? nearestEmergencyClinics : clinicsQuery.data || allClinicsQuery.data || [])?.length === 0) && (
               <Card>
                 <CardContent className="pt-6">
                   <p className="text-center text-gray-500">No clinics found in this area. Try a different search.</p>
@@ -161,7 +223,7 @@ export default function ClinicLocator() {
             )}
 
             <div className="space-y-4">
-              {clinicsQuery.data?.map((clinic: Clinic) => (
+              {(emergencyMode ? nearestEmergencyClinics : clinicsQuery.data || allClinicsQuery.data || [])?.map((clinic: Clinic) => (
                 <Card
                   key={clinic.id}
                   className={`cursor-pointer transition-all ${selectedClinic?.id === clinic.id ? "ring-2 ring-blue-500" : ""}`}
@@ -307,16 +369,68 @@ export default function ClinicLocator() {
           <CardContent>
             <Button
               className="w-full bg-red-600 hover:bg-red-700"
-              onClick={() => {
-                setClinicType("emergency");
-                setSearchCity("Cairo"); // Default to Cairo for emergency
-              }}
+              onClick={findNearestEmergency}
             >
-              <AlertCircle className="w-4 h-4 mr-2" />
-              Find Emergency Clinics
+              <Zap className="w-4 h-4 mr-2" />
+              Find Nearest Emergency Clinic
             </Button>
           </CardContent>
         </Card>
+
+        {/* Emergency Mode Results */}
+        {emergencyMode && nearestEmergencyClinics.length > 0 && (
+          <Card className="mt-8 border-red-300 bg-red-50">
+            <CardHeader>
+              <CardTitle className="text-red-800">Nearest Emergency Clinics</CardTitle>
+              <CardDescription>Sorted by distance from your location</CardDescription>
+            </CardHeader>
+            <CardContent>
+              <div className="space-y-3">
+                {nearestEmergencyClinics.map((clinic) => (
+                  <div
+                    key={clinic.id}
+                    className="p-3 bg-white border border-red-200 rounded-lg cursor-pointer hover:bg-red-50 transition-colors"
+                    onClick={() => setSelectedClinic(clinic)}
+                  >
+                    <div className="flex justify-between items-start mb-2">
+                      <div>
+                        <p className="font-semibold text-red-900">{clinic.name}</p>
+                        <p className="text-sm text-gray-600">{clinic.address}</p>
+                      </div>
+                      {clinic.distance_km && (
+                        <Badge variant="destructive">{clinic.distance_km.toFixed(1)} km</Badge>
+                      )}
+                    </div>
+                    <div className="flex gap-2 mt-2">
+                      <Button
+                        size="sm"
+                        className="bg-red-600 hover:bg-red-700"
+                        onClick={(e) => {
+                          e.stopPropagation();
+                          handleCallClinic(clinic.phone);
+                        }}
+                      >
+                        <Phone className="w-4 h-4 mr-1" />
+                        Call Now
+                      </Button>
+                      <Button
+                        size="sm"
+                        variant="outline"
+                        onClick={(e) => {
+                          e.stopPropagation();
+                          handleGetDirections(clinic);
+                        }}
+                      >
+                        <Navigation className="w-4 h-4 mr-1" />
+                        Directions
+                      </Button>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </CardContent>
+          </Card>
+        )}
       </div>
     </div>
   );
