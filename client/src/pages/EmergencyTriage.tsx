@@ -2,6 +2,7 @@ import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { AlertCircle, Clock, MapPin, Phone } from "lucide-react";
+import { Link } from "wouter";
 import { trpc } from "@/lib/trpc";
 import { useAuth } from "@/_core/hooks/useAuth";
 
@@ -185,9 +186,11 @@ export default function EmergencyTriage() {
                   <MapPin className="w-5 h-5 text-blue-600 mt-1 flex-shrink-0" />
                   <div className="text-sm">
                     <p className="font-medium text-slate-900">Find Nearby Clinic</p>
-                    <Button variant="link" className="p-0 h-auto text-blue-600">
-                      View clinic locator
-                    </Button>
+                    <Link href="/clinic-locator">
+                      <Button variant="link" className="p-0 h-auto text-blue-600">
+                        View clinic locator
+                      </Button>
+                    </Link>
                   </div>
                 </div>
               </CardContent>

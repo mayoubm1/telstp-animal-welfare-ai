@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
-import { Calendar, FileText, AlertCircle, CheckCircle, Clock } from "lucide-react";
+import { Calendar, FileText, AlertCircle, CheckCircle, Clock, Download, Share2 } from "lucide-react";
 import { trpc } from "@/lib/trpc";
 import { useAuth } from "@/_core/hooks/useAuth";
 
@@ -75,6 +75,67 @@ export default function CaseHistory() {
   };
 
   const selectedCase = mockCases.find((c) => c.id === selectedCaseId);
+
+  const handleDownloadReport = () => {
+    if (!selectedCase) return;
+    
+    // Create a simple text report
+    const report = `
+PET CASE REPORT
+===============
+
+Pet Name: ${selectedCase.petName}
+Species: ${selectedCase.petSpecies}
+Date: ${new Date(selectedCase.date).toLocaleDateString()}
+
+Symptoms:
+${selectedCase.symptoms}
+
+Severity: ${selectedCase.severity}
+
+Diagnosis:
+${selectedCase.diagnosis}
+
+Treatment:
+${selectedCase.treatment}
+
+Status: ${selectedCase.status}
+
+Generated: ${new Date().toLocaleString()}
+    `.trim();
+    
+    // Create a blob and download
+    const element = document.createElement('a');
+    element.setAttribute('href', 'data:text/plain;charset=utf-8,' + encodeURIComponent(report));
+    element.setAttribute('download', `${selectedCase.petName}_case_report_${selectedCase.date}.txt`);
+    element.style.display = 'none';
+    document.body.appendChild(element);
+    element.click();
+    document.body.removeChild(element);
+  };
+
+  const handleShareWithVet = () => {
+    if (!selectedCase) return;
+    
+    // Create share text
+    const shareText = `I would like to share my pet's case with you:\n\nPet: ${selectedCase.petName} (${selectedCase.petSpecies})\nSymptoms: ${selectedCase.symptoms}\nDiagnosis: ${selectedCase.diagnosis}\nTreatment: ${selectedCase.treatment}`;
+    
+    // Try to use native share API if available
+    if (navigator.share) {
+      navigator.share({
+        title: `${selectedCase.petName}'s Case Report`,
+        text: shareText,
+      }).catch(() => {
+        // Fallback: copy to clipboard
+        navigator.clipboard.writeText(shareText);
+        alert('Case details copied to clipboard. You can now share with your veterinarian.');
+      });
+    } else {
+      // Fallback: copy to clipboard
+      navigator.clipboard.writeText(shareText);
+      alert('Case details copied to clipboard. You can now share with your veterinarian.');
+    }
+  };
 
   return (
     <div className="min-h-screen bg-gradient-to-b from-slate-50 to-white">
@@ -209,10 +270,20 @@ export default function CaseHistory() {
 
                   {/* Actions */}
                   <div className="pt-4 space-y-2">
-                    <Button className="w-full" variant="outline">
+                    <Button 
+                      className="w-full" 
+                      variant="outline"
+                      onClick={handleDownloadReport}
+                    >
+                      <Download className="w-4 h-4 mr-2" />
                       Download Report
                     </Button>
-                    <Button className="w-full" variant="outline">
+                    <Button 
+                      className="w-full" 
+                      variant="outline"
+                      onClick={handleShareWithVet}
+                    >
+                      <Share2 className="w-4 h-4 mr-2" />
                       Share with Vet
                     </Button>
                   </div>

@@ -120,7 +120,7 @@ export default function Dashboard() {
         <div className="mb-12">
           <div className="flex justify-between items-center mb-6">
             <h3 className="text-2xl font-bold text-slate-900">My Pets</h3>
-            <Link href="/pets/new">
+            <Link href="/register-pet">
               <Button className="gap-2">
                 <Plus className="w-4 h-4" /> Add Pet
               </Button>
@@ -135,7 +135,7 @@ export default function Dashboard() {
                 <CardDescription>Add your first pet to get started</CardDescription>
               </CardHeader>
               <CardContent>
-                <Link href="/pets/new">
+                <Link href="/register-pet">
                   <Button variant="outline" className="w-full">
                     Add Your First Pet
                   </Button>
