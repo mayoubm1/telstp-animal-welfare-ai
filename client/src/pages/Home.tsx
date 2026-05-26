@@ -13,6 +13,7 @@ import {
   Zap,
   ArrowRight,
   PawPrint,
+  Mic,
 } from "lucide-react";
 
 export default function Home() {
@@ -195,6 +196,25 @@ export default function Home() {
                   <li>✓ Treatment tracking</li>
                   <li>✓ Progress monitoring</li>
                   <li>✓ Vet consultation history</li>
+                </ul>
+              </CardContent>
+            </Card>
+
+            {/* AI Visual Diagnosis */}
+            <Card className="bg-slate-800 border-slate-700 hover:border-emerald-500 transition">
+              <CardHeader>
+                <Mic className="w-8 h-8 text-orange-400 mb-2" />
+                <CardTitle className="text-white">AI Visual Diagnosis</CardTitle>
+                <CardDescription className="text-slate-400">
+                  Multimedia analysis: photos, videos, and audio
+                </CardDescription>
+              </CardHeader>
+              <CardContent className="text-slate-300">
+                <ul className="space-y-2 text-sm">
+                  <li>✓ Photo & video upload</li>
+                  <li>✓ Audio transcription</li>
+                  <li>✓ Multimedia AI analysis</li>
+                  <li>✓ Smart recommendations</li>
                 </ul>
               </CardContent>
             </Card>
