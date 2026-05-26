@@ -3,6 +3,8 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/com
 import { getLoginUrl } from "@/const";
 import { Link } from "wouter";
 import { useAuth } from "@/_core/hooks/useAuth";
+import { useLanguage } from "@/contexts/LanguageContext";
+import { LanguageSwitcher } from "@/components/LanguageSwitcher";
 import {
   Zap,
   ArrowRight,
@@ -146,7 +148,8 @@ function AnimatedFeatureCard({
 }
 
 export default function HomeV2() {
-  const { user, isAuthenticated } = useAuth();
+  const { isAuthenticated, user } = useAuth();
+  const { t, isArabic } = useLanguage();
   const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
 
   useEffect(() => {
@@ -178,19 +181,20 @@ export default function HomeV2() {
             </h1>
           </div>
           <div className="flex items-center gap-4">
+            <LanguageSwitcher />
             {isAuthenticated ? (
               <>
                 <span className="text-sm text-slate-600">Welcome, {user?.name}! 👋</span>
                 <Link href="/dashboard">
                   <Button className="bg-gradient-to-r from-pink-500 to-purple-500 hover:from-pink-600 hover:to-purple-600">
-                    Dashboard
+                    {t('nav.dashboard')}
                   </Button>
                 </Link>
               </>
             ) : (
               <a href={getLoginUrl()}>
                 <Button className="bg-gradient-to-r from-pink-500 to-purple-500 hover:from-pink-600 hover:to-purple-600">
-                  Sign In
+                  {t('nav.signin')}
                 </Button>
               </a>
             )}
@@ -209,10 +213,10 @@ export default function HomeV2() {
                 </span>
               </div>
               <h2 className="text-6xl font-bold text-slate-900 leading-tight">
-                Your Pet's Best Friend is Here! 🐾
+                {t('home.title')}
               </h2>
               <p className="text-xl text-slate-600 leading-relaxed">
-                Instant diagnosis, emergency guidance, and expert advice for your beloved cats and dogs. Powered by AI that cares as much as you do.
+                {t('home.subtitle')}
               </p>
             </div>
 
@@ -224,7 +228,7 @@ export default function HomeV2() {
                       size="lg"
                       className="bg-gradient-to-r from-pink-500 to-purple-500 hover:from-pink-600 hover:to-purple-600 gap-2 text-lg px-8"
                     >
-                      Start Diagnosis <Zap className="w-5 h-5" />
+                      {t('diagnosis.title')} <Zap className="w-5 h-5" />
                     </Button>
                   </Link>
                   <Link href="/clinic-locator">
@@ -233,7 +237,7 @@ export default function HomeV2() {
                       variant="outline"
                       className="border-2 border-purple-500 text-purple-600 hover:bg-purple-50 gap-2 text-lg px-8"
                     >
-                      Find a Vet <Smile className="w-5 h-5" />
+                      {t('clinic.title')} <Smile className="w-5 h-5" />
                     </Button>
                   </Link>
                   <Link href="/education">
@@ -242,7 +246,7 @@ export default function HomeV2() {
                       variant="outline"
                       className="border-2 border-green-500 text-green-600 hover:bg-green-50 gap-2 text-lg px-8"
                     >
-                      Learn <BookOpen className="w-5 h-5" />
+                      {t('education.title')} <BookOpen className="w-5 h-5" />
                     </Button>
                   </Link>
                 </>
@@ -298,10 +302,10 @@ export default function HomeV2() {
       <section id="features" className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-20">
         <div className="text-center mb-16 space-y-4">
           <h3 className="text-5xl font-bold text-slate-900">
-            Everything Your Pet Needs 💚
+            {t('home.features')}
           </h3>
           <p className="text-xl text-slate-600 max-w-2xl mx-auto">
-            From quick check-ups to emergency guidance, we've got your furry friend covered
+            {t('home.featuresDesc')}
           </p>
         </div>
 
