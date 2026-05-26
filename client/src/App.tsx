@@ -17,6 +17,7 @@ import EmergencyTriage from "./pages/EmergencyTriage";
 import CaseHistory from "./pages/CaseHistory";
 import ImageUploadTriage from "./pages/ImageUploadTriage";
 import AIVisualDiagnosis from "./pages/AIVisualDiagnosis";
+import EducationHub from "./pages/EducationHub";
 
 function Router() {
   // make sure to consider if you need authentication for certain routes
@@ -34,8 +35,9 @@ function Router() {
       <Route path={"/emergency-triage"} component={EmergencyTriage} />
       <Route path={"/case-history"} component={CaseHistory} />
       <Route path={"/image-upload"} component={ImageUploadTriage} />
-      <Route path={"/ai-diagnosis"} component={AIVisualDiagnosis} />
-      <Route path={"/404"} component={NotFound} />
+      <Route path="/ai-diagnosis" component={AIVisualDiagnosis} />
+      <Route path="/education" component={EducationHub} />
+      <Route path="/404" component={NotFound} />
       {/* Final fallback route */}
       <Route component={NotFound} />
     </Switch>

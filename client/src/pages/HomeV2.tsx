@@ -10,6 +10,7 @@ import {
   Sparkles,
   Smile,
   Volume2,
+  BookOpen,
 } from "lucide-react";
 import { useEffect, useState } from "react";
 
@@ -235,6 +236,15 @@ export default function HomeV2() {
                       Find a Vet <Smile className="w-5 h-5" />
                     </Button>
                   </Link>
+                  <Link href="/education">
+                    <Button
+                      size="lg"
+                      variant="outline"
+                      className="border-2 border-green-500 text-green-600 hover:bg-green-50 gap-2 text-lg px-8"
+                    >
+                      Learn <BookOpen className="w-5 h-5" />
+                    </Button>
+                  </Link>
                 </>
               ) : (
                 <>
@@ -316,6 +326,13 @@ export default function HomeV2() {
             description="Find nearby vets instantly"
             items={["50+ verified clinics", "Real-time distance", "24/7 emergency"]}
             color="pink"
+          />
+          <AnimatedFeatureCard
+            icon={BookOpen}
+            title="Education Hub"
+            description="Learn pet health & care"
+            items={["Pet health guides", "Affordable medications", "Nutrition tips"]}
+            color="green"
           />
         </div>
       </section>
