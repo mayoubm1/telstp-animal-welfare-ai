@@ -243,7 +243,7 @@ export const diagnosisRouter = router({
         }
 
         const response = await invokeLLM({
-          messages,
+          messages: messages as any,
           response_format: {
             type: "json_schema",
             json_schema: {
@@ -267,16 +267,17 @@ export const diagnosisRouter = router({
           },
         });
 
-        const analysisResult = JSON.parse(response.choices[0].message.content);
+        const content = response.choices[0].message.content;
+        const analysisResult = typeof content === 'string' ? JSON.parse(content) : content;
 
         return {
           success: true,
           data: {
-            analysis: analysisResult.analysis,
-            diagnosis: analysisResult.diagnosis,
-            confidence: analysisResult.confidence,
-            recommendations: analysisResult.recommendations,
-            emergencyWarnings: analysisResult.emergencyWarnings,
+            analysis: analysisResult?.analysis || 'Analysis pending',
+            diagnosis: analysisResult?.diagnosis || 'Diagnosis pending',
+            confidence: analysisResult?.confidence || 'Unknown',
+            recommendations: analysisResult?.recommendations || [],
+            emergencyWarnings: analysisResult?.emergencyWarnings || 'None',
           },
           timestamp: new Date(),
         };
