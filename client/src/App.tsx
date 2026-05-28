@@ -18,6 +18,9 @@ import CaseHistory from "./pages/CaseHistory";
 import ImageUploadTriage from "./pages/ImageUploadTriage";
 import AIVisualDiagnosis from "./pages/AIVisualDiagnosis";
 import EducationHub from "./pages/EducationHub";
+import NaturalAlternativesPage from "./pages/NaturalAlternativesPage";
+import TrainingProgramsPage from "./pages/TrainingProgramsPage";
+import BestPracticesPage from "./pages/BestPracticesPage";
 
 function Router() {
   // make sure to consider if you need authentication for certain routes
@@ -37,6 +40,9 @@ function Router() {
       <Route path={"/image-upload"} component={ImageUploadTriage} />
       <Route path="/ai-diagnosis" component={AIVisualDiagnosis} />
       <Route path="/education" component={EducationHub} />
+      <Route path="/natural-alternatives" component={NaturalAlternativesPage} />
+      <Route path="/training-programs" component={TrainingProgramsPage} />
+      <Route path="/best-practices" component={BestPracticesPage} />
       <Route path="/404" component={NotFound} />
       {/* Final fallback route */}
       <Route component={NotFound} />
