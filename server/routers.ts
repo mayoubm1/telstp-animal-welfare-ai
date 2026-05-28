@@ -13,6 +13,10 @@ import { consultationsRouter } from "./routers/consultations";
 import { veterinariansRouter } from "./routers/veterinarians";
 import { emergencyTriageRouter } from "./routers/emergency-triage";
 import { clinicsRouter } from "./routers/clinics";
+import { naturalAlternativesRouter } from "./routers/natural-alternatives";
+import { trainingProgramsRouter } from "./routers/training-programs";
+import { bestPracticesRouter } from "./routers/best-practices";
+import { petFileSharingRouter } from "./routers/pet-file-sharing";
 import {
   createPet,
   getPetsByUserId,
@@ -438,10 +442,14 @@ export const appRouter = router({
   }),
 
   // ============ CRITICAL CASES (ADMIN) ============
-  // ============ KNOWLEDGE BASE ============
+    // ============ KNOWLEDGE BASE ============
   knowledgeBase: knowledgeBaseRouter,
   diagnosis: diagnosisRouter,
-
+  // ============ NATURAL ALTERNATIVES & MARKETPLACE ============
+  naturalAlternatives: naturalAlternativesRouter,
+  trainingPrograms: trainingProgramsRouter,
+  bestPractices: bestPracticesRouter,
+  petFileSharing: petFileSharingRouter,
   admin: router({
     getCriticalCases: protectedProcedure.query(async ({ ctx }) => {
       if (ctx.user.role !== "admin") throw new Error("Unauthorized");

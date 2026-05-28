@@ -321,3 +321,167 @@ export const diagnosticImages = mysqlTable("diagnosticImages", {
 
 export type DiagnosticImage = typeof diagnosticImages.$inferSelect;
 export type InsertDiagnosticImage = typeof diagnosticImages.$inferInsert;
+
+/**
+ * Natural alternatives marketplace - organic food, supplies, activities
+ */
+export const naturalAlternatives = mysqlTable("naturalAlternatives", {
+  id: int("id").autoincrement().primaryKey(),
+  name: varchar("name", { length: 255 }).notNull(),
+  nameAr: varchar("nameAr", { length: 255 }),
+  category: mysqlEnum("category", [
+    "organic_food",
+    "natural_treats",
+    "eco_supplies",
+    "toys_enrichment",
+    "grooming",
+    "training_tools",
+    "supplements",
+    "bedding"
+  ]).notNull(),
+  description: longtext("description"),
+  descriptionAr: longtext("descriptionAr"),
+  benefits: json("benefits"), // Array of benefits
+  benefitsAr: json("benefitsAr"),
+  ingredients: longtext("ingredients"), // For food items
+  ingredientsAr: longtext("ingredientsAr"),
+  suitableFor: json("suitableFor"), // Array of species/breeds
+  price: decimal("price", { precision: 10, scale: 2 }),
+  supplier: varchar("supplier", { length: 255 }),
+  supplierUrl: varchar("supplierUrl", { length: 512 }),
+  imageUrl: varchar("imageUrl", { length: 512 }),
+  verified: boolean("verified").default(false),
+  certifications: json("certifications"), // Organic, eco-friendly, etc.
+  rating: decimal("rating", { precision: 3, scale: 2 }),
+  reviewCount: int("reviewCount").default(0),
+  createdAt: timestamp("createdAt").defaultNow().notNull(),
+  updatedAt: timestamp("updatedAt").defaultNow().onUpdateNow().notNull(),
+});
+
+export type NaturalAlternative = typeof naturalAlternatives.$inferSelect;
+export type InsertNaturalAlternative = typeof naturalAlternatives.$inferInsert;
+
+/**
+ * Training programs and activity modules
+ */
+export const trainingPrograms = mysqlTable("trainingPrograms", {
+  id: int("id").autoincrement().primaryKey(),
+  name: varchar("name", { length: 255 }).notNull(),
+  nameAr: varchar("nameAr", { length: 255 }),
+  category: mysqlEnum("category", [
+    "bathroom_training",
+    "obedience",
+    "socialization",
+    "play_enrichment",
+    "behavioral_modification",
+    "agility",
+    "tricks"
+  ]).notNull(),
+  description: longtext("description"),
+  descriptionAr: longtext("descriptionAr"),
+  difficulty: mysqlEnum("difficulty", ["beginner", "intermediate", "advanced"]),
+  ageRange: varchar("ageRange", { length: 100 }), // e.g., "8 weeks - 6 months"
+  duration: int("duration"), // in days
+  steps: json("steps"), // Array of training steps
+  stepsAr: json("stepsAr"),
+  videoUrl: varchar("videoUrl", { length: 512 }),
+  tips: json("tips"),
+  tipsAr: json("tipsAr"),
+  successIndicators: json("successIndicators"),
+  successIndicatorsAr: json("successIndicatorsAr"),
+  createdAt: timestamp("createdAt").defaultNow().notNull(),
+});
+
+export type TrainingProgram = typeof trainingPrograms.$inferSelect;
+export type InsertTrainingProgram = typeof trainingPrograms.$inferInsert;
+
+/**
+ * Pet owner training progress tracking
+ */
+export const trainingProgress = mysqlTable("trainingProgress", {
+  id: int("id").autoincrement().primaryKey(),
+  petId: int("petId").notNull(),
+  userId: int("userId").notNull(),
+  programId: int("programId").notNull(),
+  startDate: timestamp("startDate").defaultNow().notNull(),
+  currentStep: int("currentStep").default(0),
+  status: mysqlEnum("status", ["not_started", "in_progress", "completed", "paused"]).default("not_started"),
+  dailyLogs: json("dailyLogs"), // Array of daily progress entries
+  notes: longtext("notes"),
+  completionDate: timestamp("completionDate"),
+  createdAt: timestamp("createdAt").defaultNow().notNull(),
+  updatedAt: timestamp("updatedAt").defaultNow().onUpdateNow().notNull(),
+});
+
+export type TrainingProgress = typeof trainingProgress.$inferSelect;
+export type InsertTrainingProgress = typeof trainingProgress.$inferInsert;
+
+/**
+ * Global best practices and expert guidelines
+ */
+export const bestPractices = mysqlTable("bestPractices", {
+  id: int("id").autoincrement().primaryKey(),
+  title: varchar("title", { length: 255 }).notNull(),
+  titleAr: varchar("titleAr", { length: 255 }),
+  category: mysqlEnum("category", [
+    "nutrition",
+    "behavior",
+    "health",
+    "grooming",
+    "training",
+    "enrichment",
+    "socialization",
+    "emergency_care"
+  ]).notNull(),
+  content: longtext("content").notNull(),
+  contentAr: longtext("contentAr"),
+  keyPoints: json("keyPoints"), // Array of key takeaways
+  keyPointsAr: json("keyPointsAr"),
+  species: json("species"), // ["cat", "dog", "both"]
+  breedSpecific: varchar("breedSpecific", { length: 255 }), // Optional breed
+  source: varchar("source", { length: 255 }), // WHO, AAFCO, FEDIAF, etc.
+  expertReview: boolean("expertReview").default(false),
+  reviewedBy: varchar("reviewedBy", { length: 255 }),
+  references: json("references"), // Array of reference URLs
+  createdAt: timestamp("createdAt").defaultNow().notNull(),
+  updatedAt: timestamp("updatedAt").defaultNow().onUpdateNow().notNull(),
+});
+
+export type BestPractice = typeof bestPractices.$inferSelect;
+export type InsertBestPractice = typeof bestPractices.$inferInsert;
+
+/**
+ * Pet file sharing and access control
+ */
+export const petFileShares = mysqlTable("petFileShares", {
+  id: int("id").autoincrement().primaryKey(),
+  petId: int("petId").notNull(),
+  ownerId: int("ownerId").notNull(),
+  sharedWithId: int("sharedWithId"), // Veterinarian or clinic ID
+  sharedWithType: mysqlEnum("sharedWithType", ["veterinarian", "clinic", "trainer"]),
+  shareToken: varchar("shareToken", { length: 255 }).unique(),
+  accessLevel: mysqlEnum("accessLevel", ["view_only", "edit", "full_access"]).default("view_only"),
+  expiresAt: timestamp("expiresAt"),
+  sharedAt: timestamp("sharedAt").defaultNow().notNull(),
+  lastAccessedAt: timestamp("lastAccessedAt"),
+  createdAt: timestamp("createdAt").defaultNow().notNull(),
+});
+
+export type PetFileShare = typeof petFileShares.$inferSelect;
+export type InsertPetFileShare = typeof petFileShares.$inferInsert;
+
+/**
+ * Audit trail for pet file access
+ */
+export const petFileAudit = mysqlTable("petFileAudit", {
+  id: int("id").autoincrement().primaryKey(),
+  petId: int("petId").notNull(),
+  userId: int("userId").notNull(),
+  action: mysqlEnum("action", ["view", "edit", "download", "share", "delete"]).notNull(),
+  details: longtext("details"),
+  ipAddress: varchar("ipAddress", { length: 45 }),
+  createdAt: timestamp("createdAt").defaultNow().notNull(),
+});
+
+export type PetFileAudit = typeof petFileAudit.$inferSelect;
+export type InsertPetFileAudit = typeof petFileAudit.$inferInsert;
