@@ -485,3 +485,96 @@ export const petFileAudit = mysqlTable("petFileAudit", {
 
 export type PetFileAudit = typeof petFileAudit.$inferSelect;
 export type InsertPetFileAudit = typeof petFileAudit.$inferInsert;
+
+
+/**
+ * Virtual Pet Avatars - AI-powered personalized companion for each pet
+ */
+export const virtualPetAvatars = mysqlTable("virtualPetAvatars", {
+  id: int("id").autoincrement().primaryKey(),
+  petId: int("petId").notNull().references(() => pets.id),
+  userId: int("userId").notNull().references(() => users.id),
+  name: varchar("name", { length: 255 }).notNull(),
+  nameAr: varchar("nameAr", { length: 255 }),
+  personality: varchar("personality", { length: 255 }), // e.g., "Playful", "Wise", "Energetic"
+  personalityAr: varchar("personalityAr", { length: 255 }),
+  avatarImageUrl: varchar("avatarImageUrl", { length: 512 }), // Avatar character image
+  bio: longtext("bio"), // Avatar's biography/background
+  bioAr: longtext("bioAr"),
+  traits: json("traits"), // Array of personality traits
+  traitsAr: json("traitsAr"),
+  specialAbilities: json("specialAbilities"), // Array of special features
+  specialAbilitiesAr: json("specialAbilitiesAr"),
+  
+  // AI Personality & Learning
+  conversationStyle: varchar("conversationStyle", { length: 255 }), // How the avatar communicates
+  conversationStyleAr: varchar("conversationStyleAr", { length: 255 }),
+  knowledgeBase: json("knowledgeBase"), // Topics the avatar specializes in
+  learningProgress: json("learningProgress"), // Tracks what the avatar has learned about the pet
+  
+  // Interaction Stats
+  totalInteractions: int("totalInteractions").default(0),
+  lastInteractionAt: timestamp("lastInteractionAt"),
+  favoriteActivities: json("favoriteActivities"), // Activities the avatar prefers
+  
+  // Customization
+  colorTheme: varchar("colorTheme", { length: 50 }), // e.g., "golden", "silver", "emerald"
+  voicePreference: varchar("voicePreference", { length: 50 }), // e.g., "friendly", "wise", "playful"
+  
+  // Status
+  isActive: boolean("isActive").default(true),
+  createdAt: timestamp("createdAt").defaultNow().notNull(),
+  updatedAt: timestamp("updatedAt").defaultNow().onUpdateNow().notNull(),
+});
+
+export type VirtualPetAvatar = typeof virtualPetAvatars.$inferSelect;
+export type InsertVirtualPetAvatar = typeof virtualPetAvatars.$inferInsert;
+
+/**
+ * Avatar Conversation History - Tracks all interactions with the avatar
+ */
+export const avatarConversations = mysqlTable("avatarConversations", {
+  id: int("id").autoincrement().primaryKey(),
+  avatarId: int("avatarId").notNull().references(() => virtualPetAvatars.id),
+  userId: int("userId").notNull().references(() => users.id),
+  petId: int("petId").notNull().references(() => pets.id),
+  
+  // Message Content
+  userMessage: longtext("userMessage").notNull(),
+  avatarResponse: longtext("avatarResponse").notNull(),
+  messageType: mysqlEnum("messageType", ["question", "command", "chat", "training", "health_check"]).default("chat"),
+  
+  // AI Context
+  context: json("context"), // Context data used for the response
+  sentiment: varchar("sentiment", { length: 50 }), // Detected sentiment
+  
+  // Feedback
+  userFeedback: mysqlEnum("userFeedback", ["helpful", "not_helpful", "neutral"]),
+  rating: int("rating"), // 1-5 star rating
+  
+  createdAt: timestamp("createdAt").defaultNow().notNull(),
+});
+
+export type AvatarConversation = typeof avatarConversations.$inferSelect;
+export type InsertAvatarConversation = typeof avatarConversations.$inferInsert;
+
+/**
+ * Avatar Achievements - Track milestones and achievements with the avatar
+ */
+export const avatarAchievements = mysqlTable("avatarAchievements", {
+  id: int("id").autoincrement().primaryKey(),
+  avatarId: int("avatarId").notNull().references(() => virtualPetAvatars.id),
+  userId: int("userId").notNull().references(() => users.id),
+  
+  achievementType: varchar("achievementType", { length: 255 }).notNull(), // e.g., "First Training", "100 Interactions"
+  achievementTypeAr: varchar("achievementTypeAr", { length: 255 }),
+  description: longtext("description"),
+  descriptionAr: longtext("descriptionAr"),
+  badge: varchar("badge", { length: 255 }), // Badge image URL
+  
+  unlockedAt: timestamp("unlockedAt").defaultNow().notNull(),
+  createdAt: timestamp("createdAt").defaultNow().notNull(),
+});
+
+export type AvatarAchievement = typeof avatarAchievements.$inferSelect;
+export type InsertAvatarAchievement = typeof avatarAchievements.$inferInsert;

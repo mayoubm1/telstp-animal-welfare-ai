@@ -87,7 +87,7 @@ export default function HomeV3() {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <h2 className="text-4xl font-bold text-center mb-16">
             <span className="bg-gradient-to-r from-amber-300 to-amber-400 bg-clip-text text-transparent">
-              {isArabic ? 'شخصياتنا السحرية' : 'Our Mystical Guardians'}
+              {isArabic ? 'شخصياتك الافتراضية' : 'Your Virtual Companions'}
             </span>
           </h2>
 
@@ -103,7 +103,7 @@ export default function HomeV3() {
                 />
               </div>
               <h3 className="text-2xl font-bold text-amber-200 mb-2">{isArabic ? 'الكلب الذهبي' : 'The Golden Guardian'}</h3>
-              <p className="text-amber-100/60 max-w-xs">{isArabic ? 'حامي صحة حيوانك الأليف بالحكمة والحب' : 'Protector of your pet\'s health with wisdom and love'}</p>
+              <p className="text-amber-100/60 max-w-xs">{isArabic ? 'ابدأ بتشكيل حيوانك الافتراضي على موقعنا للتزامن مع حيوانك الحالي' : 'Create your virtual pet to sync with your real companion'}</p>
             </div>
 
             {/* Golden Cat */}
@@ -117,7 +117,7 @@ export default function HomeV3() {
                 />
               </div>
               <h3 className="text-2xl font-bold text-amber-200 mb-2">{isArabic ? 'القطة الذهبية' : 'The Mystical Sage'}</h3>
-              <p className="text-amber-100/60 max-w-xs">{isArabic ? 'دليلك الروحي في رحلة الشفاء' : 'Your spiritual guide in the healing journey'}</p>
+              <p className="text-amber-100/60 max-w-xs">{isArabic ? 'ذكاء اصطناعي متخصص يتطور مع حيوانك يومياً' : 'AI that evolves with your pet every single day'}</p>
             </div>
           </div>
         </div>
@@ -128,7 +128,7 @@ export default function HomeV3() {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <h2 className="text-4xl font-bold text-center mb-16">
             <span className="bg-gradient-to-r from-amber-300 to-amber-400 bg-clip-text text-transparent">
-              {isArabic ? 'الميزات السحرية' : 'Magical Features'}
+              {isArabic ? 'مميزات غير مسبوقة' : 'Unprecedented Features'}
             </span>
           </h2>
 
@@ -140,7 +140,7 @@ export default function HomeV3() {
                 <div className="relative">
                   <Leaf className="w-12 h-12 text-amber-400 mb-4 group-hover:scale-110 transition-transform duration-300" />
                   <h3 className="text-xl font-bold text-amber-200 mb-2">{isArabic ? 'البدائل الطبيعية' : 'Natural Alternatives'}</h3>
-                  <p className="text-amber-100/60">{isArabic ? 'منتجات طبيعية وآمنة لحيوانك' : 'Natural & safe products for your pet'}</p>
+                  <p className="text-amber-100/60">{isArabic ? 'منتجات وسلع طبيعية موثوقة معتمدة' : 'Verified natural products & supplies'}</p>
                 </div>
               </div>
             </Link>
@@ -152,7 +152,7 @@ export default function HomeV3() {
                 <div className="relative">
                   <Dumbbell className="w-12 h-12 text-amber-400 mb-4 group-hover:scale-110 transition-transform duration-300" />
                   <h3 className="text-xl font-bold text-amber-200 mb-2">{isArabic ? 'برامج التدريب' : 'Training Programs'}</h3>
-                  <p className="text-amber-100/60">{isArabic ? 'تدريب متقدم وأنشطة يومية' : 'Advanced training & daily activities'}</p>
+                  <p className="text-amber-100/60">{isArabic ? 'برامج تدريب شاملة مع متابعة يومية' : 'Comprehensive training with daily tracking'}</p>
                 </div>
               </div>
             </Link>
@@ -164,7 +164,7 @@ export default function HomeV3() {
                 <div className="relative">
                   <Award className="w-12 h-12 text-amber-400 mb-4 group-hover:scale-110 transition-transform duration-300" />
                   <h3 className="text-xl font-bold text-amber-200 mb-2">{isArabic ? 'أفضل الممارسات' : 'Best Practices'}</h3>
-                  <p className="text-amber-100/60">{isArabic ? 'نصائح خبراء عالمية معتمدة' : 'Expert global guidelines & tips'}</p>
+                  <p className="text-amber-100/60">{isArabic ? 'ممارسات عالمية معتمدة من الخبراء' : 'World-class expert guidelines'}</p>
                 </div>
               </div>
             </Link>

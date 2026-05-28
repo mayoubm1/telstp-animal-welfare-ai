@@ -22,6 +22,7 @@ import EducationHub from "./pages/EducationHub";
 import NaturalAlternativesPage from "./pages/NaturalAlternativesPage";
 import TrainingProgramsPage from "./pages/TrainingProgramsPage";
 import BestPracticesPage from "./pages/BestPracticesPage";
+import VirtualPetAvatarPage from "./pages/VirtualPetAvatarPage";
 
 function Router() {
   // make sure to consider if you need authentication for certain routes
@@ -44,6 +45,7 @@ function Router() {
       <Route path="/natural-alternatives" component={NaturalAlternativesPage} />
       <Route path="/training-programs" component={TrainingProgramsPage} />
       <Route path="/best-practices" component={BestPracticesPage} />
+      <Route path="/virtual-pet-avatar" component={VirtualPetAvatarPage} />
       <Route path="/404" component={NotFound} />
       {/* Final fallback route */}
       <Route component={NotFound} />
