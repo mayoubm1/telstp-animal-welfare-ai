@@ -2,7 +2,7 @@ import { useState, useEffect } from 'react';
 import { Link } from 'wouter';
 import { useLanguage } from '../contexts/LanguageContext';
 import { LanguageSwitcher } from '../components/LanguageSwitcher';
-import { Sparkles, Heart, BookOpen, MapPin, Stethoscope, Brain } from 'lucide-react';
+import { Sparkles, Heart, BookOpen, MapPin, Stethoscope, Brain, Leaf, Dumbbell, Award } from 'lucide-react';
 
 export default function HomeV3() {
   const { language, t } = useLanguage();
@@ -61,7 +61,7 @@ export default function HomeV3() {
                     {isArabic ? 'ابدأ الآن' : 'Get Started'}
                   </button>
                 </Link>
-                <Link href="/education-hub">
+                <Link href="/education">
                   <button className="px-8 py-3 border-2 border-amber-400 text-amber-200 font-bold rounded-lg hover:bg-amber-400/10 transition-all duration-300">
                     {isArabic ? 'تعلم المزيد' : 'Learn More'}
                   </button>
@@ -123,7 +123,7 @@ export default function HomeV3() {
         </div>
       </section>
 
-      {/* Features Section */}
+      {/* Main Features Section - First Row */}
       <section className="py-20 bg-gradient-to-b from-slate-900/50 to-slate-950">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <h2 className="text-4xl font-bold text-center mb-16">
@@ -133,8 +133,51 @@ export default function HomeV3() {
           </h2>
 
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-            {/* Feature 1: AI Diagnosis */}
-            <Link href="/ai-visual-diagnosis">
+            {/* Feature 1: Natural Alternatives */}
+            <Link href="/natural-alternatives">
+              <div className="group relative p-8 bg-gradient-to-br from-amber-900/20 to-slate-900/40 rounded-xl border border-amber-400/20 hover:border-amber-400/50 transition-all duration-300 cursor-pointer hover:shadow-lg hover:shadow-amber-400/20">
+                <div className="absolute inset-0 bg-gradient-to-r from-amber-400/0 via-amber-400/0 to-amber-400/0 group-hover:from-amber-400/10 group-hover:via-amber-400/5 group-hover:to-amber-400/10 rounded-xl transition-all duration-300" />
+                <div className="relative">
+                  <Leaf className="w-12 h-12 text-amber-400 mb-4 group-hover:scale-110 transition-transform duration-300" />
+                  <h3 className="text-xl font-bold text-amber-200 mb-2">{isArabic ? 'البدائل الطبيعية' : 'Natural Alternatives'}</h3>
+                  <p className="text-amber-100/60">{isArabic ? 'منتجات طبيعية وآمنة لحيوانك' : 'Natural & safe products for your pet'}</p>
+                </div>
+              </div>
+            </Link>
+
+            {/* Feature 2: Training Programs */}
+            <Link href="/training-programs">
+              <div className="group relative p-8 bg-gradient-to-br from-amber-900/20 to-slate-900/40 rounded-xl border border-amber-400/20 hover:border-amber-400/50 transition-all duration-300 cursor-pointer hover:shadow-lg hover:shadow-amber-400/20">
+                <div className="absolute inset-0 bg-gradient-to-r from-amber-400/0 via-amber-400/0 to-amber-400/0 group-hover:from-amber-400/10 group-hover:via-amber-400/5 group-hover:to-amber-400/10 rounded-xl transition-all duration-300" />
+                <div className="relative">
+                  <Dumbbell className="w-12 h-12 text-amber-400 mb-4 group-hover:scale-110 transition-transform duration-300" />
+                  <h3 className="text-xl font-bold text-amber-200 mb-2">{isArabic ? 'برامج التدريب' : 'Training Programs'}</h3>
+                  <p className="text-amber-100/60">{isArabic ? 'تدريب متقدم وأنشطة يومية' : 'Advanced training & daily activities'}</p>
+                </div>
+              </div>
+            </Link>
+
+            {/* Feature 3: Best Practices */}
+            <Link href="/best-practices">
+              <div className="group relative p-8 bg-gradient-to-br from-amber-900/20 to-slate-900/40 rounded-xl border border-amber-400/20 hover:border-amber-400/50 transition-all duration-300 cursor-pointer hover:shadow-lg hover:shadow-amber-400/20">
+                <div className="absolute inset-0 bg-gradient-to-r from-amber-400/0 via-amber-400/0 to-amber-400/0 group-hover:from-amber-400/10 group-hover:via-amber-400/5 group-hover:to-amber-400/10 rounded-xl transition-all duration-300" />
+                <div className="relative">
+                  <Award className="w-12 h-12 text-amber-400 mb-4 group-hover:scale-110 transition-transform duration-300" />
+                  <h3 className="text-xl font-bold text-amber-200 mb-2">{isArabic ? 'أفضل الممارسات' : 'Best Practices'}</h3>
+                  <p className="text-amber-100/60">{isArabic ? 'نصائح خبراء عالمية معتمدة' : 'Expert global guidelines & tips'}</p>
+                </div>
+              </div>
+            </Link>
+          </div>
+        </div>
+      </section>
+
+      {/* Additional Features Section - Second Row */}
+      <section className="py-20 bg-gradient-to-b from-slate-950 to-slate-900">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+            {/* Feature 4: AI Diagnosis */}
+            <Link href="/ai-diagnosis">
               <div className="group relative p-8 bg-gradient-to-br from-amber-900/20 to-slate-900/40 rounded-xl border border-amber-400/20 hover:border-amber-400/50 transition-all duration-300 cursor-pointer hover:shadow-lg hover:shadow-amber-400/20">
                 <div className="absolute inset-0 bg-gradient-to-r from-amber-400/0 via-amber-400/0 to-amber-400/0 group-hover:from-amber-400/10 group-hover:via-amber-400/5 group-hover:to-amber-400/10 rounded-xl transition-all duration-300" />
                 <div className="relative">
@@ -145,7 +188,7 @@ export default function HomeV3() {
               </div>
             </Link>
 
-            {/* Feature 2: Clinic Locator */}
+            {/* Feature 5: Clinic Locator */}
             <Link href="/clinic-locator">
               <div className="group relative p-8 bg-gradient-to-br from-amber-900/20 to-slate-900/40 rounded-xl border border-amber-400/20 hover:border-amber-400/50 transition-all duration-300 cursor-pointer hover:shadow-lg hover:shadow-amber-400/20">
                 <div className="absolute inset-0 bg-gradient-to-r from-amber-400/0 via-amber-400/0 to-amber-400/0 group-hover:from-amber-400/10 group-hover:via-amber-400/5 group-hover:to-amber-400/10 rounded-xl transition-all duration-300" />
@@ -157,8 +200,8 @@ export default function HomeV3() {
               </div>
             </Link>
 
-            {/* Feature 3: Education */}
-            <Link href="/education-hub">
+            {/* Feature 6: Education Hub */}
+            <Link href="/education">
               <div className="group relative p-8 bg-gradient-to-br from-amber-900/20 to-slate-900/40 rounded-xl border border-amber-400/20 hover:border-amber-400/50 transition-all duration-300 cursor-pointer hover:shadow-lg hover:shadow-amber-400/20">
                 <div className="absolute inset-0 bg-gradient-to-r from-amber-400/0 via-amber-400/0 to-amber-400/0 group-hover:from-amber-400/10 group-hover:via-amber-400/5 group-hover:to-amber-400/10 rounded-xl transition-all duration-300" />
                 <div className="relative">
