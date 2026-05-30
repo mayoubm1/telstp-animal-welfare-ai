@@ -9,7 +9,16 @@ import { Loader2, Send, Sparkles } from 'lucide-react';
 
 export default function VirtualPetAvatarPage() {
   const { user } = useAuth();
-  const [, setLocation] = useRouter();
+  const router = useRouter();
+  
+  if (!user) {
+    return (
+      <div className="flex items-center justify-center min-h-screen">
+        <p>Please log in to access Virtual Pet Avatar</p>
+      </div>
+    );
+  }
+  
   const [selectedPetId, setSelectedPetId] = useState<number | null>(null);
   const [selectedAvatarId, setSelectedAvatarId] = useState<number | null>(null);
   const [message, setMessage] = useState('');
