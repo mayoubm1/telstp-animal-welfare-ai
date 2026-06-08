@@ -47,7 +47,7 @@ export const trainingProgramsRouter = router({
     .mutation(async ({ input, ctx }) => {
       const db = await getDb();
       if (!db) throw new TRPCError({ code: "INTERNAL_SERVER_ERROR" });
-      return await db.insert(trainingProgress).values({ petId: input.petId, programId: input.programId, userId: parseInt(ctx.user.id), status: "in_progress" });
+      return await db.insert(trainingProgress).values({ petId: input.petId, programId: input.programId, userId: ctx.user.id as any, status: "in_progress" });
     }),
 
   getProgress: protectedProcedure
@@ -55,7 +55,7 @@ export const trainingProgramsRouter = router({
     .query(async ({ input, ctx }) => {
       const db = await getDb();
       if (!db) throw new TRPCError({ code: "INTERNAL_SERVER_ERROR" });
-      const items = await db.select().from(trainingProgress).where(and(eq(trainingProgress.userId, parseInt(ctx.user.id)), eq(trainingProgress.petId, input.petId), eq(trainingProgress.programId, input.programId))).limit(1);
+      const items = await db.select().from(trainingProgress).where(and(eq(trainingProgress.userId, ctx.user.id as any), eq(trainingProgress.petId, input.petId), eq(trainingProgress.programId, input.programId))).limit(1);
       return items[0] || null;
     }),
 

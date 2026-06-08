@@ -20,17 +20,19 @@ export default function BestPracticesPage() {
   const [searchQuery, setSearchQuery] = useState("");
   const [isArabic, setIsArabic] = useState(true);
 
-  const { data: practices, isLoading } = trpc.bestPractices.getAll.useQuery({
+  const { data: allPractices, isLoading } = trpc.bestPractices.getAll.useQuery({
     category: selectedCategory || undefined,
-    expertReview: true,
     limit: 20,
   });
+
+  // Filter expert reviewed practices on client side
+  const practices = allPractices?.filter((p) => (p.expertReview || false));
 
   const handleSearch = (e: React.ChangeEvent<HTMLInputElement>) => {
     setSearchQuery(e.target.value);
   };
 
-  const filteredPractices = practices?.filter((p) =>
+  const filteredPractices = (practices || [])?.filter((p) =>
     searchQuery === ""
       ? true
       : p.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
@@ -165,7 +167,7 @@ export default function BestPracticesPage() {
                   </p>
 
                   {/* Key Points */}
-                  {practice.keyPoints && practice.keyPoints.length > 0 && (
+                  {(practice.keyPoints as any) && (practice.keyPoints as any).length > 0 && (
                     <div className="mb-4 p-3 bg-slate-800/50 rounded border border-yellow-500/20">
                       <p className={`text-sm font-semibold text-yellow-300 mb-2 ${isArabic ? "text-right" : ""}`}>
                         {isArabic ? "النقاط الرئيسية:" : "Key Points:"}

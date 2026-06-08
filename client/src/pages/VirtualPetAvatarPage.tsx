@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from 'react';
+import { useState, useRef, useEffect } from 'react';
 import { trpc } from '@/lib/trpc';
 import { useAuth } from '@/_core/hooks/useAuth';
 import { useRouter } from 'wouter';
@@ -56,8 +56,7 @@ export default function VirtualPetAvatarPage() {
     onSuccess: (result) => {
       // Handle mutation result - avatar created successfully
       if (result) {
-        // Refetch avatars to get the new one
-        avatarsQuery.refetch();
+        // Avatar created, can now fetch it
       }
     },
   });

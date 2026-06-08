@@ -163,7 +163,7 @@ export default function NaturalAlternativesPage() {
                     {[...Array(5)].map((_, i) => (
                       <Star
                         key={i}
-                        className={`w-4 h-4 ${i < Math.floor(alt.rating || 0) ? "fill-yellow-400 text-yellow-400" : "text-gray-600"}`}
+                        className={`w-4 h-4 ${i < Math.floor(typeof alt.rating === 'string' ? parseFloat(alt.rating) : (alt.rating || 0)) ? "fill-yellow-400 text-yellow-400" : "text-gray-600"}`}
                       />
                     ))}
                     <span className="text-xs text-gray-400 ml-2">({alt.reviewCount || 0})</span>
@@ -183,7 +183,7 @@ export default function NaturalAlternativesPage() {
                   <div className="flex items-center justify-between pt-3 border-t border-yellow-500/20">
                     {alt.price && (
                       <span className="text-lg font-bold text-yellow-400">
-                        ${alt.price.toFixed(2)}
+                        ${typeof alt.price === 'string' ? parseFloat(alt.price).toFixed(2) : (alt.price as any)?.toFixed?.(2) || '0.00'}
                       </span>
                     )}
                     <Button

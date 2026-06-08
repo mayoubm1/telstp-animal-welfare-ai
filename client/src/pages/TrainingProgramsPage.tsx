@@ -25,10 +25,14 @@ export default function TrainingProgramsPage() {
   const [isArabic, setIsArabic] = useState(true);
 
   const { data: programs, isLoading } = trpc.trainingPrograms.getAll.useQuery({
-    difficulty: (selectedDifficulty as any) || undefined,
     category: selectedCategory || undefined,
     limit: 20,
   });
+
+  // Filter by difficulty on client side
+  const filteredPrograms = selectedDifficulty
+    ? programs?.filter((p) => p.difficulty === selectedDifficulty)
+    : programs;
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-slate-950 via-purple-950 to-slate-950 relative overflow-hidden">
@@ -171,21 +175,21 @@ export default function TrainingProgramsPage() {
                   <div className="flex items-center gap-4 mb-3 text-sm">
                     <div className="flex items-center gap-1 text-yellow-400">
                       <Zap className="w-4 h-4" />
-                      <span>{program.durationDays || 30} {isArabic ? "يوم" : "days"}</span>
+                      <span>{program.duration || 30} {isArabic ? "يوم" : "days"}</span>
                     </div>
                     <div className="flex items-center gap-1 text-purple-400">
                       <CheckCircle className="w-4 h-4" />
-                      <span>{program.totalSteps || 10} {isArabic ? "خطوة" : "steps"}</span>
+                      <span>{program.duration || 10} {isArabic ? "خطوة" : "steps"}</span>
                     </div>
                   </div>
 
                   {/* Badges */}
                   <div className="flex items-center gap-2 mb-3 flex-wrap">
                     <Badge className="bg-yellow-500/20 text-yellow-300 border-yellow-500/50">
-                      {difficulties.find((d) => d.id === program.difficulty)?.labelEn}
+                      {(difficulties.find((d) => d.id === program.difficulty)?.labelEn as any) || 'Level'}
                     </Badge>
                     <Badge className="bg-purple-500/20 text-purple-300 border-purple-500/50">
-                      {categories.find((c) => c.id === program.category)?.labelEn}
+                      {(categories.find((c) => c.id === program.category)?.labelEn as any) || 'Category'}
                     </Badge>
                   </div>
 
