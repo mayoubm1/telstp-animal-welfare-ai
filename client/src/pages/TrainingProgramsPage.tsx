@@ -159,7 +159,7 @@ export default function TrainingProgramsPage() {
                   <div className="flex items-start justify-between mb-2">
                     <div className="flex-1">
                       <h3 className={`font-bold text-lg text-yellow-300 mb-1 ${isArabic ? "text-right" : ""}`}>
-                        {isArabic ? program.titleAr || program.title : program.title}
+                        {isArabic ? program.nameAr || program.name : program.name}
                       </h3>
                       <p className={`text-sm text-gray-400 line-clamp-2 ${isArabic ? "text-right" : ""}`}>
                         {isArabic ? program.descriptionAr || program.description : program.description}
