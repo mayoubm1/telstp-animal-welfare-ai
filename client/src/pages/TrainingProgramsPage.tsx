@@ -190,13 +190,13 @@ export default function TrainingProgramsPage() {
                   </div>
 
                   {/* Key Points */}
-                  {program.keyPoints && program.keyPoints.length > 0 && (
+                  {program.tips && (program.tips as string[])?.length > 0 && (
                     <div className="mb-3 p-2 bg-slate-800/50 rounded border border-yellow-500/20">
                       <p className="text-xs text-gray-400 font-semibold mb-1">
                         {isArabic ? "النقاط الرئيسية:" : "Key Points:"}
                       </p>
                       <ul className="text-xs text-gray-300 space-y-1">
-                        {(program.keyPoints as string[]).slice(0, 2).map((point, idx) => (
+                        {(program.tips as string[])?.slice(0, 2).map((point, idx) => (
                           <li key={idx} className="flex items-start gap-1">
                             <span className="text-yellow-400 mt-0.5">•</span>
                             <span>{point}</span>

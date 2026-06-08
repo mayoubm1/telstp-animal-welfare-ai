@@ -53,8 +53,12 @@ export default function VirtualPetAvatarPage() {
 
   // Create avatar mutation
   const createAvatarMutation = trpc.virtualPetAvatar.createAvatar.useMutation({
-    onSuccess: (newAvatar) => {
-      setSelectedAvatarId(newAvatar.id);
+    onSuccess: (result) => {
+      // Handle mutation result - avatar created successfully
+      if (result) {
+        // Refetch avatars to get the new one
+        avatarsQuery.refetch();
+      }
     },
   });
 
