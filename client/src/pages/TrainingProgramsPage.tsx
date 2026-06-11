@@ -25,7 +25,7 @@ export default function TrainingProgramsPage() {
   const [isArabic, setIsArabic] = useState(true);
 
   const { data: programs, isLoading } = trpc.trainingPrograms.getAll.useQuery({
-    category: selectedCategory || undefined,
+    category: (selectedCategory as string | undefined) || undefined,
     limit: 20,
   });
 
@@ -33,11 +33,13 @@ export default function TrainingProgramsPage() {
     ? programs?.filter((p) => p.difficulty === selectedDifficulty)
     : programs;
 
-  const getDifficultyLabel = (id: string) => {
+  const getDifficultyLabel = (id: string | null | undefined) => {
+    if (!id) return "Level";
     return difficulties.find((d) => d.id === id)?.[isArabic ? "label" : "labelEn"] || id;
   };
 
-  const getCategoryLabel = (id: string) => {
+  const getCategoryLabel = (id: string | null | undefined) => {
+    if (!id) return "Category";
     return categories.find((c) => c.id === id)?.[isArabic ? "label" : "labelEn"] || id;
   };
 
