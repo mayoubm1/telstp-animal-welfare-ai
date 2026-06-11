@@ -21,6 +21,7 @@ export default function NaturalAlternativesPage() {
   const [selectedCategory, setSelectedCategory] = useState<string | null>(null);
   const [searchQuery, setSearchQuery] = useState("");
   const [isArabic, setIsArabic] = useState(true);
+  const [showCart, setShowCart] = useState(false);
 
   const { data: alternatives, isLoading } = trpc.naturalAlternatives.getAll.useQuery({
     category: selectedCategory || undefined,
@@ -183,7 +184,7 @@ export default function NaturalAlternativesPage() {
                   <div className="flex items-center justify-between pt-3 border-t border-yellow-500/20">
                     {alt.price && (
                       <span className="text-lg font-bold text-yellow-400">
-                        ${typeof alt.price === 'string' ? parseFloat(alt.price).toFixed(2) : (alt.price as any)?.toFixed?.(2) || '0.00'}
+                        {typeof alt.price === 'string' ? parseFloat(alt.price).toFixed(2) : (alt.price as any)?.toFixed?.(2) || '0.00'} {isArabic ? 'ج.م' : 'EGP'}
                       </span>
                     )}
                     <Button
