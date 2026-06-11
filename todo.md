@@ -522,3 +522,78 @@
 - [ ] Security audit for file sharing and data access
 - [ ] Mobile responsiveness testing
 - [ ] Save final checkpoint and prepare for deployment
+
+
+## Phase 27: Populate Best Practices & Training Content - ASSIGNED TO: MANUS (Content) 🚀 IN PROGRESS
+- [ ] Research AAFCO nutrition standards and add to best practices
+- [ ] Add behavioral training best practices (positive reinforcement, enrichment)
+- [ ] Add health & wellness best practices (preventive care, exercise)
+- [ ] Add breed-specific best practices for common pets
+- [ ] Create comprehensive training programs (bathroom, obedience, socialization, play, advanced tricks)
+- [ ] Add step-by-step training guides with timelines
+- [ ] Populate all content in both English and Arabic
+- [ ] Add expert reviewer information for each practice
+- [ ] Add source citations (WHO, AAFCO, FEDIAF standards)
+
+## Phase 28: Change Currency to Egyptian Pound - ASSIGNED TO: MANUS (Frontend) 🚀 IN PROGRESS
+- [ ] Update NaturalAlternativesPage: Change $ to ج.م
+- [ ] Update price display format for Egyptian currency
+- [ ] Update all product prices to realistic Egyptian market prices
+- [ ] Update shopping cart and invoice displays with EGP
+- [ ] Add currency symbol and formatting throughout the app
+- [ ] Test currency display on all pages
+
+## Phase 29: Build User Registration System - ASSIGNED TO: MANUS (Backend) 🚀 IN PROGRESS
+- [ ] Create registration page for pet owners
+- [ ] Create registration page for veterinarians
+- [ ] Create registration page for clinic owners
+- [ ] Add email verification system
+- [ ] Add role-based registration flow
+- [ ] Add validation and error handling
+- [ ] Create login/logout functionality
+- [ ] Add password reset functionality
+
+## Phase 30: Create User Profiles - ASSIGNED TO: MANUS (Frontend/Backend) 🚀 IN PROGRESS
+- [ ] Build veterinarian profile page (credentials, specializations, clinic info)
+- [ ] Build clinic profile page (location, services, veterinarians, contact)
+- [ ] Build pet owner profile page (personal info, pets, preferences)
+- [ ] Add profile editing functionality
+- [ ] Add profile verification badges
+- [ ] Create doctor search/discovery based on profiles
+- [ ] Add reviews and ratings for veterinarians
+- [ ] Add profile completeness indicator
+
+## Phase 31: Build Shopping Cart & Invoices - ASSIGNED TO: MANUS (Backend/Frontend) 🚀 IN PROGRESS
+- [ ] Create shopping cart database table
+- [ ] Build add-to-cart functionality
+- [ ] Create cart display page
+- [ ] Build checkout process
+- [ ] Create invoice generation system
+- [ ] Add order history tracking
+- [ ] Implement payment integration placeholder
+- [ ] Create invoice PDF export
+- [ ] Add email invoice delivery
+
+## Phase 32: Research Product Sourcing - ASSIGNED TO: MANUS (Research) 🚀 IN PROGRESS
+- [ ] Research Egyptian pet product suppliers
+- [ ] Identify verified natural product sources
+- [ ] Create supplier database
+- [ ] Establish product verification process
+- [ ] Create supplier partnership agreements
+- [ ] Build supplier management dashboard
+- [ ] Add product authenticity verification
+
+## Phase 33: End-to-End Testing & Final Deployment - ASSIGNED TO: MANUS (QA) 🚀 IN PROGRESS
+- [ ] Test user registration flow
+- [ ] Test profile creation and editing
+- [ ] Test shopping cart functionality
+- [ ] Test invoice generation
+- [ ] Test currency display
+- [ ] Test best practices content display
+- [ ] Test training programs display
+- [ ] Test Virtual Pet Avatar creation
+- [ ] Test bilingual support (Arabic/English)
+- [ ] Performance testing
+- [ ] Security testing
+- [ ] Save final checkpoint
+- [ ] Deploy to production
