@@ -29,6 +29,9 @@ import PetProfileCreation from "./pages/PetProfileCreation";
 import VirtualPetCompanion from "./pages/VirtualPetCompanion";
 import UserProfile from "./pages/UserProfile";
 import VetClinicSearch from "./pages/VetClinicSearch";
+import RatingReviewSystem from "./pages/RatingReviewSystem";
+import BookingSystem from "./pages/BookingSystem";
+import ShoppingCart from "./pages/ShoppingCart";
 
 function Router() {
   // make sure to consider if you need authentication for certain routes
@@ -39,6 +42,9 @@ function Router() {
       <Route path={"/pet-companion"} component={VirtualPetCompanion} />
       <Route path={"/profile"} component={UserProfile} />
       <Route path={"/vet-clinic-search"} component={VetClinicSearch} />
+      <Route path={"/ratings-reviews"} component={RatingReviewSystem} />
+      <Route path={"/booking"} component={BookingSystem} />
+      <Route path={"/shopping-cart"} component={ShoppingCart} />
       <Route path={"/landing"} component={Landing} />
       <Route path={"/"} component={Home} />
       <Route path={"/dashboard"} component={Dashboard} />
