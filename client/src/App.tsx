@@ -23,11 +23,17 @@ import NaturalAlternativesPage from "./pages/NaturalAlternativesPage";
 import TrainingProgramsPage from "./pages/TrainingProgramsPage";
 import BestPracticesPage from "./pages/BestPracticesPage";
 import VirtualPetAvatarPage from "./pages/VirtualPetAvatarPage";
+import Landing from "./pages/Landing";
+import PetSelectionLanding from "./pages/PetSelectionLanding";
+import PetProfileCreation from "./pages/PetProfileCreation";
 
 function Router() {
   // make sure to consider if you need authentication for certain routes
   return (
     <Switch>
+      <Route path={"/pet-selection/:species?"} component={PetSelectionLanding} />
+      <Route path={"/pet-selection/:species/create"} component={PetProfileCreation} />
+      <Route path={"/landing"} component={Landing} />
       <Route path={"/"} component={Home} />
       <Route path={"/dashboard"} component={Dashboard} />
       <Route path={"/symptom-checker"} component={SymptomChecker} />

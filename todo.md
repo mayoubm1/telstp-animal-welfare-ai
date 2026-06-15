@@ -543,57 +543,166 @@
 - [ ] Add currency symbol and formatting throughout the app
 - [ ] Test currency display on all pages
 
-## Phase 29: Build User Registration System - ASSIGNED TO: MANUS (Backend) 🚀 IN PROGRESS
-- [ ] Create registration page for pet owners
-- [ ] Create registration page for veterinarians
-- [ ] Create registration page for clinic owners
-- [ ] Add email verification system
-- [ ] Add role-based registration flow
-- [ ] Add validation and error handling
-- [ ] Create login/logout functionality
-- [ ] Add password reset functionality
+## Phase 29: Uber-Style Marketplace Schema - ASSIGNED TO: MANUS (Backend) ✅ COMPLETE
+- [x] Create users table with roles (pet_owner, vet, clinic_owner, vendor)
+- [x] Create veterinarian_profiles table (credentials, specializations, clinic_id, rating, stars)
+- [x] Create clinic_profiles table (location, services, contact, rating, stars, registration_fee_paid)
+- [x] Create clinic_vets junction table (many-to-many relationship)
+- [x] Create ratings_reviews table (for vets, clinics, products)
+- [x] Create bookings table (service reservations with payment status)
+- [x] Create shopping_cart table (products with quantities)
+- [x] Create invoices table (order history and financial records)
+- [x] Create wallets table (financial tracking for vets/clinics/vendors)
+- [x] Create transactions table (commission tracking and payments)
+- [x] Create vendor_profiles table (product sellers with ratings)
+- [x] Add RLS policies for all new tables
 
-## Phase 30: Create User Profiles - ASSIGNED TO: MANUS (Frontend/Backend) 🚀 IN PROGRESS
-- [ ] Build veterinarian profile page (credentials, specializations, clinic info)
-- [ ] Build clinic profile page (location, services, veterinarians, contact)
-- [ ] Build pet owner profile page (personal info, pets, preferences)
-- [ ] Add profile editing functionality
+## Phase 30: User Registration & Authentication - ASSIGNED TO: MANUS (Backend) ✅ COMPLETE
+- [x] Create registration tRPC router with role-based flows
+- [x] Build pet owner registration procedure
+- [x] Build freelance vet registration procedure (free)
+- [x] Build clinic-linked vet registration procedure (with clinic_id)
+- [x] Build clinic owner registration procedure (paid registration)
+- [x] Build vendor/shop registration procedure
+- [x] Add profile completion validation
+- [x] Create login/logout functionality
+- [x] Implement role-based access control
+- [ ] Add email verification system (future enhancement)
+- [ ] Add password reset functionality (future enhancement)
+
+## Phase 31: User Profile Pages - ASSIGNED TO: MANUS (Frontend) 🚀 IN PROGRESS
+- [ ] Create pet owner profile page (personal info, pets, booking history, ratings given)
+- [ ] Create veterinarian profile page (credentials, specializations, clinic affiliation, rating/stars, wallet)
+- [ ] Create clinic profile page (location, services, vets, contact, rating/stars, photos)
+- [ ] Create vendor profile page (products, ratings, reviews, contact)
+- [ ] Add profile editing functionality for all roles
 - [ ] Add profile verification badges
-- [ ] Create doctor search/discovery based on profiles
-- [ ] Add reviews and ratings for veterinarians
 - [ ] Add profile completeness indicator
+- [ ] Create profile photo upload
+- [ ] Add credential/license upload for vets and clinics
+- [ ] Implement profile view counter
 
-## Phase 31: Build Shopping Cart & Invoices - ASSIGNED TO: MANUS (Backend/Frontend) 🚀 IN PROGRESS
+## Phase 32: Vet/Clinic Search & Discovery - ASSIGNED TO: MANUS (Frontend/Backend) 🚀 IN PROGRESS
+- [ ] Create search page for veterinarians (filter by specialization, rating, location)
+- [ ] Create search page for clinics (filter by services, rating, location, emergency)
+- [ ] Add advanced filtering (availability, price range, languages)
+- [ ] Build vet/clinic cards with ratings and reviews
+- [ ] Add map integration for location-based search
+- [ ] Create "Top Rated" and "Trending" sections
+- [ ] Build clinic detail page with full information
+- [ ] Add vet detail page with credentials and specializations
+- [ ] Implement search history and saved favorites
+- [ ] Create recommendation algorithm based on pet type
+
+## Phase 33: Rating & Review System - ASSIGNED TO: MANUS (Backend/Frontend) 🚀 IN PROGRESS
+- [ ] Create rating submission form (1-5 stars + text review)
+- [ ] Build rating display component for vets/clinics/products
+- [ ] Add review verification (only users who booked can review)
+- [ ] Create review moderation system
+- [ ] Build rating aggregation and statistics
+- [ ] Add helpful/unhelpful voting on reviews
+- [ ] Create rating history timeline
+- [ ] Implement review photos/media upload
+- [ ] Build rating badges (Top Rated, Verified Reviewer, etc.)
+- [ ] Add response system for vets/clinics to reply to reviews
+
+## Phase 34: Booking System & Payment Integration - ASSIGNED TO: MANUS (Backend/Frontend) 🚀 IN PROGRESS
+- [ ] Create booking form with date/time selection
+- [ ] Build availability calendar for vets/clinics
+- [ ] Create booking confirmation page
+- [ ] Build payment integration (Stripe/Fawry for Egypt)
+- [ ] Implement commission calculation (platform takes %, vet/clinic gets %)
+- [ ] Create booking history and tracking
+- [ ] Add booking cancellation and rescheduling
+- [ ] Build booking reminders (SMS/email)
+- [ ] Create booking status updates (pending, confirmed, completed, cancelled)
+- [ ] Implement refund processing
+
+## Phase 35: Shopping Cart & Invoice System - ASSIGNED TO: MANUS (Backend/Frontend) 🚀 IN PROGRESS
 - [ ] Create shopping cart database table
-- [ ] Build add-to-cart functionality
-- [ ] Create cart display page
-- [ ] Build checkout process
+- [ ] Build add-to-cart functionality for products
+- [ ] Create cart display page with quantity adjustment
+- [ ] Build checkout process with address entry
 - [ ] Create invoice generation system
 - [ ] Add order history tracking
-- [ ] Implement payment integration placeholder
+- [ ] Implement payment integration for products
 - [ ] Create invoice PDF export
 - [ ] Add email invoice delivery
+- [ ] Build order tracking and status updates
+- [ ] Implement vendor commission tracking
 
-## Phase 32: Research Product Sourcing - ASSIGNED TO: MANUS (Research) 🚀 IN PROGRESS
-- [ ] Research Egyptian pet product suppliers
-- [ ] Identify verified natural product sources
-- [ ] Create supplier database
-- [ ] Establish product verification process
-- [ ] Create supplier partnership agreements
-- [ ] Build supplier management dashboard
-- [ ] Add product authenticity verification
+## Phase 36: Financial Dashboard & Wallet System - ASSIGNED TO: MANUS (Backend/Frontend) 🚀 IN PROGRESS
+- [ ] Create wallet page for vets (earnings, commissions, balance)
+- [ ] Create wallet page for clinics (earnings, registration fees, balance)
+- [ ] Create wallet page for vendors (sales, commissions, balance)
+- [ ] Build transaction history with filters
+- [ ] Add withdrawal request system
+- [ ] Create payment method management (bank account, mobile wallet)
+- [ ] Build financial statistics and charts
+- [ ] Implement tax calculation and reporting
+- [ ] Add referral bonus tracking
+- [ ] Create financial alerts and notifications
 
-## Phase 33: End-to-End Testing & Final Deployment - ASSIGNED TO: MANUS (QA) 🚀 IN PROGRESS
-- [ ] Test user registration flow
+## Phase 37: Validation & User-Generated Data - ASSIGNED TO: MANUS (Backend) 🚀 IN PROGRESS
+- [ ] Create data validation system for user inputs
+- [ ] Build clinic location verification (Google Maps integration)
+- [ ] Add vet credential verification system
+- [ ] Create product authenticity verification
+- [ ] Build admin approval workflow for new clinics/vets
+- [ ] Implement user feedback system for data updates
+- [ ] Create data quality scoring
+- [ ] Add automated data validation rules
+- [ ] Build manual review queue for flagged entries
+- [ ] Create audit trail for all data changes
+
+## Phase 38: End-to-End Testing & Final Deployment - ASSIGNED TO: MANUS (QA) 🚀 IN PROGRESS
+- [ ] Test complete user registration flow (all roles)
 - [ ] Test profile creation and editing
-- [ ] Test shopping cart functionality
-- [ ] Test invoice generation
-- [ ] Test currency display
-- [ ] Test best practices content display
-- [ ] Test training programs display
-- [ ] Test Virtual Pet Avatar creation
+- [ ] Test vet/clinic search and discovery
+- [ ] Test rating and review submission
+- [ ] Test booking system with payment
+- [ ] Test shopping cart and invoice generation
+- [ ] Test financial dashboard and wallet
+- [ ] Test currency display (EGP)
 - [ ] Test bilingual support (Arabic/English)
-- [ ] Performance testing
-- [ ] Security testing
+- [ ] Performance testing with concurrent users
+- [ ] Security testing (payment, data access)
+- [ ] Mobile responsiveness testing
 - [ ] Save final checkpoint
 - [ ] Deploy to production
+
+
+## Phase 31: Animated Landing Page with Paws & Purpose Design - ASSIGNED TO: MANUS (Frontend) ✅ COMPLETE
+- [x] Create landing page component with magical golden aesthetic
+- [x] Implement animated sections for: Shop, Food, Grooming, Toys, Bedding, Supplements, Sustainable Living
+- [x] Add hover animations that highlight sections on mouse over
+- [x] Create interactive navigation to category pages
+- [x] Add pet type selector (Dogs, Cats, Rabbits, Birds, Exotic Pets)
+- [x] Implement smooth scroll and parallax effects
+- [x] Add glowing portal effect in center
+- [x] Create responsive design for mobile/tablet
+- [x] Add loading animations and transitions
+- [x] Implement accessibility features (keyboard navigation, ARIA labels)
+
+## Phase 32: Interactive Pet Selection Landing with Animations - ASSIGNED TO: MANUS (Frontend) ✅ COMPLETE
+- [x] Create pet selection page with 3 pets (Dog, Cat, Rabbit)
+- [x] Implement pet sound effects on hover/click
+- [x] Add physical pet movement animations to cursor/click position
+- [x] Create smooth easing animations for pet movement
+- [x] Add sound playing indicators with bounce animations
+- [x] Implement pet stats display on selection
+- [x] Create responsive design for all screen sizes
+- [x] Add glowing portal effect in center
+- [x] Implement smooth transitions and hover effects
+
+## Phase 33: Pet Profile Creation Page - ASSIGNED TO: MANUS (Frontend) ✅ COMPLETE
+- [x] Create multi-step pet profile form (2 steps)
+- [x] Step 1: Basic info (name, breed, age, weight, color)
+- [x] Step 2: Medical info (microchip, medical history)
+- [x] Add breed selection based on pet type
+- [x] Implement form validation
+- [x] Create profile summary display
+- [x] Add progress indicator
+- [x] Implement navigation between steps
+- [x] Connect to pet creation API
+- [x] Add loading states and error handling

@@ -578,3 +578,287 @@ export const avatarAchievements = mysqlTable("avatarAchievements", {
 
 export type AvatarAchievement = typeof avatarAchievements.$inferSelect;
 export type InsertAvatarAchievement = typeof avatarAchievements.$inferInsert;
+
+/**
+ * Veterinarian Profiles - Extended vet information with ratings
+ */
+export const veterinarianProfiles = mysqlTable("veterinarianProfiles", {
+  id: int("id").autoincrement().primaryKey(),
+  userId: int("userId").notNull().unique(),
+  licenseNumber: varchar("licenseNumber", { length: 255 }).notNull().unique(),
+  licenseImageUrl: varchar("licenseImageUrl", { length: 512 }),
+  specializations: json("specializations"), // Array of specializations
+  specializationsAr: json("specializationsAr"),
+  bio: longtext("bio"),
+  bioAr: longtext("bioAr"),
+  profileImageUrl: varchar("profileImageUrl", { length: 512 }),
+  clinicId: int("clinicId"), // For clinic-linked vets (null for freelance)
+  isFreelance: boolean("isFreelance").default(true),
+  registrationFeeStatus: mysqlEnum("registrationFeeStatus", ["pending", "paid", "free"]).default("free"),
+  registrationFeePaidAt: timestamp("registrationFeePaidAt"),
+  verified: boolean("verified").default(false),
+  verifiedAt: timestamp("verifiedAt"),
+  rating: decimal("rating", { precision: 3, scale: 2 }).default("0"),
+  totalReviews: int("totalReviews").default(0),
+  responseTime: int("responseTime"), // Average response time in minutes
+  yearsOfExperience: int("yearsOfExperience"),
+  languages: json("languages"), // Array of languages spoken
+  consultationFee: decimal("consultationFee", { precision: 10, scale: 2 }), // In EGP
+  availability: json("availability"), // Weekly availability schedule
+  createdAt: timestamp("createdAt").defaultNow().notNull(),
+  updatedAt: timestamp("updatedAt").defaultNow().onUpdateNow().notNull(),
+});
+
+export type VeterinarianProfile = typeof veterinarianProfiles.$inferSelect;
+export type InsertVeterinarianProfile = typeof veterinarianProfiles.$inferInsert;
+
+/**
+ * Clinic Profiles - Enhanced clinic information with ownership and ratings
+ */
+export const clinicProfiles = mysqlTable("clinicProfiles", {
+  id: int("id").autoincrement().primaryKey(),
+  clinicId: int("clinicId").notNull().unique(),
+  ownerId: int("ownerId").notNull(), // User ID of clinic owner
+  registrationFeeStatus: mysqlEnum("registrationFeeStatus", ["pending", "paid"]).default("pending"),
+  registrationFeePaidAt: timestamp("registrationFeePaidAt"),
+  registrationFeeAmount: decimal("registrationFeeAmount", { precision: 10, scale: 2 }), // In EGP
+  licenseNumber: varchar("licenseNumber", { length: 255 }),
+  licenseImageUrl: varchar("licenseImageUrl", { length: 512 }),
+  coverImageUrl: varchar("coverImageUrl", { length: 512 }),
+  verified: boolean("verified").default(false),
+  verifiedAt: timestamp("verifiedAt"),
+  rating: decimal("rating", { precision: 3, scale: 2 }).default("0"),
+  totalReviews: int("totalReviews").default(0),
+  services: json("services"), // Array of services offered
+  servicesAr: json("servicesAr"),
+  staffCount: int("staffCount"),
+  yearEstablished: int("yearEstablished"),
+  bankAccount: varchar("bankAccount", { length: 255 }), // For payouts
+  bankName: varchar("bankName", { length: 255 }),
+  createdAt: timestamp("createdAt").defaultNow().notNull(),
+  updatedAt: timestamp("updatedAt").defaultNow().onUpdateNow().notNull(),
+});
+
+export type ClinicProfile = typeof clinicProfiles.$inferSelect;
+export type InsertClinicProfile = typeof clinicProfiles.$inferInsert;
+
+/**
+ * Clinic-Veterinarian Relationship - Many-to-many junction table
+ */
+export const clinicVets = mysqlTable("clinicVets", {
+  id: int("id").autoincrement().primaryKey(),
+  clinicId: int("clinicId").notNull(),
+  veterinarianId: int("veterinarianId").notNull(),
+  position: varchar("position", { length: 255 }), // e.g., "Head Vet", "Associate"
+  joinedAt: timestamp("joinedAt").defaultNow().notNull(),
+  createdAt: timestamp("createdAt").defaultNow().notNull(),
+});
+
+export type ClinicVet = typeof clinicVets.$inferSelect;
+export type InsertClinicVet = typeof clinicVets.$inferInsert;
+
+/**
+ * Ratings and Reviews - For vets, clinics, and products
+ */
+export const ratingsReviews = mysqlTable("ratingsReviews", {
+  id: int("id").autoincrement().primaryKey(),
+  reviewerId: int("reviewerId").notNull(), // User who wrote the review
+  targetType: mysqlEnum("targetType", ["vet", "clinic", "product"]).notNull(),
+  targetId: int("targetId").notNull(), // ID of vet, clinic, or product
+  rating: int("rating").notNull(), // 1-5 stars
+  title: varchar("title", { length: 255 }),
+  comment: longtext("comment"),
+  verifiedBooking: boolean("verifiedBooking").default(false), // Only verified bookings can review
+  bookingId: int("bookingId"), // Reference to booking if applicable
+  helpful: int("helpful").default(0), // Count of helpful votes
+  unhelpful: int("unhelpful").default(0),
+  response: longtext("response"), // Vet/clinic response to review
+  responseAt: timestamp("responseAt"),
+  respondedBy: int("respondedBy"), // User ID who responded
+  imageUrls: json("imageUrls"), // Array of review images
+  status: mysqlEnum("status", ["pending", "approved", "rejected"]).default("pending"),
+  createdAt: timestamp("createdAt").defaultNow().notNull(),
+  updatedAt: timestamp("updatedAt").defaultNow().onUpdateNow().notNull(),
+});
+
+export type RatingReview = typeof ratingsReviews.$inferSelect;
+export type InsertRatingReview = typeof ratingsReviews.$inferInsert;
+
+/**
+ * Bookings - Service reservations with payment tracking
+ */
+export const bookings = mysqlTable("bookings", {
+  id: int("id").autoincrement().primaryKey(),
+  petOwnerId: int("petOwnerId").notNull(),
+  petId: int("petId").notNull(),
+  veterinarianId: int("veterinarianId"),
+  clinicId: int("clinicId"),
+  serviceType: mysqlEnum("serviceType", ["consultation", "examination", "surgery", "grooming", "vaccination", "other"]).notNull(),
+  bookingDate: timestamp("bookingDate").notNull(),
+  duration: int("duration"), // Duration in minutes
+  status: mysqlEnum("status", ["pending", "confirmed", "in_progress", "completed", "cancelled", "no_show"]).default("pending"),
+  notes: longtext("notes"),
+  consultationFee: decimal("consultationFee", { precision: 10, scale: 2 }), // In EGP
+  commissionPercentage: decimal("commissionPercentage", { precision: 5, scale: 2 }).default("20"), // Platform commission %
+  platformCommission: decimal("platformCommission", { precision: 10, scale: 2 }), // Calculated commission
+  vetEarnings: decimal("vetEarnings", { precision: 10, scale: 2 }), // Vet's earnings after commission
+  paymentStatus: mysqlEnum("paymentStatus", ["pending", "completed", "refunded"]).default("pending"),
+  paymentMethod: varchar("paymentMethod", { length: 255 }), // e.g., "credit_card", "wallet", "bank_transfer"
+  transactionId: varchar("transactionId", { length: 255 }), // Payment gateway transaction ID
+  cancellationReason: varchar("cancellationReason", { length: 255 }),
+  cancelledBy: mysqlEnum("cancelledBy", ["pet_owner", "vet", "clinic", "admin"]),
+  cancelledAt: timestamp("cancelledAt"),
+  completedAt: timestamp("completedAt"),
+  createdAt: timestamp("createdAt").defaultNow().notNull(),
+  updatedAt: timestamp("updatedAt").defaultNow().onUpdateNow().notNull(),
+});
+
+export type Booking = typeof bookings.$inferSelect;
+export type InsertBooking = typeof bookings.$inferInsert;
+
+/**
+ * Shopping Cart - Products added to cart
+ */
+export const shoppingCart = mysqlTable("shoppingCart", {
+  id: int("id").autoincrement().primaryKey(),
+  userId: int("userId").notNull(),
+  productId: int("productId").notNull(), // Reference to naturalAlternatives
+  quantity: int("quantity").notNull().default(1),
+  priceAtAddTime: decimal("priceAtAddTime", { precision: 10, scale: 2 }), // Price in EGP at time of adding
+  addedAt: timestamp("addedAt").defaultNow().notNull(),
+  updatedAt: timestamp("updatedAt").defaultNow().onUpdateNow().notNull(),
+});
+
+export type ShoppingCart = typeof shoppingCart.$inferSelect;
+export type InsertShoppingCart = typeof shoppingCart.$inferInsert;
+
+/**
+ * Invoices - Order records with line items
+ */
+export const invoices = mysqlTable("invoices", {
+  id: int("id").autoincrement().primaryKey(),
+  invoiceNumber: varchar("invoiceNumber", { length: 255 }).notNull().unique(),
+  buyerId: int("buyerId").notNull(),
+  sellerId: int("sellerId"), // Vendor/shop owner (null for service bookings)
+  invoiceType: mysqlEnum("invoiceType", ["product_order", "service_booking"]).notNull(),
+  bookingId: int("bookingId"), // For service bookings
+  subtotal: decimal("subtotal", { precision: 10, scale: 2 }).notNull(), // In EGP
+  taxAmount: decimal("taxAmount", { precision: 10, scale: 2 }).default("0"),
+  shippingCost: decimal("shippingCost", { precision: 10, scale: 2 }).default("0"),
+  platformCommission: decimal("platformCommission", { precision: 10, scale: 2 }).default("0"),
+  totalAmount: decimal("totalAmount", { precision: 10, scale: 2 }).notNull(),
+  paymentStatus: mysqlEnum("paymentStatus", ["pending", "completed", "failed", "refunded"]).default("pending"),
+  paymentMethod: varchar("paymentMethod", { length: 255 }),
+  transactionId: varchar("transactionId", { length: 255 }),
+  shippingAddress: longtext("shippingAddress"),
+  shippingStatus: mysqlEnum("shippingStatus", ["pending", "shipped", "delivered", "cancelled"]).default("pending"),
+  trackingNumber: varchar("trackingNumber", { length: 255 }),
+  notes: longtext("notes"),
+  lineItems: json("lineItems"), // Array of {productId, quantity, price, total}
+  createdAt: timestamp("createdAt").defaultNow().notNull(),
+  updatedAt: timestamp("updatedAt").defaultNow().onUpdateNow().notNull(),
+});
+
+export type Invoice = typeof invoices.$inferSelect;
+export type InsertInvoice = typeof invoices.$inferInsert;
+
+/**
+ * Wallets - Financial accounts for vets, clinics, and vendors
+ */
+export const wallets = mysqlTable("wallets", {
+  id: int("id").autoincrement().primaryKey(),
+  userId: int("userId").notNull().unique(),
+  walletType: mysqlEnum("walletType", ["vet", "clinic", "vendor", "pet_owner"]).notNull(),
+  balance: decimal("balance", { precision: 15, scale: 2 }).default("0"), // In EGP
+  totalEarnings: decimal("totalEarnings", { precision: 15, scale: 2 }).default("0"),
+  totalWithdrawals: decimal("totalWithdrawals", { precision: 15, scale: 2 }).default("0"),
+  totalCommissions: decimal("totalCommissions", { precision: 15, scale: 2 }).default("0"),
+  bankAccount: varchar("bankAccount", { length: 255 }),
+  bankName: varchar("bankName", { length: 255 }),
+  accountHolder: varchar("accountHolder", { length: 255 }),
+  verificationStatus: mysqlEnum("verificationStatus", ["unverified", "pending", "verified"]).default("unverified"),
+  verifiedAt: timestamp("verifiedAt"),
+  lastWithdrawalAt: timestamp("lastWithdrawalAt"),
+  createdAt: timestamp("createdAt").defaultNow().notNull(),
+  updatedAt: timestamp("updatedAt").defaultNow().onUpdateNow().notNull(),
+});
+
+export type Wallet = typeof wallets.$inferSelect;
+export type InsertWallet = typeof wallets.$inferInsert;
+
+/**
+ * Transactions - Financial transaction records
+ */
+export const transactions = mysqlTable("transactions", {
+  id: int("id").autoincrement().primaryKey(),
+  walletId: int("walletId").notNull(),
+  transactionType: mysqlEnum("transactionType", [
+    "booking_payment",
+    "product_sale",
+    "commission_deduction",
+    "withdrawal",
+    "refund",
+    "bonus",
+    "registration_fee"
+  ]).notNull(),
+  amount: decimal("amount", { precision: 15, scale: 2 }).notNull(), // In EGP
+  description: varchar("description", { length: 512 }),
+  relatedBookingId: int("relatedBookingId"),
+  relatedInvoiceId: int("relatedInvoiceId"),
+  status: mysqlEnum("status", ["pending", "completed", "failed"]).default("pending"),
+  paymentMethod: varchar("paymentMethod", { length: 255 }),
+  externalTransactionId: varchar("externalTransactionId", { length: 255 }), // From payment gateway
+  notes: longtext("notes"),
+  createdAt: timestamp("createdAt").defaultNow().notNull(),
+  updatedAt: timestamp("updatedAt").defaultNow().onUpdateNow().notNull(),
+});
+
+export type Transaction = typeof transactions.$inferSelect;
+export type InsertTransaction = typeof transactions.$inferInsert;
+
+/**
+ * Vendor Profiles - Product sellers
+ */
+export const vendorProfiles = mysqlTable("vendorProfiles", {
+  id: int("id").autoincrement().primaryKey(),
+  userId: int("userId").notNull().unique(),
+  businessName: varchar("businessName", { length: 255 }).notNull(),
+  businessNameAr: varchar("businessNameAr", { length: 255 }),
+  description: longtext("description"),
+  descriptionAr: longtext("descriptionAr"),
+  logoUrl: varchar("logoUrl", { length: 512 }),
+  coverImageUrl: varchar("coverImageUrl", { length: 512 }),
+  businessLicense: varchar("businessLicense", { length: 255 }),
+  businessLicenseImageUrl: varchar("businessLicenseImageUrl", { length: 512 }),
+  category: mysqlEnum("category", [
+    "organic_food",
+    "natural_treats",
+    "eco_supplies",
+    "toys_enrichment",
+    "grooming",
+    "training_tools",
+    "supplements",
+    "bedding",
+    "other"
+  ]).notNull(),
+  website: varchar("website", { length: 512 }),
+  phone: varchar("phone", { length: 20 }),
+  email: varchar("email", { length: 320 }),
+  address: varchar("address", { length: 512 }),
+  city: varchar("city", { length: 255 }),
+  country: varchar("country", { length: 255 }),
+  rating: decimal("rating", { precision: 3, scale: 2 }).default("0"),
+  totalReviews: int("totalReviews").default(0),
+  verified: boolean("verified").default(false),
+  verifiedAt: timestamp("verifiedAt"),
+  totalProducts: int("totalProducts").default(0),
+  totalSales: int("totalSales").default(0),
+  responseTime: int("responseTime"), // Average response time in hours
+  returnPolicy: longtext("returnPolicy"),
+  shippingInfo: longtext("shippingInfo"),
+  createdAt: timestamp("createdAt").defaultNow().notNull(),
+  updatedAt: timestamp("updatedAt").defaultNow().onUpdateNow().notNull(),
+});
+
+export type VendorProfile = typeof vendorProfiles.$inferSelect;
+export type InsertVendorProfile = typeof vendorProfiles.$inferInsert;

@@ -18,6 +18,7 @@ import { trainingProgramsRouter } from "./routers/training-programs";
 import { bestPracticesRouter } from "./routers/best-practices";
 import { petFileSharingRouter } from "./routers/pet-file-sharing";
 import { virtualPetAvatarRouter } from "./routers/virtual-pet-avatar";
+import { registrationRouter } from "./routers/registration";
 import {
   createPet,
   getPetsByUserId,
@@ -59,6 +60,9 @@ export const appRouter = router({
       } as const;
     }),
   }),
+
+  // ============ USER REGISTRATION & MARKETPLACE ============
+  registration: registrationRouter,
 
   // ============ PET MANAGEMENT ============
   pets: petsRouter,
