@@ -26,6 +26,9 @@ import VirtualPetAvatarPage from "./pages/VirtualPetAvatarPage";
 import Landing from "./pages/Landing";
 import PetSelectionLanding from "./pages/PetSelectionLanding";
 import PetProfileCreation from "./pages/PetProfileCreation";
+import VirtualPetCompanion from "./pages/VirtualPetCompanion";
+import UserProfile from "./pages/UserProfile";
+import VetClinicSearch from "./pages/VetClinicSearch";
 
 function Router() {
   // make sure to consider if you need authentication for certain routes
@@ -33,6 +36,9 @@ function Router() {
     <Switch>
       <Route path={"/pet-selection/:species?"} component={PetSelectionLanding} />
       <Route path={"/pet-selection/:species/create"} component={PetProfileCreation} />
+      <Route path={"/pet-companion"} component={VirtualPetCompanion} />
+      <Route path={"/profile"} component={UserProfile} />
+      <Route path={"/vet-clinic-search"} component={VetClinicSearch} />
       <Route path={"/landing"} component={Landing} />
       <Route path={"/"} component={Home} />
       <Route path={"/dashboard"} component={Dashboard} />

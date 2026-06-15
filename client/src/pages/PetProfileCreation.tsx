@@ -74,8 +74,8 @@ export default function PetProfileCreation() {
         medicalHistory: formData.medicalHistory || "",
       })
 
-      // Navigate to pet dashboard
-      setLocation("/virtual-pet-avatar");
+      // Navigate to pet companion dashboard
+      setLocation("/pet-companion");
     } catch (error) {
       console.error("Error creating pet:", error);
       alert("Error creating pet. Please try again.");
