@@ -32,6 +32,7 @@ import VetClinicSearch from "./pages/VetClinicSearch";
 import RatingReviewSystem from "./pages/RatingReviewSystem";
 import BookingSystem from "./pages/BookingSystem";
 import ShoppingCart from "./pages/ShoppingCart";
+import FinancialDashboard from "./pages/FinancialDashboard";
 
 function Router() {
   // make sure to consider if you need authentication for certain routes
@@ -45,6 +46,7 @@ function Router() {
       <Route path={"/ratings-reviews"} component={RatingReviewSystem} />
       <Route path={"/booking"} component={BookingSystem} />
       <Route path={"/shopping-cart"} component={ShoppingCart} />
+      <Route path={"/financial-dashboard"} component={FinancialDashboard} />
       <Route path={"/landing"} component={Landing} />
       <Route path={"/"} component={Home} />
       <Route path={"/dashboard"} component={Dashboard} />
