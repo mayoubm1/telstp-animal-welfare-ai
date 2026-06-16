@@ -24,6 +24,7 @@ import TrainingProgramsPage from "./pages/TrainingProgramsPage";
 import BestPracticesPage from "./pages/BestPracticesPage";
 import VirtualPetAvatarPage from "./pages/VirtualPetAvatarPage";
 import Landing from "./pages/Landing";
+import PawsAndPurposeLanding from "./pages/PawsAndPurposeLanding";
 import PetSelectionLanding from "./pages/PetSelectionLanding";
 import PetProfileCreation from "./pages/PetProfileCreation";
 import VirtualPetCompanion from "./pages/VirtualPetCompanion";
@@ -48,7 +49,8 @@ function Router() {
       <Route path={"/shopping-cart"} component={ShoppingCart} />
       <Route path={"/financial-dashboard"} component={FinancialDashboard} />
       <Route path={"/landing"} component={Landing} />
-      <Route path={"/"} component={Home} />
+      <Route path={"/"} component={PawsAndPurposeLanding} />
+      <Route path={"/home-v3"} component={Home} />
       <Route path={"/dashboard"} component={Dashboard} />
       <Route path={"/symptom-checker"} component={SymptomChecker} />
       <Route path={"/knowledge-base"} component={KnowledgeBase} />
