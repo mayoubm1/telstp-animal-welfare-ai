@@ -49,7 +49,7 @@ function Router() {
       <Route path={"/shopping-cart"} component={ShoppingCart} />
       <Route path={"/financial-dashboard"} component={FinancialDashboard} />
       <Route path={"/landing"} component={Landing} />
-      <Route path={"/"} component={PawsAndPurposeLanding} />
+      <Route path={"/"} component={Home} />
       <Route path={"/home-v3"} component={Home} />
       <Route path={"/dashboard"} component={Dashboard} />
       <Route path={"/symptom-checker"} component={SymptomChecker} />
