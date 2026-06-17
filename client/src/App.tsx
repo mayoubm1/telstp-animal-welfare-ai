@@ -15,6 +15,7 @@ import VetDashboard from "./pages/VetDashboard";
 import VetRegistration from "./pages/VetRegistration";
 import ClinicLocator from "./pages/ClinicLocator";
 import EmergencyTriage from "./pages/EmergencyTriage";
+import EmergencyMedications from "./pages/EmergencyMedications";
 import CaseHistory from "./pages/CaseHistory";
 import ImageUploadTriage from "./pages/ImageUploadTriage";
 import AIVisualDiagnosis from "./pages/AIVisualDiagnosis";
@@ -22,6 +23,7 @@ import EducationHub from "./pages/EducationHub";
 import NaturalAlternativesPage from "./pages/NaturalAlternativesPage";
 import TrainingProgramsPage from "./pages/TrainingProgramsPage";
 import BestPracticesPage from "./pages/BestPracticesPage";
+import BestPracticesEnhanced from "./pages/BestPracticesEnhanced";
 import VirtualPetAvatarPage from "./pages/VirtualPetAvatarPage";
 import Landing from "./pages/Landing";
 import PawsAndPurposeLanding from "./pages/PawsAndPurposeLanding";
@@ -60,13 +62,15 @@ function Router() {
       <Route path={"/vet-registration"} component={VetRegistration} />
       <Route path={"/clinic-locator"} component={ClinicLocator} />
       <Route path={"/emergency-triage"} component={EmergencyTriage} />
+      <Route path={"/emergency-medications"} component={EmergencyMedications} />
       <Route path={"/case-history"} component={CaseHistory} />
       <Route path={"/image-upload"} component={ImageUploadTriage} />
       <Route path="/ai-diagnosis" component={AIVisualDiagnosis} />
       <Route path="/education" component={EducationHub} />
       <Route path="/natural-alternatives" component={NaturalAlternativesPage} />
       <Route path="/training-programs" component={TrainingProgramsPage} />
-      <Route path="/best-practices" component={BestPracticesPage} />
+      <Route path={"/best-practices"} component={BestPracticesPage} />
+      <Route path={"/best-practices-enhanced"} component={BestPracticesEnhanced} />
       <Route path="/virtual-pet-avatar" component={VirtualPetAvatarPage} />
       <Route path="/404" component={NotFound} />
       {/* Final fallback route */}
