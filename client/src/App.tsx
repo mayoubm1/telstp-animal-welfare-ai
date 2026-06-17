@@ -37,6 +37,8 @@ import RatingReviewSystem from "./pages/RatingReviewSystem";
 import BookingSystem from "./pages/BookingSystem";
 import ShoppingCart from "./pages/ShoppingCart";
 import FinancialDashboard from "./pages/FinancialDashboard";
+import EducationHubEnhanced from "./pages/EducationHubEnhanced";
+import TrainingProgramsEnhanced from "./pages/TrainingProgramsEnhanced";
 
 function Router() {
   // make sure to consider if you need authentication for certain routes
@@ -69,8 +71,10 @@ function Router() {
       <Route path={"/image-upload"} component={ImageUploadTriage} />
       <Route path="/ai-diagnosis" component={AIVisualDiagnosis} />
       <Route path="/education" component={EducationHub} />
+      <Route path="/education-enhanced" component={EducationHubEnhanced} />
       <Route path="/natural-alternatives" component={NaturalAlternativesPage} />
       <Route path="/training-programs" component={TrainingProgramsPage} />
+      <Route path="/training-programs-enhanced" component={TrainingProgramsEnhanced} />
       <Route path={"/best-practices"} component={BestPracticesPage} />
       <Route path={"/best-practices-enhanced"} component={BestPracticesEnhanced} />
       <Route path="/virtual-pet-avatar" component={VirtualPetAvatarPage} />
