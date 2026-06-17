@@ -16,6 +16,7 @@ import VetRegistration from "./pages/VetRegistration";
 import ClinicLocator from "./pages/ClinicLocator";
 import EmergencyTriage from "./pages/EmergencyTriage";
 import EmergencyMedications from "./pages/EmergencyMedications";
+import OwnerEducation from "./pages/OwnerEducation";
 import CaseHistory from "./pages/CaseHistory";
 import ImageUploadTriage from "./pages/ImageUploadTriage";
 import AIVisualDiagnosis from "./pages/AIVisualDiagnosis";
@@ -63,6 +64,7 @@ function Router() {
       <Route path={"/clinic-locator"} component={ClinicLocator} />
       <Route path={"/emergency-triage"} component={EmergencyTriage} />
       <Route path={"/emergency-medications"} component={EmergencyMedications} />
+      <Route path={"/owner-education"} component={OwnerEducation} />
       <Route path={"/case-history"} component={CaseHistory} />
       <Route path={"/image-upload"} component={ImageUploadTriage} />
       <Route path="/ai-diagnosis" component={AIVisualDiagnosis} />
