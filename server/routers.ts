@@ -20,6 +20,8 @@ import { petFileSharingRouter } from "./routers/pet-file-sharing";
 import { virtualPetAvatarRouter } from "./routers/virtual-pet-avatar";
 import { registrationRouter } from "./routers/registration";
 import { commerceRouter } from "./routers/commerce";
+import { aiRouter } from "./routers/ai-features";
+import { ordersRouter } from "./routers/orders";
 import {
   createPet,
   getPetsByUserId,
@@ -458,6 +460,8 @@ export const appRouter = router({
   petFileSharing: petFileSharingRouter,
   virtualPetAvatar: virtualPetAvatarRouter,
   commerce: commerceRouter,
+  ai: aiRouter,
+  orders: ordersRouter,
   admin: router({
     getCriticalCases: protectedProcedure.query(async ({ ctx }) => {
       if (ctx.user.role !== "admin") throw new Error("Unauthorized");

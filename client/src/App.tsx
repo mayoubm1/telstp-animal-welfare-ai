@@ -39,6 +39,7 @@ import ShoppingCart from "./pages/ShoppingCart";
 import FinancialDashboard from "./pages/FinancialDashboard";
 import EducationHubEnhanced from "./pages/EducationHubEnhanced";
 import TrainingProgramsEnhanced from "./pages/TrainingProgramsEnhanced";
+import NaturalAlternativesEnhanced from "./pages/NaturalAlternativesEnhanced";
 
 function Router() {
   // make sure to consider if you need authentication for certain routes
@@ -73,6 +74,7 @@ function Router() {
       <Route path="/education" component={EducationHub} />
       <Route path="/education-enhanced" component={EducationHubEnhanced} />
       <Route path="/natural-alternatives" component={NaturalAlternativesPage} />
+      <Route path="/natural-alternatives-enhanced" component={NaturalAlternativesEnhanced} />
       <Route path="/training-programs" component={TrainingProgramsPage} />
       <Route path="/training-programs-enhanced" component={TrainingProgramsEnhanced} />
       <Route path={"/best-practices"} component={BestPracticesPage} />
