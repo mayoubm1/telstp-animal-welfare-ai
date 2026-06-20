@@ -1,7 +1,8 @@
 import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
-import { Zap, Target, Trophy } from "lucide-react";
+import { Zap, Target, Trophy, ShoppingBag } from "lucide-react";
+import { ProductPopup } from "@/components/ProductPopup";
 
 const programs = [
   {
@@ -110,6 +111,7 @@ export default function TrainingProgramsEnhanced() {
   const [isArabic, setIsArabic] = useState(true);
   const [selectedProgram, setSelectedProgram] = useState(0);
   const [completedExercises, setCompletedExercises] = useState<number[]>([]);
+  const [showProductPopup, setShowProductPopup] = useState(false);
 
   const program = programs[selectedProgram];
 
@@ -124,7 +126,13 @@ export default function TrainingProgramsEnhanced() {
   );
 
   return (
-    <div className={`min-h-screen bg-gradient-to-br from-slate-950 via-purple-950 to-slate-950 relative overflow-hidden ${isArabic ? "rtl" : "ltr"}`}>
+    <>
+      <ProductPopup
+        isOpen={showProductPopup}
+        onClose={() => setShowProductPopup(false)}
+        context="training"
+      />
+      <div className={`min-h-screen bg-gradient-to-br from-slate-950 via-purple-950 to-slate-950 relative overflow-hidden ${isArabic ? "rtl" : "ltr"}`}>
       {/* Mystical Background */}
       <div className="fixed inset-0 pointer-events-none">
         <div className="absolute top-0 right-1/3 w-96 h-96 bg-purple-500/10 rounded-full blur-3xl animate-pulse" />
@@ -167,6 +175,13 @@ export default function TrainingProgramsEnhanced() {
             className={!isArabic ? "bg-purple-600 hover:bg-purple-700" : ""}
           >
             English
+          </Button>
+          <Button
+            onClick={() => setShowProductPopup(true)}
+            className="bg-gradient-to-r from-amber-400 to-amber-500 text-slate-950 font-bold hover:shadow-lg hover:shadow-amber-400/50"
+          >
+            <ShoppingBag className="w-4 h-4 mr-2" />
+            {isArabic ? "🛍️ احصل على المعدات" : "🛍️ Get Equipment"}
           </Button>
         </div>
       </div>
@@ -306,6 +321,7 @@ export default function TrainingProgramsEnhanced() {
           </CardContent>
         </Card>
       </div>
-    </div>
+      </div>
+    </>
   );
 }

@@ -11,4 +11,6 @@ export const ENV = {
   supabaseAnonKey: process.env.SUPABASE_ANON_KEY ?? "",
   supabaseServiceRoleKey: process.env.SUPABASE_SERVICE_ROLE_KEY ?? "",
   mistralApiKey: process.env.MISTRAL_API_KEY ?? "",
+  shopifyStoreDomain: process.env.SHOPIFY_STORE_DOMAIN ?? "",
+  shopifyStorefrontToken: process.env.SHOPIFY_STOREFRONT_API_ACCESS_TOKEN ?? "",
 };

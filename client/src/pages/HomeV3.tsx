@@ -61,7 +61,7 @@ export default function HomeV3() {
                     {isArabic ? 'ابدأ الآن' : 'Get Started'}
                   </button>
                 </Link>
-                <Link href="/education">
+                <Link href="/education-enhanced">
                   <button className="px-8 py-3 border-2 border-amber-400 text-amber-200 font-bold rounded-lg hover:bg-amber-400/10 transition-all duration-300">
                     {isArabic ? 'تعلم المزيد' : 'Learn More'}
                   </button>
@@ -146,7 +146,7 @@ export default function HomeV3() {
             </Link>
 
             {/* Feature 2: Training Programs */}
-            <Link href="/training-programs">
+            <Link href="/training-programs-enhanced">
               <div className="group relative p-8 bg-gradient-to-br from-amber-900/20 to-slate-900/40 rounded-xl border border-amber-400/20 hover:border-amber-400/50 transition-all duration-300 cursor-pointer hover:shadow-lg hover:shadow-amber-400/20">
                 <div className="absolute inset-0 bg-gradient-to-r from-amber-400/0 via-amber-400/0 to-amber-400/0 group-hover:from-amber-400/10 group-hover:via-amber-400/5 group-hover:to-amber-400/10 rounded-xl transition-all duration-300" />
                 <div className="relative">
@@ -158,7 +158,7 @@ export default function HomeV3() {
             </Link>
 
             {/* Feature 3: Best Practices */}
-            <Link href="/best-practices">
+            <Link href="/best-practices-enhanced">
               <div className="group relative p-8 bg-gradient-to-br from-amber-900/20 to-slate-900/40 rounded-xl border border-amber-400/20 hover:border-amber-400/50 transition-all duration-300 cursor-pointer hover:shadow-lg hover:shadow-amber-400/20">
                 <div className="absolute inset-0 bg-gradient-to-r from-amber-400/0 via-amber-400/0 to-amber-400/0 group-hover:from-amber-400/10 group-hover:via-amber-400/5 group-hover:to-amber-400/10 rounded-xl transition-all duration-300" />
                 <div className="relative">
@@ -201,7 +201,7 @@ export default function HomeV3() {
             </Link>
 
             {/* Feature 6: Education Hub */}
-            <Link href="/education">
+            <Link href="/education-enhanced">
               <div className="group relative p-8 bg-gradient-to-br from-amber-900/20 to-slate-900/40 rounded-xl border border-amber-400/20 hover:border-amber-400/50 transition-all duration-300 cursor-pointer hover:shadow-lg hover:shadow-amber-400/20">
                 <div className="absolute inset-0 bg-gradient-to-r from-amber-400/0 via-amber-400/0 to-amber-400/0 group-hover:from-amber-400/10 group-hover:via-amber-400/5 group-hover:to-amber-400/10 rounded-xl transition-all duration-300" />
                 <div className="relative">

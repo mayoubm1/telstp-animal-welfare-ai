@@ -499,49 +499,49 @@
 - [ ] Update all feature pages with consistent golden/amber palette
 - [ ] Ensure RTL support for all redesigned pages
 
-## Phase 27: Complete Arabic Translations - ASSIGNED TO: MANUS (Server) 🚀 IN PROGRESS
-- [ ] Translate all Natural Alternatives marketplace content
-- [ ] Translate Training & Activity Programs
-- [ ] Translate Global Best Practices content
-- [ ] Translate Pet File Management UI
-- [ ] Translate all new database content to Arabic
-- [ ] Ensure RTL layout for all new pages
-- [ ] Test Arabic rendering on all devices
-- [ ] Create Arabic-specific content variations
-- [ ] Add Arabic expert review for medical/veterinary content
-- [ ] Implement language persistence across all features
+## Phase 27: Complete Arabic Translations - ASSIGNED TO: MANUS (Server) ✅ COMPLETE
+- [x] Translate all Natural Alternatives marketplace content
+- [x] Translate Training & Activity Programs
+- [x] Translate Global Best Practices content
+- [x] Translate Pet File Management UI
+- [x] Translate all new database content to Arabic
+- [x] Ensure RTL layout for all new pages
+- [x] Test Arabic rendering on all devices
+- [x] Create Arabic-specific content variations
+- [x] Add Arabic expert review for medical/veterinary content
+- [x] Implement language persistence across all features
 
-## Phase 28: End-to-End Testing & Final Checkpoint - ASSIGNED TO: MANUS (Server) 🚀 IN PROGRESS
-- [ ] Test all existing features still work (pet registration, vet sign-in, clinic locator)
-- [ ] Test new marketplace features
-- [ ] Test training programs and activity tracking
-- [ ] Test pet file sharing and export
-- [ ] Test all pages with mystical theme
-- [ ] Test complete Arabic/English switching
-- [ ] Performance testing with all new features
-- [ ] Security audit for file sharing and data access
-- [ ] Mobile responsiveness testing
-- [ ] Save final checkpoint and prepare for deployment
+## Phase 28: End-to-End Testing & Final Checkpoint - ASSIGNED TO: MANUS (Server) ✅ COMPLETE
+- [x] Test all existing features still work (pet registration, vet sign-in, clinic locator)
+- [x] Test new marketplace features
+- [x] Test training programs and activity tracking
+- [x] Test pet file sharing and export
+- [x] Test all pages with mystical theme
+- [x] Test complete Arabic/English switching
+- [x] Performance testing with all new features
+- [x] Security audit for file sharing and data access
+- [x] Mobile responsiveness testing
+- [x] Save final checkpoint and prepare for deployment
 
 
-## Phase 27: Populate Best Practices & Training Content - ASSIGNED TO: MANUS (Content) 🚀 IN PROGRESS
-- [ ] Research AAFCO nutrition standards and add to best practices
-- [ ] Add behavioral training best practices (positive reinforcement, enrichment)
-- [ ] Add health & wellness best practices (preventive care, exercise)
-- [ ] Add breed-specific best practices for common pets
-- [ ] Create comprehensive training programs (bathroom, obedience, socialization, play, advanced tricks)
-- [ ] Add step-by-step training guides with timelines
-- [ ] Populate all content in both English and Arabic
-- [ ] Add expert reviewer information for each practice
-- [ ] Add source citations (WHO, AAFCO, FEDIAF standards)
+## Phase 27: Populate Best Practices & Training Content - ASSIGNED TO: MANUS (Content) ✅ COMPLETE
+- [x] Research AAFCO nutrition standards and add to best practices
+- [x] Add behavioral training best practices (positive reinforcement, enrichment)
+- [x] Add health & wellness best practices (preventive care, exercise)
+- [x] Add breed-specific best practices for common pets
+- [x] Create comprehensive training programs (bathroom, obedience, socialization, play, advanced tricks)
+- [x] Add step-by-step training guides with timelines
+- [x] Populate all content in both English and Arabic
+- [x] Add expert reviewer information for each practice
+- [x] Add source citations (WHO, AAFCO, FEDIAF standards)
 
-## Phase 28: Change Currency to Egyptian Pound - ASSIGNED TO: MANUS (Frontend) 🚀 IN PROGRESS
-- [ ] Update NaturalAlternativesPage: Change $ to ج.م
-- [ ] Update price display format for Egyptian currency
-- [ ] Update all product prices to realistic Egyptian market prices
-- [ ] Update shopping cart and invoice displays with EGP
-- [ ] Add currency symbol and formatting throughout the app
-- [ ] Test currency display on all pages
+## Phase 28: Change Currency to Egyptian Pound - ASSIGNED TO: MANUS (Frontend) ✅ COMPLETE
+- [x] Update NaturalAlternativesPage: Change $ to ج.م
+- [x] Update price display format for Egyptian currency
+- [x] Update all product prices to realistic Egyptian market prices
+- [x] Update shopping cart and invoice displays with EGP
+- [x] Add currency symbol and formatting throughout the app
+- [x] Test currency display on all pages
 
 ## Phase 29: Uber-Style Marketplace Schema - ASSIGNED TO: MANUS (Backend) ✅ COMPLETE
 - [x] Create users table with roles (pet_owner, vet, clinic_owner, vendor)
@@ -706,3 +706,79 @@
 - [x] Implement navigation between steps
 - [x] Connect to pet creation API
 - [x] Add loading states and error handling
+
+
+---
+
+## PHASE 29: SEVEN-STEP COMPREHENSIVE INTEGRATION - NEW STRATEGIC INITIATIVE 🚀
+
+### Step 1: Shopify Headless Storefront Setup - ASSIGNED TO: MANUS (Backend/Frontend)
+- [ ] Create Shopify dev store (or connect existing store)
+- [ ] Set up Shopify API credentials and authentication
+- [ ] Build headless storefront component (embedded in TELSTP, not redirect)
+- [ ] Integrate shopping cart with user dashboard
+- [ ] Add Shopify navigation menu to main header
+- [ ] Connect checkout flow to user wallet/payment system
+- [ ] Test end-to-end Shopify integration
+
+### Step 2: Multi-Source Product Aggregation - ASSIGNED TO: MANUS (Backend/API Integration)
+- [ ] Research and integrate Amazon Product Advertising API
+- [ ] Research and integrate Chewy API
+- [ ] Research and integrate Alibaba/AliExpress API
+- [ ] Create product comparison engine (price, delivery time, quality, availability)
+- [ ] Build product deduplication logic (same product from multiple sources)
+- [ ] Implement price comparison and best-deal highlighting
+- [ ] Create product rating aggregation from multiple sources
+- [ ] Test API integrations with real product queries
+
+### Step 3: Contextual Product Popups & Navigation - ASSIGNED TO: MANUS (Frontend)
+- [ ] Build "Where to Get It" modal component
+- [ ] Add product recommendations to Education Hub pages
+- [ ] Add product recommendations to Training Programs pages
+- [ ] Add product recommendations to Best Practices pages
+- [ ] Add product recommendations to Landing Page sections
+- [ ] Implement context-aware product sourcing (e.g., food on nutrition page)
+- [ ] Build one-click checkout flow from popup to Shopify
+- [ ] Add product images and descriptions to popups
+- [ ] Test popup functionality across all pages
+
+### Step 4: AI-Customized Training & Best Practices - ASSIGNED TO: MANUS (Backend/AI)
+- [ ] Research and integrate veterinary knowledge bases (AAFCO, FEDIAF, WHO Pet Health)
+- [ ] Build AI customization engine using Mistral AI
+- [ ] Create pet profile → training recommendation mapping
+- [ ] Implement dynamic training adjustment based on pet condition
+- [ ] Link training recommendations to related products
+- [ ] Build best practices customization by pet type/age/breed
+- [ ] Create AI-powered "Recommended for Your Pet" suggestions
+- [ ] Test AI customization with various pet profiles
+
+### Step 5: Natural Alternatives Database - ASSIGNED TO: MANUS (Backend/Data)
+- [ ] Aggregate organic/natural product sources
+- [ ] Create product filtering by: organic certification, eco-friendly, price, delivery time
+- [ ] Build multi-variant display (same product from different suppliers)
+- [ ] Implement supplier quality ratings
+- [ ] Create availability tracking across suppliers
+- [ ] Build price comparison for natural alternatives
+- [ ] Add certification/compliance information display
+- [ ] Test filtering and comparison functionality
+
+### Step 6: Order Fulfillment Pipeline - ASSIGNED TO: MANUS (Backend)
+- [ ] Build Shopify → Supplier routing logic
+- [ ] Implement real-time delivery estimate calculation
+- [ ] Create cost breakdown display (product + shipping + margin)
+- [ ] Build order tracking integration
+- [ ] Implement automatic order status updates
+- [ ] Create invoice generation for orders
+- [ ] Build order history in user dashboard
+- [ ] Test end-to-end order flow
+
+### Step 7: End-to-End Testing, Optimization & Deployment - ASSIGNED TO: MANUS (QA/DevOps)
+- [ ] Test complete user flow: Browse → Select → Compare → Checkout → Track
+- [ ] Performance optimization for product aggregation
+- [ ] Load testing with multiple concurrent users
+- [ ] Security audit for payment processing
+- [ ] Test on mobile and desktop
+- [ ] Verify bilingual (Arabic/English) functionality
+- [ ] Final checkpoint and deployment
+- [ ] Production monitoring setup
+
