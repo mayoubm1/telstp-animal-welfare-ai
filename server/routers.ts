@@ -22,6 +22,7 @@ import { registrationRouter } from "./routers/registration";
 import { commerceRouter } from "./routers/commerce";
 import { aiRouter } from "./routers/ai-features";
 import { ordersRouter } from "./routers/orders";
+import { medicalFeaturesRouter } from "./routers/medical-features";
 import {
   createPet,
   getPetsByUserId,
@@ -462,6 +463,7 @@ export const appRouter = router({
   commerce: commerceRouter,
   ai: aiRouter,
   orders: ordersRouter,
+  medicalFeatures: medicalFeaturesRouter,
   admin: router({
     getCriticalCases: protectedProcedure.query(async ({ ctx }) => {
       if (ctx.user.role !== "admin") throw new Error("Unauthorized");
