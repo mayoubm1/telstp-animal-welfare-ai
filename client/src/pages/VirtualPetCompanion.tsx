@@ -2,6 +2,11 @@ import { useState, useEffect, useRef } from "react";
 import { Button } from "@/components/ui/button";
 import { trpc } from "@/lib/trpc";
 import { useLocation } from "wouter";
+import { VirtualPetCharacter } from "../components/VirtualPetCharacter";
+import { VirtualPetChat } from "../components/VirtualPetChat";
+import { VirtualPetInteractions } from "../components/VirtualPetInteractions";
+import { motion } from "framer-motion";
+import { Card } from "../components/ui/card";
 
 interface PetState {
   happiness: number;
@@ -72,6 +77,7 @@ export default function VirtualPetCompanion() {
 
   const petsQuery = trpc.pets.list.useQuery();
   const updatePetMutation = trpc.pets.update.useMutation();
+  const [language, setLanguage] = useState<"en" | "ar">("en");
 
   // Simulate pet state decay over time
   useEffect(() => {
@@ -99,6 +105,16 @@ export default function VirtualPetCompanion() {
       setPetAnimation("happy");
     }
   }, [petState.energy, petState.hunger, petState.happiness]);
+
+  const handleVirtualPetInteract = async (interactionType: string) => {
+    // Handle new virtual pet interactions
+    handleAction(interactionType);
+  };
+
+  const handleChat = async (message: string): Promise<string> => {
+    // Placeholder for chat functionality
+    return "I'm listening... 👂";
+  };
 
   const handleAction = async (action: string) => {
     setShowAction(action);
