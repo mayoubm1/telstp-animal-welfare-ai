@@ -4,6 +4,7 @@
  */
 
 import { invokeLLM } from "../_core/llm";
+import { getMedicalConditionsByCategory } from "./medical-conditions-db";
 
 export interface DentalAnalysisResult {
   conditions: DentalCondition[];
@@ -105,14 +106,22 @@ const COMMON_DENTAL_CONDITIONS: Record<string, DentalCondition> = {
  */
 export async function analyzeDentalImage(imageUrl: string, petInfo?: string): Promise<DentalAnalysisResult> {
   try {
+    // Get comprehensive dental conditions from database
+    const dentalConditions = getMedicalConditionsByCategory("dental");
+    const conditionList = dentalConditions
+      .map((c) => `${c.name} (${c.nameAr}): ${c.symptoms.join(", ")} - Severity: ${c.severity}`)
+      .join("\n");
+
     // Call LLM with image for analysis
     const response = await invokeLLM({
       messages: [
         {
           role: "system",
-          content: `You are an expert veterinary dentist. Analyze the pet dental image and identify any visible conditions.
-          
-          Respond with a JSON object containing:
+          content: `You are an expert veterinary dentist. Analyze the pet dental image and identify any visible conditions from this comprehensive database:
+
+${conditionList}
+
+Respond with a JSON object containing:
           {
             "conditions": [{"name": "condition_name", "confidence": 0.0-1.0, "severity": "mild|moderate|severe|critical"}],
             "severity": "mild|moderate|severe|critical",

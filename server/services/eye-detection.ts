@@ -1,9 +1,11 @@
 /**
  * Eye Condition Detection Service
  * Analyzes pet eye images for common conditions
+ * Integrated with comprehensive medical conditions database
  */
 
 import { invokeLLM } from "../_core/llm";
+import { getMedicalConditionsByCategory } from "./medical-conditions-db";
 
 export interface EyeAnalysisResult {
   conditions: EyeCondition[];
@@ -27,86 +29,36 @@ export interface EyeCondition {
   treatmentOptionsAr: string[];
 }
 
-const COMMON_EYE_CONDITIONS: Record<string, EyeCondition> = {
-  conjunctivitis: {
-    name: "Conjunctivitis (Pink Eye)",
-    nameAr: "التهاب الملتحمة",
-    description: "Inflammation of the conjunctiva, often caused by infection or allergy",
-    descriptionAr: "التهاب الغشاء المخاطي للعين، غالباً ما يكون بسبب عدوى أو حساسية",
-    confidence: 0,
-    symptoms: ["Red eyes", "Discharge", "Squinting", "Excessive tearing"],
-    symptomsAr: ["احمرار العيون", "إفرازات", "الرمش المتكرر", "الدموع الزائدة"],
-    treatmentOptions: ["Antibiotic drops", "Antihistamine drops", "Warm compress", "Veterinary examination"],
-    treatmentOptionsAr: ["قطرات مضادة للبكتيريا", "قطرات مضادة للحساسية", "كمادات دافئة", "فحص بيطري"],
-  },
-  cornealUlcer: {
-    name: "Corneal Ulcer",
-    nameAr: "قرحة القرنية",
-    description: "Erosion of the cornea, potentially serious and requires immediate attention",
-    descriptionAr: "تآكل القرنية، قد يكون خطيراً ويتطلب عناية فورية",
-    confidence: 0,
-    symptoms: ["Severe pain", "Cloudy eye", "Discharge", "Reluctance to open eye"],
-    symptomsAr: ["ألم شديد", "عتامة العين", "إفرازات", "عدم الرغبة في فتح العين"],
-    treatmentOptions: ["Immediate veterinary care", "Antibiotic ointment", "Pain medication", "E-collar"],
-    treatmentOptionsAr: ["عناية بيطرية فورية", "مرهم مضاد للبكتيريا", "مسكنات الألم", "طوق إليزابيثي"],
-  },
-  cataracts: {
-    name: "Cataracts",
-    nameAr: "إعتام العدسة",
-    description: "Cloudiness of the lens, affecting vision clarity",
-    descriptionAr: "عتامة العدسة، تؤثر على وضوح الرؤية",
-    confidence: 0,
-    symptoms: ["Cloudy lens", "Vision problems", "Bumping into objects", "Dilated pupils"],
-    symptomsAr: ["عدسة معتمة", "مشاكل في الرؤية", "الاصطدام بالأشياء", "تمدد الحدقات"],
-    treatmentOptions: ["Surgical removal", "Antioxidant supplements", "Regular monitoring", "Veterinary consultation"],
-    treatmentOptionsAr: ["الإزالة الجراحية", "مكملات مضادة للأكسدة", "المراقبة المنتظمة", "استشارة بيطرية"],
-  },
-  dryEye: {
-    name: "Dry Eye Syndrome",
-    nameAr: "متلازمة جفاف العين",
-    description: "Insufficient tear production, causing discomfort and potential damage",
-    descriptionAr: "عدم كفاية إنتاج الدموع، مما يسبب عدم الراحة والضرر المحتمل",
-    confidence: 0,
-    symptoms: ["Dry appearance", "Discharge", "Squinting", "Redness"],
-    symptomsAr: ["مظهر جاف", "إفرازات", "الرمش المتكرر", "احمرار"],
-    treatmentOptions: ["Artificial tears", "Lubricating ointment", "Medication", "Environmental adjustment"],
-    treatmentOptionsAr: ["دموع صناعية", "مرهم مرطب", "الأدوية", "تعديل البيئة"],
-  },
-  discharge: {
-    name: "Eye Discharge",
-    nameAr: "إفرازات العين",
-    description: "Abnormal discharge from the eye, may indicate infection or irritation",
-    descriptionAr: "إفرازات غير طبيعية من العين، قد تشير إلى عدوى أو تهيج",
-    confidence: 0,
-    symptoms: ["Visible discharge", "Matted fur", "Odor", "Discomfort"],
-    symptomsAr: ["إفرازات مرئية", "فراء متشابك", "رائحة", "عدم الراحة"],
-    treatmentOptions: ["Gentle cleaning", "Antibiotic drops", "Warm compress", "Veterinary examination"],
-    treatmentOptionsAr: ["تنظيف لطيف", "قطرات مضادة للبكتيريا", "كمادات دافئة", "فحص بيطري"],
-  },
-};
-
 /**
- * Analyze pet eye image for conditions
+ * Analyze pet eye image for conditions using expanded database
  */
 export async function analyzeEyeImage(imageUrl: string, petInfo?: string): Promise<EyeAnalysisResult> {
   try {
+    // Get comprehensive eye conditions from database
+    const eyeConditions = getMedicalConditionsByCategory("eye");
+    const conditionList = eyeConditions
+      .map((c) => `${c.name} (${c.nameAr}): ${c.symptoms.join(", ")} - Severity: ${c.severity}`)
+      .join("\n");
+
     // Call LLM with image for analysis
     const response = await invokeLLM({
       messages: [
         {
           role: "system",
-          content: `You are an expert veterinary ophthalmologist. Analyze the pet eye image and identify any visible conditions.
-          
-          Respond with a JSON object containing:
-          {
-            "conditions": [{"name": "condition_name", "confidence": 0.0-1.0, "severity": "mild|moderate|severe|critical"}],
-            "severity": "mild|moderate|severe|critical",
-            "confidence": 0.0-1.0,
-            "urgency": "routine|urgent|emergency",
-            "imageQuality": "excellent|good|fair|poor",
-            "qualityIssues": ["issue1", "issue2"],
-            "recommendations": ["rec1", "rec2"]
-          }`,
+          content: `You are an expert veterinary ophthalmologist. Analyze the pet eye image and identify any visible conditions from this comprehensive database:
+
+${conditionList}
+
+Respond with a JSON object containing:
+{
+  "conditions": [{"name": "condition_name", "confidence": 0.0-1.0, "severity": "mild|moderate|severe|critical"}],
+  "severity": "mild|moderate|severe|critical",
+  "confidence": 0.0-1.0,
+  "urgency": "routine|urgent|emergency",
+  "imageQuality": "excellent|good|fair|poor",
+  "qualityIssues": ["issue1", "issue2"],
+  "recommendations": ["rec1", "rec2"]
+}`,
         },
         {
           role: "user",
@@ -165,18 +117,25 @@ export async function analyzeEyeImage(imageUrl: string, petInfo?: string): Promi
 
     const analysis = JSON.parse(analysisText);
 
-    // Map detected conditions to detailed information
+    // Map detected conditions to detailed information from database
     const detailedConditions: EyeCondition[] = analysis.conditions.map((cond: any) => {
-      const conditionKey = Object.keys(COMMON_EYE_CONDITIONS).find(
-        (key) =>
-          COMMON_EYE_CONDITIONS[key].name.toLowerCase().includes(cond.name.toLowerCase()) ||
-          cond.name.toLowerCase().includes(COMMON_EYE_CONDITIONS[key].name.toLowerCase())
+      const dbCondition = eyeConditions.find(
+        (c) =>
+          c.name.toLowerCase().includes(cond.name.toLowerCase()) ||
+          cond.name.toLowerCase().includes(c.name.toLowerCase())
       );
 
-      if (conditionKey) {
+      if (dbCondition) {
         return {
-          ...COMMON_EYE_CONDITIONS[conditionKey],
+          name: dbCondition.name,
+          nameAr: dbCondition.nameAr,
+          description: `${dbCondition.name}: ${dbCondition.treatments.join(", ")}`,
+          descriptionAr: `${dbCondition.nameAr}: ${dbCondition.treatmentsAr.join(", ")}`,
           confidence: cond.confidence,
+          symptoms: dbCondition.symptoms,
+          symptomsAr: dbCondition.symptomsAr,
+          treatmentOptions: dbCondition.treatments,
+          treatmentOptionsAr: dbCondition.treatmentsAr,
         };
       }
 
