@@ -40,6 +40,10 @@ import FinancialDashboard from "./pages/FinancialDashboard";
 import EducationHubEnhanced from "./pages/EducationHubEnhanced";
 import TrainingProgramsEnhanced from "./pages/TrainingProgramsEnhanced";
 import NaturalAlternativesEnhanced from "./pages/NaturalAlternativesEnhanced";
+import { EyeDetectionUI } from "./pages/EyeDetectionUI";
+import { DentalDetectionUI } from "./pages/DentalDetectionUI";
+import { AdminDashboard } from "./pages/AdminDashboard";
+import { AppointmentScheduling } from "./pages/AppointmentScheduling";
 
 function Router() {
   // make sure to consider if you need authentication for certain routes
@@ -80,7 +84,11 @@ function Router() {
       <Route path={"/best-practices"} component={BestPracticesPage} />
       <Route path={"/best-practices-enhanced"} component={BestPracticesEnhanced} />
       <Route path="/virtual-pet-avatar" component={VirtualPetAvatarPage} />
-      <Route path="/404" component={NotFound} />
+      <Route path={"/eye-detection"} component={EyeDetectionUI} />
+      <Route path={"/dental-detection"} component={DentalDetectionUI} />
+      <Route path={"/admin-dashboard"} component={AdminDashboard} />
+      <Route path={"/appointment-scheduling"} component={AppointmentScheduling} />
+      <Route path={"/:rest*"} component={NotFound} />
       {/* Final fallback route */}
       <Route component={NotFound} />
     </Switch>
