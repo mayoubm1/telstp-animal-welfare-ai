@@ -58,3 +58,11 @@
 - [x] Document clinic data source and verification in PROJECT_STATUS.md.
 
 - [x] Document clinic data source and row count in PROJECT_STATUS.md.
+
+- [x] Audit latest TELSTP project, repository, and deployment configuration.
+- [x] Inspect connected Supabase projects and compare duplicate TELSTP table sets.
+- [x] Validate which Supabase connection is live and identify the database source of truth.
+- [x] Prepare GitHub repository status and Vercel deployment configuration without publishing externally.
+- [ ] Present deployment and database audit findings for Mohamed's approval.
+- [ ] Build and test a Vercel Function adapter for `/api/trpc/*` before any GitHub-driven production deployment.
+- [ ] Synchronize the managed TELSTP checkpoint to GitHub through a reviewable branch or pull request after the Vercel API adapter passes verification.
