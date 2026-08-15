@@ -33,6 +33,7 @@ import PetProfileCreation from "./pages/PetProfileCreation";
 import VirtualPetCompanion from "./pages/VirtualPetCompanion";
 import UserProfile from "./pages/UserProfile";
 import VetClinicSearch from "./pages/VetClinicSearch";
+import VetClinicDetail from "./pages/VetClinicDetail";
 import RatingReviewSystem from "./pages/RatingReviewSystem";
 import BookingSystem from "./pages/BookingSystem";
 import ShoppingCart from "./pages/ShoppingCart";
@@ -55,6 +56,7 @@ function Router() {
       <Route path={"/pet-companion-enhanced"} component={VirtualPetCompanion} />
       <Route path={"/profile"} component={UserProfile} />
       <Route path={"/vet-clinic-search"} component={VetClinicSearch} />
+      <Route path={"/vet-clinic/:id"} component={VetClinicDetail} />
       <Route path={"/ratings-reviews"} component={RatingReviewSystem} />
       <Route path={"/booking"} component={BookingSystem} />
       <Route path={"/shopping-cart"} component={ShoppingCart} />
@@ -69,7 +71,7 @@ function Router() {
       <Route path={"/image-diagnosis"} component={ImageDiagnosis} />
       <Route path={"/vet-dashboard"} component={VetDashboard} />
       <Route path={"/vet-registration"} component={VetRegistration} />
-      <Route path={"/clinic-locator"} component={ClinicLocator} />
+      <Route path={"/clinic-locator"} component={VetClinicSearch} />
       <Route path={"/emergency-triage"} component={EmergencyTriage} />
       <Route path={"/emergency-medications"} component={EmergencyMedications} />
       <Route path={"/owner-education"} component={OwnerEducation} />
@@ -78,11 +80,11 @@ function Router() {
       <Route path="/ai-diagnosis" component={AIVisualDiagnosis} />
       <Route path="/education" component={EducationHub} />
       <Route path="/education-enhanced" component={EducationHubEnhanced} />
-      <Route path="/natural-alternatives" component={NaturalAlternativesPage} />
+      <Route path="/natural-alternatives" component={NaturalAlternativesEnhanced} />
       <Route path="/natural-alternatives-enhanced" component={NaturalAlternativesEnhanced} />
-      <Route path="/training-programs" component={TrainingProgramsPage} />
+      <Route path="/training-programs" component={TrainingProgramsEnhanced} />
       <Route path="/training-programs-enhanced" component={TrainingProgramsEnhanced} />
-      <Route path={"/best-practices"} component={BestPracticesPage} />
+      <Route path={"/best-practices"} component={BestPracticesEnhanced} />
       <Route path={"/best-practices-enhanced"} component={BestPracticesEnhanced} />
       <Route path="/virtual-pet-avatar" component={VirtualPetAvatarPage} />
       <Route path={"/eye-detection"} component={EyeDetectionUI} />

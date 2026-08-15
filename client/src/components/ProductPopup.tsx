@@ -1,212 +1,77 @@
-import { useState, useEffect } from 'react';
-import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription } from '@/components/ui/dialog';
-import { Button } from '@/components/ui/button';
-import { trpc } from '@/lib/trpc';
-import { useCart } from '@/contexts/CartContext';
-import { ShoppingCart, X } from 'lucide-react';
-import type { Product } from '@shared/commerce/types';
+import { useEffect, useState } from "react";
+import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle } from "@/components/ui/dialog";
+import { Button } from "@/components/ui/button";
+import { trpc } from "@/lib/trpc";
+import { useCart } from "@/contexts/CartContext";
+import { Check, ShoppingCart, X } from "lucide-react";
+import type { Product } from "@shared/commerce/types";
 
 interface ProductPopupProps {
   isOpen: boolean;
   onClose: () => void;
   productHandle?: string;
-  context?: 'education' | 'training' | 'practices' | 'landing';
+  context?: "education" | "training" | "practices" | "landing";
 }
 
 export function ProductPopup({ isOpen, onClose, productHandle, context }: ProductPopupProps) {
   const [selectedProduct, setSelectedProduct] = useState<Product | null>(null);
   const { addItem, loading } = useCart();
-
-  // Fetch product if handle provided
-  const { data: product, isLoading } = trpc.commerce.products.byHandle.useQuery(
-    { handle: productHandle || '' },
+  const { data: product, isLoading: isProductLoading } = trpc.commerce.products.byHandle.useQuery(
+    { handle: productHandle || "" },
     { enabled: Boolean(productHandle) && isOpen }
   );
-
-  // Fetch all products if no specific handle
-  const { data: allProducts = [] } = trpc.commerce.products.list.useQuery(
+  const { data: allProducts = [], isLoading: isCatalogLoading } = trpc.commerce.products.list.useQuery(
     {},
     { enabled: !productHandle && isOpen }
   );
 
   useEffect(() => {
-    if (product) {
-      setSelectedProduct(product);
-    } else if (!productHandle && allProducts.length > 0) {
-      setSelectedProduct(allProducts[0]);
-    }
-  }, [product, productHandle, allProducts]);
-
-  const handleAddToCart = async () => {
-    if (selectedProduct?.variants[0]) {
-      await addItem(selectedProduct.variants[0].id, 1);
-      // Cart context will open the drawer automatically
-    }
-  };
+    if (productHandle && product) setSelectedProduct(product);
+    if (!productHandle) setSelectedProduct(null);
+  }, [product, productHandle]);
 
   const handleClose = () => {
     setSelectedProduct(null);
     onClose();
   };
 
-  if (!selectedProduct && !isLoading) {
-    return null;
-  }
+  const handleAddToCart = async () => {
+    if (selectedProduct?.variants[0]) await addItem(selectedProduct.variants[0].id, 1);
+  };
+
+  const contextCopy = {
+    education: "Product information for nutrition and daily care",
+    training: "Equipment information for a structured training plan",
+    practices: "Product information to discuss with your veterinarian",
+    landing: "Product information from the connected storefront",
+  };
 
   return (
     <Dialog open={isOpen} onOpenChange={handleClose}>
-      <DialogContent className="max-w-2xl bg-slate-900 border-amber-400/30">
+      <DialogContent className="max-w-2xl border-slate-200 bg-white text-slate-900">
         <DialogHeader>
-          <div className="flex items-center justify-between">
+          <div className="flex items-start justify-between gap-4">
             <div>
-              <DialogTitle className="text-2xl font-bold text-amber-200">
-                🛍️ Where to Get It
-              </DialogTitle>
-              <DialogDescription className="text-amber-100/60 mt-2">
-                {context === 'education' && 'Recommended product for pet nutrition'}
-                {context === 'training' && 'Essential equipment for training success'}
-                {context === 'practices' && 'Recommended by veterinary experts'}
-                {context === 'landing' && 'Premium pet care products'}
-              </DialogDescription>
+              <DialogTitle className="text-2xl font-semibold text-[#12343b]">{selectedProduct ? selectedProduct.title : "Choose a product"}</DialogTitle>
+              <DialogDescription className="mt-2 text-slate-500">{contextCopy[context || "landing"]}</DialogDescription>
             </div>
-            <button
-              onClick={handleClose}
-              className="p-2 hover:bg-amber-400/10 rounded-lg transition-colors"
-            >
-              <X className="w-5 h-5 text-amber-200" />
-            </button>
+            <button type="button" onClick={handleClose} className="rounded-lg p-2 text-slate-400 hover:bg-slate-100 hover:text-slate-700" aria-label="Close"><X className="h-5 w-5" aria-hidden="true" /></button>
           </div>
         </DialogHeader>
 
-        {isLoading ? (
-          <div className="flex items-center justify-center py-12">
-            <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-amber-400" />
-          </div>
-        ) : selectedProduct ? (
-          <div className="space-y-6">
-            {/* Product Image */}
-            <div className="flex justify-center">
-              {selectedProduct.images[0] ? (
-                <img
-                  src={selectedProduct.images[0].url}
-                  alt={selectedProduct.title}
-                  className="w-64 h-64 object-cover rounded-lg border border-amber-400/20"
-                />
-              ) : (
-                <div className="w-64 h-64 bg-slate-800 rounded-lg border border-amber-400/20 flex items-center justify-center">
-                  <span className="text-amber-100/40">No image</span>
-                </div>
-              )}
-            </div>
+        {productHandle && isProductLoading && <div className="flex items-center justify-center py-12"><div className="h-9 w-9 animate-spin rounded-full border-2 border-slate-200 border-t-[#0c5660]" /></div>}
 
-            {/* Product Details */}
-            <div className="space-y-4">
-              <div>
-                <h3 className="text-xl font-bold text-amber-200">{selectedProduct.title}</h3>
-                <p className="text-amber-100/60 text-sm mt-1">
-                  By {selectedProduct.vendor || 'Premium Vendor'}
-                </p>
-              </div>
+        {!productHandle && !selectedProduct && (isCatalogLoading ? <div className="flex items-center justify-center py-12"><div className="h-9 w-9 animate-spin rounded-full border-2 border-slate-200 border-t-[#0c5660]" /></div> : <div className="grid gap-3 sm:grid-cols-2">{allProducts.map((item) => <button type="button" key={item.id} onClick={() => setSelectedProduct(item)} className="flex gap-3 rounded-xl border border-slate-200 p-3 text-start transition hover:border-[#86bdb5] hover:bg-[#f3f7f7]"><div className="h-16 w-16 shrink-0 overflow-hidden rounded-lg bg-slate-100">{item.images[0]?.url ? <img src={item.images[0].url} alt={item.title} className="h-full w-full object-cover" /> : <div className="flex h-full items-center justify-center text-xs text-slate-400">No image</div>}</div><span className="min-w-0"><span className="block truncate text-sm font-semibold text-[#12343b]">{item.title}</span><span className="mt-1 block text-sm text-slate-500">{item.priceRange.min.amount} {item.priceRange.min.currencyCode}</span></span></button>)}</div>)}
 
-              {/* Price */}
-              <div className="flex items-baseline gap-2">
-                <span className="text-3xl font-bold text-amber-400">
-                  {selectedProduct.priceRange.min.amount}
-                </span>
-                <span className="text-amber-200">
-                  {selectedProduct.priceRange.min.currencyCode}
-                </span>
-                {selectedProduct.priceRange.max.amount !== selectedProduct.priceRange.min.amount && (
-                  <>
-                    <span className="text-amber-100/40">to</span>
-                    <span className="text-2xl font-bold text-amber-400">
-                      {selectedProduct.priceRange.max.amount}
-                    </span>
-                  </>
-                )}
-              </div>
+        {selectedProduct && !isProductLoading && <div className="space-y-6">
+          <div className="flex justify-center rounded-xl bg-[#f3f7f7] p-5">{selectedProduct.images[0]?.url ? <img src={selectedProduct.images[0].url} alt={selectedProduct.images[0].altText || selectedProduct.title} className="h-64 w-64 rounded-lg object-cover" /> : <div className="flex h-64 w-64 items-center justify-center rounded-lg border border-dashed border-slate-300 text-sm text-slate-400">No source image supplied</div>}</div>
+          <div><p className="text-xl font-semibold text-[#12343b]">{selectedProduct.title}</p><p className="mt-1 text-sm text-slate-500">{selectedProduct.vendor || "Connected storefront"}</p><p className="mt-4 text-3xl font-semibold text-[#0c5660]">{selectedProduct.priceRange.min.amount} <span className="text-sm font-medium text-slate-500">{selectedProduct.priceRange.min.currencyCode}</span></p><p className="mt-4 whitespace-pre-line text-sm leading-6 text-slate-600">{selectedProduct.description || "No description supplied by the connected storefront."}</p></div>
+          {selectedProduct.tags.length > 0 && <div className="flex flex-wrap gap-2">{selectedProduct.tags.slice(0, 6).map((tag) => <span key={tag} className="rounded-full border border-slate-200 px-3 py-1 text-xs text-slate-600">{tag}</span>)}</div>}
+          <div className="flex items-center gap-2 text-sm">{selectedProduct.variants[0]?.availableForSale ? <><span className="h-2 w-2 rounded-full bg-emerald-500" /><span className="text-emerald-700">In stock</span></> : <><span className="h-2 w-2 rounded-full bg-red-500" /><span className="text-red-700">Out of stock</span></>}</div>
+          <div className="flex gap-3 border-t border-slate-200 pt-5"><Button onClick={handleAddToCart} disabled={!selectedProduct.variants[0]?.availableForSale || loading} className="flex-1 bg-[#0c5660] text-white hover:bg-[#08434b]"><ShoppingCart className="mr-2 h-4 w-4" aria-hidden="true" />{loading ? "Adding..." : "Add to cart"}</Button>{!productHandle && <Button type="button" variant="outline" onClick={() => setSelectedProduct(null)} className="border-slate-200 text-slate-700">Choose another</Button>}</div>
+        </div>}
 
-              {/* Description */}
-              <p className="text-amber-100/70 leading-relaxed">
-                {selectedProduct.description}
-              </p>
-
-              {/* Tags */}
-              {selectedProduct.tags.length > 0 && (
-                <div className="flex flex-wrap gap-2">
-                  {selectedProduct.tags.slice(0, 5).map((tag) => (
-                    <span
-                      key={tag}
-                      className="px-3 py-1 bg-amber-400/10 border border-amber-400/30 rounded-full text-xs text-amber-200"
-                    >
-                      {tag}
-                    </span>
-                  ))}
-                </div>
-              )}
-
-              {/* Availability */}
-              <div className="flex items-center gap-2">
-                {selectedProduct.variants[0]?.availableForSale ? (
-                  <>
-                    <div className="w-2 h-2 bg-green-400 rounded-full" />
-                    <span className="text-green-300">In Stock</span>
-                  </>
-                ) : (
-                  <>
-                    <div className="w-2 h-2 bg-red-400 rounded-full" />
-                    <span className="text-red-300">Out of Stock</span>
-                  </>
-                )}
-              </div>
-            </div>
-
-            {/* Action Buttons */}
-            <div className="flex gap-3 pt-4 border-t border-amber-400/20">
-              <Button
-                onClick={handleAddToCart}
-                disabled={!selectedProduct.variants[0]?.availableForSale || loading}
-                className="flex-1 bg-gradient-to-r from-amber-400 to-amber-500 text-slate-950 font-bold hover:shadow-lg hover:shadow-amber-400/50 disabled:opacity-50"
-              >
-                <ShoppingCart className="w-4 h-4 mr-2" />
-                {loading ? 'Adding...' : 'Add to Cart'}
-              </Button>
-              <Button
-                onClick={handleClose}
-                variant="outline"
-                className="border-amber-400/30 text-amber-200 hover:bg-amber-400/10"
-              >
-                Continue Shopping
-              </Button>
-            </div>
-
-            {/* Other Products */}
-            {allProducts.length > 1 && (
-              <div className="pt-4 border-t border-amber-400/20">
-                <p className="text-sm text-amber-100/60 mb-3">Other Recommended Products:</p>
-                <div className="grid grid-cols-2 gap-2">
-                  {allProducts
-                    .filter((p) => p.id !== selectedProduct.id)
-                    .slice(0, 3)
-                    .map((product) => (
-                      <button
-                        key={product.id}
-                        onClick={() => setSelectedProduct(product)}
-                        className="p-3 bg-slate-800/50 border border-amber-400/20 rounded-lg hover:border-amber-400/50 transition-colors text-left"
-                      >
-                        <p className="text-sm font-semibold text-amber-200 truncate">
-                          {product.title}
-                        </p>
-                        <p className="text-xs text-amber-100/60">
-                          {product.priceRange.min.amount} {product.priceRange.min.currencyCode}
-                        </p>
-                      </button>
-                    ))}
-                </div>
-              </div>
-            )}
-          </div>
-        ) : null}
+        {!productHandle && !isCatalogLoading && allProducts.length === 0 && <div className="py-10 text-center text-sm text-slate-500">No products are available from the connected storefront.</div>}
       </DialogContent>
     </Dialog>
   );

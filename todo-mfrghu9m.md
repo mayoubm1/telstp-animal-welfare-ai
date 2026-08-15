@@ -66,3 +66,31 @@
 - [ ] Present deployment and database audit findings for Mohamed's approval.
 - [ ] Build and test a Vercel Function adapter for `/api/trpc/*` before any GitHub-driven production deployment.
 - [ ] Synchronize the managed TELSTP checkpoint to GitHub through a reviewable branch or pull request after the Vercel API adapter passes verification.
+
+- [x] Audit all attached production screenshots against the actual deployed and local rendered pages, documenting route-by-route discrepancies.
+- [x] Replace childish/toy-like visual treatment with a professional clinical veterinary and animal-welfare design system while preserving warmth, bilingual support, and the Paw & Purpose identity.
+- [x] Audit App.tsx, Home.tsx/HomeV3.tsx, and all navigation shells to identify unreachable enhanced pages and broken/non-fixed routes.
+- [x] Wire the correct professional pages into primary navigation: veterinary sign-in/portal, clinic locator, training curriculum, best practices, natural alternatives, pet health tools, consultations, and pet profiles.
+- [x] Replace empty/headline-only training and best-practice sections with substantive, structured, user-facing curricula and guidance.
+- [x] Audit Natural Alternatives data and imagery so each product has accurate category-specific content and image mapping; remove misleading product-image reuse.
+- [x] Verify the corrected experience on local preview and production routes with screenshots, tests, and route checks.
+- [ ] Save a checkpoint that publishes the corrected professional experience after all verification passes.
+- [ ] Present the complete audit and implemented corrections to Mohamed with concrete evidence.
+
+# Current Session Audit Notes
+- User reports the deployed experience does not match the enhanced pages visible in the coding dashboard.
+- User reports training pages are empty or headline-only and Natural Alternatives has incorrect/reused imagery and product categorization.
+- User requests a professional pet-owner/veterinary platform, not a children’s toy interface.
+- Audit result: the earlier local route shell showed empty training and best-practice collections because both tables contained zero rows; the live clinic directory returned 50 Supabase records, but its detail links use UUIDs rather than numeric ids.
+- Corrections applied: professional bilingual shell and homepage, clinical care-handoff hero, primary routes mapped to enhanced pages, 5 substantive training programs and 8 source-linked best-practice records seeded, Supabase clinic directory connected, clinic detail route added, and invalid clinic IDs now show a clear not-found state.
+- Verification evidence: local screenshots show populated training, best-practice, and clinic pages; TypeScript and production builds pass; a valid UUID clinic detail page renders successfully.
+
+- [x] Verify ProfessionalShell primary navigation exposes veterinary portal/sign-in, clinic locator, training, best practices, natural alternatives, pet health tools, consultations, and pet profiles.
+- [ ] After the corrected-experience checkpoint, test the published production routes and record evidence for the key pages.
+
+- [x] Replace legacy toy-like visual shells on `/symptom-checker`, `/vet-registration`, `/appointment-scheduling`, and `/profile` with the professional bilingual shell and honest workflow framing.
+- [x] Re-verify those core workflow routes after the legacy-shell remediation (TypeScript/build checks and route screenshots pass).
+
+- [x] Remove simulated appointment submission state; scope the appointment page as an honest, local contact-preparation tool until a persisted consultation-request procedure exists.
+- [x] Remove the local-only profile edit affordance; keep the profile read-only until account-profile persistence is implemented.
+- [x] Re-run checks and screenshots after the integrity fixes, then update the route-remediation status.
