@@ -52,6 +52,7 @@ function Router() {
       <Route path={"/pet-selection/:species?"} component={PetSelectionLanding} />
       <Route path={"/pet-selection/:species/create"} component={PetProfileCreation} />
       <Route path={"/pet-companion"} component={VirtualPetCompanion} />
+      <Route path={"/pet-companion-enhanced"} component={VirtualPetCompanion} />
       <Route path={"/profile"} component={UserProfile} />
       <Route path={"/vet-clinic-search"} component={VetClinicSearch} />
       <Route path={"/ratings-reviews"} component={RatingReviewSystem} />

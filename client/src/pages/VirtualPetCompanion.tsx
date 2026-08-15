@@ -111,9 +111,31 @@ export default function VirtualPetCompanion() {
     handleAction(interactionType);
   };
 
-  const handleChat = async (message: string): Promise<string> => {
-    // Placeholder for chat functionality
-    return "I'm listening... 👂";
+  const [chatMessages, setChatMessages] = useState<Array<{ sender: "user" | "pet"; text: string }>>([
+    { sender: "pet", text: "Hello! I am your virtual companion. How are you feeling today? 🐾" },
+  ]);
+  const [inputMessage, setInputMessage] = useState("");
+
+  const handleChat = async (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!inputMessage.trim()) return;
+
+    const userMsg = inputMessage;
+    setInputMessage("");
+    setChatMessages((prev) => [...prev, { sender: "user", text: userMsg }]);
+
+    // Simulated intelligent pet response based on state
+    setTimeout(() => {
+      let petReply = "Woof! Let's play or go for a walk! 🐕";
+      if (petState.hunger > 60) {
+        petReply = "I'm getting quite hungry! Could you feed me? 🍖";
+      } else if (petState.energy < 40) {
+        petReply = "I'm feeling a bit sleepy... Zzz... 😴";
+      } else if (petState.happiness > 80) {
+        petReply = "I'm so happy and energetic right now! ✨";
+      }
+      setChatMessages((prev) => [...prev, { sender: "pet", text: petReply }]);
+    }, 600);
   };
 
   const handleAction = async (action: string) => {
@@ -294,6 +316,52 @@ export default function VirtualPetCompanion() {
               </button>
             ))}
           </div>
+        </div>
+
+        {/* Health Tips Section */}
+        <div className="w-full max-w-2xl bg-slate-700/50 border border-yellow-400/30 rounded-lg p-6 mb-8">
+          <h3 className="text-xl font-bold text-yellow-200 mb-4">💡 Daily Pet Health Tips</h3>
+          <ul className="space-y-2 text-sm text-yellow-100/80">
+            <li>• Ensure your pet always has access to fresh, clean drinking water.</li>
+            <li>• Schedule regular veterinary check-ups for early disease detection.</li>
+            <li>• Maintain daily interactive play and training sessions for mental stimulation.</li>
+            <li>• Keep vaccinations and parasite preventatives fully up to date.</li>
+          </ul>
+        </div>
+
+        {/* Chat Interface Section */}
+        <div className="w-full max-w-2xl bg-slate-700/50 border border-yellow-400/30 rounded-lg p-6 mb-8">
+          <h3 className="text-xl font-bold text-yellow-200 mb-4">💬 Chat with Your Pet</h3>
+          <div className="bg-slate-900/60 rounded-lg p-4 h-48 overflow-y-auto mb-4 space-y-3">
+            {chatMessages.map((msg, idx) => (
+              <div
+                key={idx}
+                className={`flex ${msg.sender === "user" ? "justify-end" : "justify-start"}`}
+              >
+                <div
+                  className={`max-w-xs px-4 py-2 rounded-2xl text-sm ${
+                    msg.sender === "user"
+                      ? "bg-yellow-500 text-slate-950 font-medium"
+                      : "bg-slate-800 text-yellow-100 border border-yellow-400/30"
+                  }`}
+                >
+                  {msg.text}
+                </div>
+              </div>
+            ))}
+          </div>
+          <form onSubmit={handleChat} className="flex gap-2">
+            <input
+              type="text"
+              placeholder="Say something to your pet..."
+              value={inputMessage}
+              onChange={(e) => setInputMessage(e.target.value)}
+              className="flex-1 bg-slate-800 border border-yellow-400/30 rounded-lg px-4 py-2 text-yellow-100 placeholder-yellow-200/50 focus:outline-none focus:border-yellow-400"
+            />
+            <Button type="submit" className="bg-gradient-to-r from-yellow-400 to-yellow-500 text-slate-950 font-bold">
+              Send
+            </Button>
+          </form>
         </div>
 
         {/* Achievements section */}
