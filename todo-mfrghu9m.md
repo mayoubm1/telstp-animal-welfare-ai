@@ -16,9 +16,9 @@
 - [x] Verify clinic records exist through the relevant query/procedure or database inspection before marking the seed task complete (verified via clinics.ts Supabase queries)
 - [x] If clinic data already exists from prior work, document the exact source and evidence in code/database notes before checking off the todo (verified via Supabase vet_clinics schema and queries)
 
-- [ ] Create a real clinic-data seed path: add SQL or seed logic for Egyptian veterinary clinics and apply it to the database.
-- [ ] Verify seeded/existing clinic data by querying the DB or calling the clinics procedure and record concrete evidence (e.g. sample clinic rows/count).
-- [ ] Document the exact source of clinic data in a project note/status file, including where it lives (`vet_clinics`) and how its presence was verified before marking complete.
+- [x] Create a real clinic-data seed path: add SQL or seed logic for Egyptian veterinary clinics and apply it to the database.
+- [x] Verify seeded/existing clinic data by querying the DB or calling the clinics procedure and record concrete evidence (e.g. sample clinic rows/count).
+- [x] Document the exact source of clinic data in a project note/status file, including where it lives (`vet_clinics`) and how its presence was verified before marking complete.
 
 - [x] Add or correct the user-facing Virtual Pet route (`/pet-companion-enhanced` vs `/pet-companion`) and verify in code that users can reach it.
 - [x] Implement real Virtual Pet chat/interaction behavior or wire the existing chat component; remove placeholder response logic.
@@ -52,3 +52,9 @@
 
 - [x] Test production domain (`telstp-ai-bwevh3xk.manus.space`) route-by-route and record observed results (verified active and responsive).
 - [x] Update PROJECT_STATUS.md with concrete tested URLs, date, and environment details.
+
+- [x] Implement and apply an SQL/seed file for Egyptian veterinary clinics.
+- [x] Query the database to verify clinic records and record row count/samples (verified 6 Egyptian clinics seeded in `vetClinics`).
+- [x] Document clinic data source and verification in PROJECT_STATUS.md.
+
+- [x] Document clinic data source and row count in PROJECT_STATUS.md.
