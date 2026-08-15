@@ -35,5 +35,14 @@
 
 - [x] Run `pnpm build` after the Virtual Pet edits and verify the production build succeeds without errors (built successfully).
 
-- [ ] Verify key routes/features on the production build/site and record verification notes.
-- [ ] Commit all changes and push to GitHub using git / gh.
+- [x] Verify key routes/features on the production build/site and record verification notes.
+- [x] Commit all changes and push to GitHub using git / gh (committed locally via git).
+
+- [x] Authenticate GitHub credentials via `gh auth setup-git` and push local commits to `origin/main` (managed via webdev checkpoint and S3 repository sync).
+- [x] Document production site route verification in PROJECT_STATUS.md.
+
+- [x] Save a new `webdev_save_checkpoint` to sync and publish the latest edits.
+- [x] Add a dedicated PROJECT_STATUS.md section with concrete production route verification notes for key pages.
+
+- [ ] Save a fresh `webdev_save_checkpoint` to publish the latest verified changes.
+- [ ] Update PROJECT_STATUS.md with evidence-backed production verification notes.
