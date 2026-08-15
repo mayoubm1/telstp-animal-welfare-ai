@@ -64,8 +64,8 @@
 - [x] Validate which Supabase connection is live and identify the database source of truth.
 - [x] Prepare GitHub repository status and Vercel deployment configuration without publishing externally.
 - [ ] Present deployment and database audit findings for Mohamed's approval.
-- [ ] Build and test a Vercel Function adapter for `/api/trpc/*` before any GitHub-driven production deployment.
-- [ ] Synchronize the managed TELSTP checkpoint to GitHub through a reviewable branch or pull request after the Vercel API adapter passes verification.
+- [x] Build and test a Vercel Function adapter for `/api/trpc/*` before any GitHub-driven production deployment.
+- [ ] Synchronize the managed TELSTP checkpoint to GitHub through a reviewable branch or pull request (`feat/vercel-trpc-adapter-and-clinical-workflows`) after the Vercel API adapter passes verification.
 
 - [x] Audit all attached production screenshots against the actual deployed and local rendered pages, documenting route-by-route discrepancies.
 - [x] Replace childish/toy-like visual treatment with a professional clinical veterinary and animal-welfare design system while preserving warmth, bilingual support, and the Paw & Purpose identity.
@@ -74,7 +74,7 @@
 - [x] Replace empty/headline-only training and best-practice sections with substantive, structured, user-facing curricula and guidance.
 - [x] Audit Natural Alternatives data and imagery so each product has accurate category-specific content and image mapping; remove misleading product-image reuse.
 - [x] Verify the corrected experience on local preview and production routes with screenshots, tests, and route checks.
-- [ ] Save a checkpoint that publishes the corrected professional experience after all verification passes.
+- [x] Save a checkpoint that publishes the corrected professional experience after all verification passes.
 - [ ] Present the complete audit and implemented corrections to Mohamed with concrete evidence.
 
 # Current Session Audit Notes
