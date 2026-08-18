@@ -99,4 +99,5 @@
 - [x] Prepare the supplied Paws & Purpose artwork as a deployment-safe web asset without altering its visual content.
 - [x] Implement an accessible, reduced-motion-aware animated Paws & Purpose gateway and an explicit transition into the clinical care workspace.
 - [x] Verify the new landing experience at desktop and mobile breakpoints, then run TypeScript, focused tests, and production build checks.
+- [ ] Resolve or document the managed-domain propagation discrepancy: checkpoint `36d93fee` renders in preview while the public domain still serves the prior landing page.
 - [ ] Publish the gateway experience and document the narrative and motion decisions for Mohamed.
