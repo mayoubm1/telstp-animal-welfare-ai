@@ -65,7 +65,7 @@
 - [x] Prepare GitHub repository status and Vercel deployment configuration without publishing externally.
 - [ ] Present deployment and database audit findings for Mohamed's approval.
 - [x] Build and test a Vercel Function adapter for `/api/trpc/*` before any GitHub-driven production deployment.
-- [ ] Synchronize the managed TELSTP checkpoint to GitHub through a reviewable branch or pull request (`feat/vercel-trpc-adapter-and-clinical-workflows`) after the Vercel API adapter passes verification.
+- [x] Synchronize the managed TELSTP checkpoint to GitHub through review branch `feat/vercel-trpc-adapter-and-clinical-workflows` and PR [#4](https://github.com/mayoubm1/telstp-animal-welfare-ai/pull/4) after the Vercel API adapter passes verification.
 
 - [x] Audit all attached production screenshots against the actual deployed and local rendered pages, documenting route-by-route discrepancies.
 - [x] Replace childish/toy-like visual treatment with a professional clinical veterinary and animal-welfare design system while preserving warmth, bilingual support, and the Paw & Purpose identity.
@@ -86,7 +86,7 @@
 - Verification evidence: local screenshots show populated training, best-practice, and clinic pages; TypeScript and production builds pass; a valid UUID clinic detail page renders successfully.
 
 - [x] Verify ProfessionalShell primary navigation exposes veterinary portal/sign-in, clinic locator, training, best practices, natural alternatives, pet health tools, consultations, and pet profiles.
-- [ ] After the corrected-experience checkpoint, test the published production routes and record evidence for the key pages.
+- [x] After the corrected-experience checkpoint, test the published production routes and record evidence for the key pages (`POST_CHECKPOINT_ROUTE_VERIFICATION.md`, 2026-08-18).
 
 - [x] Replace legacy toy-like visual shells on `/symptom-checker`, `/vet-registration`, `/appointment-scheduling`, and `/profile` with the professional bilingual shell and honest workflow framing.
 - [x] Re-verify those core workflow routes after the legacy-shell remediation (TypeScript/build checks and route screenshots pass).
@@ -100,4 +100,4 @@
 - [x] Implement an accessible, reduced-motion-aware animated Paws & Purpose gateway and an explicit transition into the clinical care workspace.
 - [x] Verify the new landing experience at desktop and mobile breakpoints, then run TypeScript, focused tests, and production build checks.
 - [x] Resolve or document the managed-domain propagation discrepancy: a fresh checkpoint `3439d16a` now renders the Paws & Purpose gateway on the public domain.
-- [x] Publish the gateway experience and document the narrative and motion decisions for Mohamed.
+- [x] Publish the gateway experience and document the narrative and motion decisions for Mohamed (`PAWS_AND_PURPOSE_GATEWAY_NARRATIVE.md`).
