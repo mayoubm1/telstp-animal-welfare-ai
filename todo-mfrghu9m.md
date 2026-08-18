@@ -94,3 +94,9 @@
 - [x] Remove simulated appointment submission state; scope the appointment page as an honest, local contact-preparation tool until a persisted consultation-request procedure exists.
 - [x] Remove the local-only profile edit affordance; keep the profile read-only until account-profile persistence is implemented.
 - [x] Re-run checks and screenshots after the integrity fixes, then update the route-remediation status.
+
+- [x] Define the bilingual Paws & Purpose-to-clinical-workspace narrative around the TELSTP Life Science Framework principles.
+- [x] Prepare the supplied Paws & Purpose artwork as a deployment-safe web asset without altering its visual content.
+- [x] Implement an accessible, reduced-motion-aware animated Paws & Purpose gateway and an explicit transition into the clinical care workspace.
+- [x] Verify the new landing experience at desktop and mobile breakpoints, then run TypeScript, focused tests, and production build checks.
+- [ ] Publish the gateway experience and document the narrative and motion decisions for Mohamed.
