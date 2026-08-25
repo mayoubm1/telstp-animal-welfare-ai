@@ -110,3 +110,4 @@
 - [ ] Deploy the verified review branch through Vercel and test the live tRPC API endpoint plus OAuth callback routing.
 - [ ] Publish the managed TELSTP release and report the deployment, API, and persistence evidence.
 - [ ] Prevent optional Supabase configuration from crashing unrelated Vercel tRPC procedures during function initialization, then re-test the public API route.
+- [ ] Defer Vercel tRPC router construction until invocation and emit a server-side bootstrap error so any remaining deployment-specific import failure is diagnosable without exposing internals to API callers.
