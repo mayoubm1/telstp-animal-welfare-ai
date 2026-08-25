@@ -10,8 +10,8 @@ async function getApp(): Promise<NodeHandler> {
       const [expressModule, trpcModule, routerModule, contextModule] = await Promise.all([
         import("express"),
         import("@trpc/server/adapters/express"),
-        import("../../server/routers"),
-        import("../../server/_core/context"),
+        import("../../server/routers.js"),
+        import("../../server/_core/context.js"),
       ]);
       const express = expressModule.default;
       const app = express();
