@@ -111,3 +111,4 @@
 - [ ] Publish the managed TELSTP release and report the deployment, API, and persistence evidence.
 - [ ] Prevent optional Supabase configuration from crashing unrelated Vercel tRPC procedures during function initialization, then re-test the public API route.
 - [ ] Defer Vercel tRPC router construction until invocation and emit a server-side bootstrap error so any remaining deployment-specific import failure is diagnosable without exposing internals to API callers.
+- [ ] Replace server-side shared-module path aliases with Vercel-compatible relative ESM imports and re-test the deployed tRPC endpoint.
