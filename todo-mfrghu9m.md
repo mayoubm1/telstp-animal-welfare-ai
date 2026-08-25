@@ -109,3 +109,4 @@
 - [x] Add focused framework-card interaction coverage, then rerun validation alongside the persistence tests (7/7 focused tests, clean typecheck, production build, and mobile/desktop screenshots; the pre-existing full suite has 3 unrelated data-fixture failures).
 - [ ] Deploy the verified review branch through Vercel and test the live tRPC API endpoint plus OAuth callback routing.
 - [ ] Publish the managed TELSTP release and report the deployment, API, and persistence evidence.
+- [ ] Prevent optional Supabase configuration from crashing unrelated Vercel tRPC procedures during function initialization, then re-test the public API route.
