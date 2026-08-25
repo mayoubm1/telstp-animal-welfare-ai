@@ -6,7 +6,6 @@
   "installCommand": "pnpm install",
   "framework": "vite",
   "outputDirectory": "dist/public",
-  "public": true,
   "rewrites": [
     {
       "source": "/((?!api(?:/|$)).*)",
