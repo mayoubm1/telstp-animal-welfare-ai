@@ -216,6 +216,28 @@ export type Consultation = typeof consultations.$inferSelect;
 export type InsertConsultation = typeof consultations.$inferInsert;
 
 /**
+ * Owner-created consultation briefs for follow-up with a verified directory clinic.
+ * These are saved care records, not confirmed clinic appointments.
+ */
+export const consultationRequests = mysqlTable("consultationRequests", {
+  id: int("id").autoincrement().primaryKey(),
+  ownerId: int("ownerId").notNull(),
+  clinicId: varchar("clinicId", { length: 64 }).notNull(),
+  clinicName: varchar("clinicName", { length: 255 }).notNull(),
+  clinicPhone: varchar("clinicPhone", { length: 32 }).notNull(),
+  petName: varchar("petName", { length: 255 }).notNull(),
+  requestedAt: timestamp("requestedAt").notNull(),
+  reason: longtext("reason").notNull(),
+  contactPhone: varchar("contactPhone", { length: 32 }).notNull(),
+  status: mysqlEnum("status", ["saved", "clinic_contacted", "closed"]).default("saved").notNull(),
+  createdAt: timestamp("createdAt").defaultNow().notNull(),
+  updatedAt: timestamp("updatedAt").defaultNow().onUpdateNow().notNull(),
+});
+
+export type ConsultationRequest = typeof consultationRequests.$inferSelect;
+export type InsertConsultationRequest = typeof consultationRequests.$inferInsert;
+
+/**
  * Emergency triage cases - tracks critical and urgent cases
  */
 export const emergencyTriageCases = mysqlTable("emergencyTriageCases", {

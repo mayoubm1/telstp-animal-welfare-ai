@@ -101,3 +101,11 @@
 - [x] Verify the new landing experience at desktop and mobile breakpoints, then run TypeScript, focused tests, and production build checks.
 - [x] Resolve or document the managed-domain propagation discrepancy: a fresh checkpoint `3439d16a` now renders the Paws & Purpose gateway on the public domain.
 - [x] Publish the gateway experience and document the narrative and motion decisions for Mohamed (`PAWS_AND_PURPOSE_GATEWAY_NARRATIVE.md`).
+
+- [x] Inspect the existing account, pet, consultation, and Vercel integration state before persistence and deployment changes.
+- [x] Add schema-backed, authenticated consultation-request persistence with owner-scoped read access.
+- [x] Add schema-backed, authenticated owner-profile update persistence and replace the profile page’s read-only state with a safe editing workflow.
+- [x] Add keyboard-accessible, reduced-motion-aware interaction to the TELSTP Life Science Framework cards.
+- [x] Add focused framework-card interaction coverage, then rerun validation alongside the persistence tests (7/7 focused tests, clean typecheck, production build, and mobile/desktop screenshots; the pre-existing full suite has 3 unrelated data-fixture failures).
+- [ ] Deploy the verified review branch through Vercel and test the live tRPC API endpoint plus OAuth callback routing.
+- [ ] Publish the managed TELSTP release and report the deployment, API, and persistence evidence.

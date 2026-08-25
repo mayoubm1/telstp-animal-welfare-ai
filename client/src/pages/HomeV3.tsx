@@ -1,3 +1,4 @@
+import { useState } from "react";
 import { Link } from "wouter";
 import {
   ArrowDown,
@@ -16,6 +17,7 @@ import {
 } from "lucide-react";
 import { ProfessionalShell } from "@/components/ProfessionalShell";
 import { useLanguage } from "@/contexts/LanguageContext";
+import { frameworkCardMotionClasses, toggleFrameworkPrinciple } from "@/lib/frameworkInteraction";
 
 const gatewayImage = "/manus-storage/paws-purpose-gateway_c5b4e99a.jpg";
 
@@ -75,21 +77,22 @@ const toneClasses: Record<string, string> = {
 
 export default function HomeV3() {
   const { isArabic } = useLanguage();
+  const [activePrinciple, setActivePrinciple] = useState<string | null>(null);
   const frameworkPrinciples = [
     {
       icon: HeartPulse,
-      en: { title: "Care begins with attention", copy: "Animal welfare starts with the everyday relationship: observing, nourishing, playing, and acting with care." },
-      ar: { title: "الرعاية تبدأ بالانتباه", copy: "رفاه الحيوان يبدأ من العلاقة اليومية: الملاحظة والتغذية واللعب والتصرف بعناية." },
+      en: { title: "Care begins with attention", copy: "Animal welfare starts with the everyday relationship: observing, nourishing, playing, and acting with care.", practice: "In practice: record what changes, when it began, and what helps your animal feel safe." },
+      ar: { title: "الرعاية تبدأ بالانتباه", copy: "رفاه الحيوان يبدأ من العلاقة اليومية: الملاحظة والتغذية واللعب والتصرف بعناية.", practice: "في الممارسة: سجل ما تغير ومتى بدأ وما يساعد حيوانك على الشعور بالأمان." },
     },
     {
       icon: Sparkles,
-      en: { title: "Knowledge becomes shared practice", copy: "TELSTP connects care experience, veterinary expertise, education, and technology as a living laboratory for better decisions." },
-      ar: { title: "المعرفة تصبح ممارسة مشتركة", copy: "يربط تيلستب تجربة الرعاية والخبرة البيطرية والتعليم والتقنية كمختبر حي لقرارات أفضل." },
+      en: { title: "Knowledge becomes shared practice", copy: "TELSTP connects care experience, veterinary expertise, education, and technology as a living laboratory for better decisions.", practice: "In practice: bring a structured care history into every conversation with a veterinarian." },
+      ar: { title: "المعرفة تصبح ممارسة مشتركة", copy: "يربط تيلستب تجربة الرعاية والخبرة البيطرية والتعليم والتقنية كمختبر حي لقرارات أفضل.", practice: "في الممارسة: اصطحب تاريخ رعاية منظماً إلى كل تواصل مع الطبيب البيطري." },
     },
     {
       icon: ShieldCheck,
-      en: { title: "Technology serves the greater good", copy: "AI can organize context and guide the next step; qualified veterinary professionals remain responsible for clinical decisions." },
-      ar: { title: "التقنية تخدم الخير المشترك", copy: "يمكن للذكاء الاصطناعي تنظيم السياق وتوجيه الخطوة التالية؛ ويبقى القرار السريري بيد المختصين البيطريين." },
+      en: { title: "Technology serves the greater good", copy: "AI can organize context and guide the next step; qualified veterinary professionals remain responsible for clinical decisions.", practice: "In practice: use guidance to prepare—not to replace examination, diagnosis, or veterinary judgment." },
+      ar: { title: "التقنية تخدم الخير المشترك", copy: "يمكن للذكاء الاصطناعي تنظيم السياق وتوجيه الخطوة التالية؛ ويبقى القرار السريري بيد المختصين البيطريين.", practice: "في الممارسة: استخدم الإرشاد للاستعداد لا لاستبدال الفحص أو التشخيص أو الحكم البيطري." },
     },
   ];
 
@@ -139,7 +142,8 @@ export default function HomeV3() {
           <div className="grid gap-3 md:grid-cols-3">
             {frameworkPrinciples.map(({ icon: Icon, en, ar }) => {
               const copy = isArabic ? ar : en;
-              return <div key={en.title} className="rounded-xl border border-[#c5dfda] bg-white/80 p-5"><Icon className="h-5 w-5 text-[#0c5660]" aria-hidden="true" /><h3 className="mt-4 text-sm font-semibold text-[#12343b]">{copy.title}</h3><p className="mt-2 text-xs leading-5 text-slate-600">{copy.copy}</p></div>;
+              const isActive = activePrinciple === en.title;
+              return <button key={en.title} type="button" aria-pressed={isActive} onClick={() => setActivePrinciple(toggleFrameworkPrinciple(activePrinciple, en.title))} className={`group relative overflow-hidden rounded-xl border bg-white/80 p-5 text-start hover:border-[#6fa89f] hover:bg-white hover:shadow-[0_16px_32px_rgba(12,86,96,0.13)] focus-visible:border-[#0c5660] focus-visible:bg-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#0c5660]/30 ${frameworkCardMotionClasses} ${isActive ? "border-[#0c5660] bg-white shadow-[0_16px_32px_rgba(12,86,96,0.13)]" : "border-[#c5dfda]"}`}><span className="absolute -right-10 -top-10 h-24 w-24 rounded-full bg-[#cce9e3] opacity-0 motion-safe:transition-opacity motion-safe:duration-200 group-hover:opacity-70 group-focus-visible:opacity-70" aria-hidden="true" /><span className="relative flex h-10 w-10 items-center justify-center rounded-xl bg-[#e5f3f0] text-[#0c5660] motion-safe:transition-transform motion-safe:duration-200 motion-safe:group-hover:scale-110 motion-safe:group-focus-visible:scale-110"><Icon className="h-5 w-5" aria-hidden="true" /></span><h3 className="relative mt-4 text-sm font-semibold text-[#12343b]">{copy.title}</h3><p className="relative mt-2 text-xs leading-5 text-slate-600">{copy.copy}</p><p className={`relative overflow-hidden text-xs leading-5 text-[#0c5660] motion-safe:transition-[max-height,margin,opacity] motion-safe:duration-200 ${isActive ? "mt-3 max-h-24 opacity-100" : "mt-0 max-h-0 opacity-0"}`}>{copy.practice}</p><span className="relative mt-4 inline-flex text-[11px] font-semibold uppercase tracking-[0.12em] text-[#0c5660]">{isActive ? (isArabic ? "تقليل التفاصيل" : "Hide detail") : (isArabic ? "اضغط للتطبيق" : "Open practice")}</span></button>;
             })}
           </div>
         </div>

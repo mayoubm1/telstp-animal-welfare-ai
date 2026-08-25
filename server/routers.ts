@@ -24,6 +24,7 @@ import { aiRouter } from "./routers/ai-features";
 import { ordersRouter } from "./routers/orders";
 import { medicalFeaturesRouter } from "./routers/medical-features";
 import { virtualPetRouter } from "./routers/virtual-pet";
+import { profileRouter } from "./routers/profile";
 import {
   createPet,
   getPetsByUserId,
@@ -71,6 +72,7 @@ export const appRouter = router({
 
   // ============ PET MANAGEMENT ============
   pets: petsRouter,
+  profile: profileRouter,
   virtualPet: virtualPetRouter,
   imageAnalysis: imageAnalysisRouter,
   consultations: consultationsRouter,
