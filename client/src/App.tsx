@@ -15,6 +15,8 @@ import VetDashboard from "./pages/VetDashboard";
 import VetRegistration from "./pages/VetRegistration";
 import ClinicLocator from "./pages/ClinicLocator";
 import EmergencyTriage from "./pages/EmergencyTriage";
+import EmergencyMedications from "./pages/EmergencyMedications";
+import OwnerEducation from "./pages/OwnerEducation";
 import CaseHistory from "./pages/CaseHistory";
 import ImageUploadTriage from "./pages/ImageUploadTriage";
 import AIVisualDiagnosis from "./pages/AIVisualDiagnosis";
@@ -22,13 +24,46 @@ import EducationHub from "./pages/EducationHub";
 import NaturalAlternativesPage from "./pages/NaturalAlternativesPage";
 import TrainingProgramsPage from "./pages/TrainingProgramsPage";
 import BestPracticesPage from "./pages/BestPracticesPage";
+import BestPracticesEnhanced from "./pages/BestPracticesEnhanced";
 import VirtualPetAvatarPage from "./pages/VirtualPetAvatarPage";
+import Landing from "./pages/Landing";
+import PawsAndPurposeLanding from "./pages/PawsAndPurposeLanding";
+import PetSelectionLanding from "./pages/PetSelectionLanding";
+import PetProfileCreation from "./pages/PetProfileCreation";
+import VirtualPetCompanion from "./pages/VirtualPetCompanion";
+import UserProfile from "./pages/UserProfile";
+import VetClinicSearch from "./pages/VetClinicSearch";
+import VetClinicDetail from "./pages/VetClinicDetail";
+import RatingReviewSystem from "./pages/RatingReviewSystem";
+import BookingSystem from "./pages/BookingSystem";
+import ShoppingCart from "./pages/ShoppingCart";
+import FinancialDashboard from "./pages/FinancialDashboard";
+import EducationHubEnhanced from "./pages/EducationHubEnhanced";
+import TrainingProgramsEnhanced from "./pages/TrainingProgramsEnhanced";
+import NaturalAlternativesEnhanced from "./pages/NaturalAlternativesEnhanced";
+import { EyeDetectionUI } from "./pages/EyeDetectionUI";
+import { DentalDetectionUI } from "./pages/DentalDetectionUI";
+import { AdminDashboard } from "./pages/AdminDashboard";
+import { AppointmentScheduling } from "./pages/AppointmentScheduling";
 
 function Router() {
   // make sure to consider if you need authentication for certain routes
   return (
     <Switch>
+      <Route path={"/pet-selection/:species?"} component={PetSelectionLanding} />
+      <Route path={"/pet-selection/:species/create"} component={PetProfileCreation} />
+      <Route path={"/pet-companion"} component={VirtualPetCompanion} />
+      <Route path={"/pet-companion-enhanced"} component={VirtualPetCompanion} />
+      <Route path={"/profile"} component={UserProfile} />
+      <Route path={"/vet-clinic-search"} component={VetClinicSearch} />
+      <Route path={"/vet-clinic/:id"} component={VetClinicDetail} />
+      <Route path={"/ratings-reviews"} component={RatingReviewSystem} />
+      <Route path={"/booking"} component={BookingSystem} />
+      <Route path={"/shopping-cart"} component={ShoppingCart} />
+      <Route path={"/financial-dashboard"} component={FinancialDashboard} />
+      <Route path={"/landing"} component={Landing} />
       <Route path={"/"} component={Home} />
+      <Route path={"/home-v3"} component={Home} />
       <Route path={"/dashboard"} component={Dashboard} />
       <Route path={"/symptom-checker"} component={SymptomChecker} />
       <Route path={"/knowledge-base"} component={KnowledgeBase} />
@@ -36,17 +71,27 @@ function Router() {
       <Route path={"/image-diagnosis"} component={ImageDiagnosis} />
       <Route path={"/vet-dashboard"} component={VetDashboard} />
       <Route path={"/vet-registration"} component={VetRegistration} />
-      <Route path={"/clinic-locator"} component={ClinicLocator} />
+      <Route path={"/clinic-locator"} component={VetClinicSearch} />
       <Route path={"/emergency-triage"} component={EmergencyTriage} />
+      <Route path={"/emergency-medications"} component={EmergencyMedications} />
+      <Route path={"/owner-education"} component={OwnerEducation} />
       <Route path={"/case-history"} component={CaseHistory} />
       <Route path={"/image-upload"} component={ImageUploadTriage} />
       <Route path="/ai-diagnosis" component={AIVisualDiagnosis} />
       <Route path="/education" component={EducationHub} />
-      <Route path="/natural-alternatives" component={NaturalAlternativesPage} />
-      <Route path="/training-programs" component={TrainingProgramsPage} />
-      <Route path="/best-practices" component={BestPracticesPage} />
+      <Route path="/education-enhanced" component={EducationHubEnhanced} />
+      <Route path="/natural-alternatives" component={NaturalAlternativesEnhanced} />
+      <Route path="/natural-alternatives-enhanced" component={NaturalAlternativesEnhanced} />
+      <Route path="/training-programs" component={TrainingProgramsEnhanced} />
+      <Route path="/training-programs-enhanced" component={TrainingProgramsEnhanced} />
+      <Route path={"/best-practices"} component={BestPracticesEnhanced} />
+      <Route path={"/best-practices-enhanced"} component={BestPracticesEnhanced} />
       <Route path="/virtual-pet-avatar" component={VirtualPetAvatarPage} />
-      <Route path="/404" component={NotFound} />
+      <Route path={"/eye-detection"} component={EyeDetectionUI} />
+      <Route path={"/dental-detection"} component={DentalDetectionUI} />
+      <Route path={"/admin-dashboard"} component={AdminDashboard} />
+      <Route path={"/appointment-scheduling"} component={AppointmentScheduling} />
+      <Route path={"/:rest*"} component={NotFound} />
       {/* Final fallback route */}
       <Route component={NotFound} />
     </Switch>

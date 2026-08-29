@@ -1,4 +1,4 @@
-import { COOKIE_NAME } from "@shared/const";
+import { COOKIE_NAME } from "../shared/const.js";
 import { getSessionCookieOptions } from "./_core/cookies";
 import { systemRouter } from "./_core/systemRouter";
 import { publicProcedure, protectedProcedure, router } from "./_core/trpc";
@@ -18,6 +18,13 @@ import { trainingProgramsRouter } from "./routers/training-programs";
 import { bestPracticesRouter } from "./routers/best-practices";
 import { petFileSharingRouter } from "./routers/pet-file-sharing";
 import { virtualPetAvatarRouter } from "./routers/virtual-pet-avatar";
+import { registrationRouter } from "./routers/registration";
+import { commerceRouter } from "./routers/commerce";
+import { aiRouter } from "./routers/ai-features";
+import { ordersRouter } from "./routers/orders";
+import { medicalFeaturesRouter } from "./routers/medical-features";
+import { virtualPetRouter } from "./routers/virtual-pet";
+import { profileRouter } from "./routers/profile";
 import {
   createPet,
   getPetsByUserId,
@@ -60,8 +67,13 @@ export const appRouter = router({
     }),
   }),
 
+  // ============ USER REGISTRATION & MARKETPLACE ============
+  registration: registrationRouter,
+
   // ============ PET MANAGEMENT ============
   pets: petsRouter,
+  profile: profileRouter,
+  virtualPet: virtualPetRouter,
   imageAnalysis: imageAnalysisRouter,
   consultations: consultationsRouter,
   veterinarians: veterinariansRouter,
@@ -452,6 +464,10 @@ export const appRouter = router({
   bestPractices: bestPracticesRouter,
   petFileSharing: petFileSharingRouter,
   virtualPetAvatar: virtualPetAvatarRouter,
+  commerce: commerceRouter,
+  ai: aiRouter,
+  orders: ordersRouter,
+  medicalFeatures: medicalFeaturesRouter,
   admin: router({
     getCriticalCases: protectedProcedure.query(async ({ ctx }) => {
       if (ctx.user.role !== "admin") throw new Error("Unauthorized");

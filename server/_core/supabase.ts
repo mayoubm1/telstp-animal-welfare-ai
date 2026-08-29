@@ -2,11 +2,8 @@ import { createClient } from "@supabase/supabase-js";
 
 // Initialize Supabase client
 const supabaseUrl = process.env.SUPABASE_URL || "https://vrfyjirddfdnwuffzqhb.supabase.co";
-const supabaseKey = process.env.SUPABASE_ANON_KEY;
-
-if (!supabaseKey) {
-  throw new Error("Missing SUPABASE_ANON_KEY environment variable");
-}
+const supabaseKey = process.env.SUPABASE_ANON_KEY || "missing-supabase-anon-key";
+export const isSupabaseConfigured = Boolean(process.env.SUPABASE_ANON_KEY);
 
 export const supabase = createClient(supabaseUrl, supabaseKey);
 
@@ -74,6 +71,9 @@ export interface Veterinarian {
 
 // Helper function to handle Supabase errors
 export function handleSupabaseError(error: any): string {
+  if (!isSupabaseConfigured) {
+    return "The clinic directory is temporarily unavailable because its data connection is not configured.";
+  }
   if (error.message) {
     return error.message;
   }

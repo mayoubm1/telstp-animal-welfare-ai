@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from 'react';
+import { useState, useRef, useEffect } from 'react';
 import { trpc } from '@/lib/trpc';
 import { useAuth } from '@/_core/hooks/useAuth';
 import { useRouter } from 'wouter';
@@ -9,7 +9,16 @@ import { Loader2, Send, Sparkles } from 'lucide-react';
 
 export default function VirtualPetAvatarPage() {
   const { user } = useAuth();
-  const [, setLocation] = useRouter();
+  const router = useRouter();
+  
+  if (!user) {
+    return (
+      <div className="flex items-center justify-center min-h-screen">
+        <p>Please log in to access Virtual Pet Avatar</p>
+      </div>
+    );
+  }
+  
   const [selectedPetId, setSelectedPetId] = useState<number | null>(null);
   const [selectedAvatarId, setSelectedAvatarId] = useState<number | null>(null);
   const [message, setMessage] = useState('');
@@ -44,8 +53,11 @@ export default function VirtualPetAvatarPage() {
 
   // Create avatar mutation
   const createAvatarMutation = trpc.virtualPetAvatar.createAvatar.useMutation({
-    onSuccess: (newAvatar) => {
-      setSelectedAvatarId(newAvatar.id);
+    onSuccess: (result) => {
+      // Handle mutation result - avatar created successfully
+      if (result) {
+        // Avatar created, can now fetch it
+      }
     },
   });
 

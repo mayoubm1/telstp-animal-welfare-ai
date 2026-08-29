@@ -1,14 +1,11 @@
-import { router, protectedProcedure, publicProcedure } from "../_core/trpc";
+import { router, protectedProcedure, publicProcedure, adminProcedure } from "../_core/trpc";
+import { TRPCError } from "@trpc/server";
 import { getDb } from "../db";
 import { naturalAlternatives } from "../../drizzle/schema";
-import { eq, like, and } from "drizzle-orm";
+import { eq, and, like } from "drizzle-orm";
 import { z } from "zod";
-import { TRPCError } from "@trpc/server";
 
 export const naturalAlternativesRouter = router({
-  /**
-   * Get all natural alternatives with optional filtering
-   */
   getAll: publicProcedure
     .input(
       z.object({
@@ -21,13 +18,11 @@ export const naturalAlternativesRouter = router({
     )
     .query(async ({ input }) => {
       const db = await getDb();
-      if (!db) throw new TRPCError({ code: "INTERNAL_SERVER_ERROR", message: "Database not available" });
+      if (!db) throw new TRPCError({ code: "INTERNAL_SERVER_ERROR" });
 
       const { category, search, verified, limit, offset } = input;
-
-      let query = db.select().from(naturalAlternatives);
-
       const conditions = [];
+
       if (category) {
         conditions.push(eq(naturalAlternatives.category, category as any));
       }
@@ -38,110 +33,55 @@ export const naturalAlternativesRouter = router({
         conditions.push(eq(naturalAlternatives.verified, verified));
       }
 
-      if (conditions.length > 0) {
-        query = query.where(and(...conditions));
-      }
+      const query = conditions.length > 0
+        ? db.select().from(naturalAlternatives).where(and(...conditions))
+        : db.select().from(naturalAlternatives);
 
-      const items = await query.limit(limit).offset(offset);
-      return items;
+      return await query.limit(limit).offset(offset);
     }),
 
-  /**
-   * Get single alternative by ID
-   */
   getById: publicProcedure
     .input(z.object({ id: z.number() }))
     .query(async ({ input }) => {
       const db = await getDb();
-      if (!db) throw new TRPCError({ code: "INTERNAL_SERVER_ERROR", message: "Database not available" });
+      if (!db) throw new TRPCError({ code: "INTERNAL_SERVER_ERROR" });
 
-      const item = await db
+      const result = await db
         .select()
         .from(naturalAlternatives)
         .where(eq(naturalAlternatives.id, input.id))
         .limit(1);
-      return item[0] || null;
+
+      return result.length ? result[0] : null;
     }),
 
-  /**
-   * Get alternatives by category
-   */
   getByCategory: publicProcedure
-    .input(
-      z.object({
-        category: z.string(),
-        limit: z.number().default(10),
-      })
-    )
+    .input(z.object({ category: z.string(), limit: z.number().default(10) }))
     .query(async ({ input }) => {
       const db = await getDb();
-      if (!db) throw new TRPCError({ code: "INTERNAL_SERVER_ERROR", message: "Database not available" });
+      if (!db) throw new TRPCError({ code: "INTERNAL_SERVER_ERROR" });
 
-      const items = await db
+      return await db
         .select()
         .from(naturalAlternatives)
         .where(eq(naturalAlternatives.category, input.category as any))
         .limit(input.limit);
-      return items;
     }),
 
-  /**
-   * Get alternatives suitable for specific pet
-   */
-  getForPet: publicProcedure
-    .input(
-      z.object({
-        species: z.enum(["cat", "dog"]),
-        breed: z.string().optional(),
-      })
-    )
+  search: publicProcedure
+    .input(z.object({ query: z.string(), limit: z.number().default(10) }))
     .query(async ({ input }) => {
       const db = await getDb();
-      if (!db) throw new TRPCError({ code: "INTERNAL_SERVER_ERROR", message: "Database not available" });
+      if (!db) throw new TRPCError({ code: "INTERNAL_SERVER_ERROR" });
 
-      const items = await db
+      return await db
         .select()
         .from(naturalAlternatives)
-        .where(eq(naturalAlternatives.verified, true));
-
-      // Filter by species compatibility
-      return items.filter((item) => {
-        const suitable = item.suitableFor as any;
-        if (!suitable) return true;
-        return (
-          suitable.includes(input.species) ||
-          suitable.includes("both") ||
-          (input.breed && suitable.includes(input.breed))
-        );
-      });
-    }),
-
-  /**
-   * Get top-rated alternatives
-   */
-  getTopRated: publicProcedure
-    .input(z.object({ limit: z.number().default(10) }))
-    .query(async ({ input }) => {
-      const db = await getDb();
-      if (!db) throw new TRPCError({ code: "INTERNAL_SERVER_ERROR", message: "Database not available" });
-
-      const items = await db
-        .select()
-        .from(naturalAlternatives)
-        .where(eq(naturalAlternatives.verified, true))
+        .where(like(naturalAlternatives.name, `%${input.query}%`))
         .limit(input.limit);
-
-      return items.sort((a, b) => {
-        const ratingA = parseFloat(a.rating?.toString() || "0");
-        const ratingB = parseFloat(b.rating?.toString() || "0");
-        return ratingB - ratingA;
-      });
     }),
 
-  /**
-   * Create new alternative (admin only)
-   */
-  create: protectedProcedure
+  create: adminProcedure
     .input(
       z.object({
         name: z.string(),
@@ -161,95 +101,55 @@ export const naturalAlternativesRouter = router({
         certifications: z.array(z.string()).optional(),
       })
     )
-    .mutation(async ({ input, ctx }) => {
-      if (ctx.user?.role !== "admin") {
-        throw new TRPCError({ code: "FORBIDDEN", message: "Admin access required" });
-      }
-
+    .mutation(async ({ input }) => {
       const db = await getDb();
-      if (!db) throw new TRPCError({ code: "INTERNAL_SERVER_ERROR", message: "Database not available" });
+      if (!db) throw new TRPCError({ code: "INTERNAL_SERVER_ERROR" });
 
-      const result = await db.insert(naturalAlternatives).values({
+      await db.insert(naturalAlternatives).values({
         name: input.name,
         nameAr: input.nameAr,
         category: input.category as any,
         description: input.description,
         descriptionAr: input.descriptionAr,
-        benefits: input.benefits,
-        benefitsAr: input.benefitsAr,
+        benefits: input.benefits as any,
+        benefitsAr: input.benefitsAr as any,
         ingredients: input.ingredients,
         ingredientsAr: input.ingredientsAr,
-        suitableFor: input.suitableFor,
-        price: input.price ? parseFloat(input.price.toString()) : null,
+        suitableFor: input.suitableFor as any,
+        price: input.price as any,
         supplier: input.supplier,
         supplierUrl: input.supplierUrl,
         imageUrl: input.imageUrl,
-        certifications: input.certifications,
+        certifications: input.certifications as any,
+        verified: false,
       });
 
-      return result;
+      return { success: true };
     }),
 
-  /**
-   * Update alternative (admin only)
-   */
-  update: protectedProcedure
+  update: adminProcedure
     .input(
       z.object({
         id: z.number(),
         name: z.string().optional(),
+        category: z.string().optional(),
         description: z.string().optional(),
         price: z.number().optional(),
-        rating: z.number().optional(),
         verified: z.boolean().optional(),
       })
     )
-    .mutation(async ({ input, ctx }) => {
-      if (ctx.user?.role !== "admin") {
-        throw new TRPCError({ code: "FORBIDDEN", message: "Admin access required" });
-      }
-
+    .mutation(async ({ input }) => {
       const db = await getDb();
-      if (!db) throw new TRPCError({ code: "INTERNAL_SERVER_ERROR", message: "Database not available" });
+      if (!db) throw new TRPCError({ code: "INTERNAL_SERVER_ERROR" });
 
       const updates: any = {};
       if (input.name) updates.name = input.name;
+      if (input.category) updates.category = input.category;
       if (input.description) updates.description = input.description;
       if (input.price) updates.price = input.price;
-      if (input.rating !== undefined) updates.rating = input.rating;
       if (input.verified !== undefined) updates.verified = input.verified;
 
-      const result = await db
-        .update(naturalAlternatives)
-        .set(updates)
-        .where(eq(naturalAlternatives.id, input.id));
-
-      return result;
-    }),
-
-  /**
-   * Search alternatives
-   */
-  search: publicProcedure
-    .input(
-      z.object({
-        query: z.string(),
-        category: z.string().optional(),
-      })
-    )
-    .query(async ({ input }) => {
-      const db = await getDb();
-      if (!db) throw new TRPCError({ code: "INTERNAL_SERVER_ERROR", message: "Database not available" });
-
-      let query = db.select().from(naturalAlternatives);
-
-      const conditions = [like(naturalAlternatives.name, `%${input.query}%`)];
-
-      if (input.category) {
-        conditions.push(eq(naturalAlternatives.category, input.category as any));
-      }
-
-      const items = await query.where(and(...conditions)).limit(20);
-      return items;
+      await db.update(naturalAlternatives).set(updates).where(eq(naturalAlternatives.id, input.id));
+      return { success: true };
     }),
 });

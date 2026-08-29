@@ -1,10 +1,10 @@
 import { router, protectedProcedure } from "../_core/trpc";
+import { TRPCError } from "@trpc/server";
 import { getDb } from "../db";
 import { virtualPetAvatars, avatarConversations, avatarAchievements, pets } from "../../drizzle/schema";
 import { eq, and } from "drizzle-orm";
 import { z } from "zod";
 import { invokeLLM } from "../_core/llm";
-import { TRPCError } from "@trpc/server";
 
 export const virtualPetAvatarRouter = router({
   createAvatar: protectedProcedure
@@ -23,7 +23,7 @@ export const virtualPetAvatarRouter = router({
       if (!db) throw new TRPCError({ code: "INTERNAL_SERVER_ERROR" });
 
       const pet = await db.select().from(pets).where(eq(pets.id, input.petId)).limit(1);
-      if (!pet.length || pet[0].ownerId !== ctx.user.id) {
+      if (!pet.length || pet[0].userId !== ctx.user.id) {
         throw new TRPCError({
           code: "FORBIDDEN",
           message: "You don't have permission to create an avatar for this pet",
@@ -116,7 +116,9 @@ Respond warmly and supportively. Keep responses concise and actionable.`;
         ],
       });
 
-      const avatarResponse = response.choices[0]?.message?.content || "I'm here to help!";
+      const avatarResponse = typeof response.choices[0]?.message?.content === 'string' 
+        ? response.choices[0].message.content 
+        : "I'm here to help!";
 
       await db.insert(avatarConversations).values({
         avatarId: input.avatarId,
